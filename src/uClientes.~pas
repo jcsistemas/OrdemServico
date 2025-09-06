@@ -31,6 +31,8 @@ type
     procedure DBGrid1DblClick(Sender: TObject);
     procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure btnInserirClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -39,10 +41,11 @@ type
 
 var
   frmClientes: TfrmClientes;
+  FNovoCadastro: Boolean;
 
 implementation
 
-uses uDM;
+uses uDM, uClienteEditar;
 
 {$R *.dfm}
 
@@ -114,7 +117,30 @@ begin
   if(key = vk_return)then
   begin
     if(btnEditar.Enabled)then
-    btnEditar.Click;
+      btnEditar.Click;
+  end;
+end;
+
+procedure TfrmClientes.btnInserirClick(Sender: TObject);
+begin
+  DM.TBCliente.Filtered := false;
+  DM.TBCliente.Insert;
+  frmClienteEditar := TfrmClienteEditar.Create(Self);
+  frmClienteEditar.ShowModal;
+  DM.TBCliente.Refresh
+end;
+
+procedure TfrmClientes.btnEditarClick(Sender: TObject);
+var
+  lClienteEditado: Integer;
+begin
+  lClienteEditado := DM.TBClienteID.Value;
+  DM.TBCliente.Filtered := false;
+  if(DM.TBCliente.Locate('ID',lClienteEditado,[]))then
+  begin
+    DM.TBCliente.Edit;
+    frmClienteEditar := TfrmClienteEditar.Create(Self);
+    frmClienteEditar.ShowModal;
   end;
 end;
 

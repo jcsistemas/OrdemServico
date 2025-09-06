@@ -152,8 +152,6 @@ end;
 
 procedure TfrmClienteEditar.btnSalvarClick(Sender: TObject);
 begin
-  DBedtEMAIL.SetFocus;
-  
   if(DM.TBCliente.State = dsBrowse)then
     DM.TBCliente.Edit;
 

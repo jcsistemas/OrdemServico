@@ -1,8 +1,8 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 214
-  Top = 116
+  Left = 891
+  Top = 330
   Height = 249
   Width = 391
   object SQLConnection1: TSQLConnection
@@ -42,8 +42,7 @@ object DM: TDM
     Top = 8
     object SQLClienteID: TIntegerField
       FieldName = 'ID'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
+      ProviderFlags = [pfInUpdate]
     end
     object SQLClienteNOME: TStringField
       FieldName = 'NOME'
@@ -83,8 +82,7 @@ object DM: TDM
     Top = 104
     object TBClienteID: TIntegerField
       FieldName = 'ID'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
+      ProviderFlags = [pfInUpdate]
     end
     object TBClienteNOME: TStringField
       FieldName = 'NOME'
