@@ -1,0 +1,134 @@
+unit uUtilidades;
+
+interface
+
+uses SysUtils;
+
+type
+  TUtilidades = class
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    class function VerificarExistenciaDeTabela(pTabela: String): Boolean;
+    class procedure VerificarTabelas();
+  end;
+
+implementation
+
+uses uDM;
+
+class function TUtilidades.VerificarExistenciaDeTabela(pTabela: String): Boolean;
+begin
+  Result := False;
+  
+  DM.QueryVerificar.Close;
+  DM.QueryVerificar.SQL.Clear;
+  DM.QueryVerificar.SQL.Add('SELECT COUNT(*) AS CONTAGEM FROM RDB$RELATIONS WHERE RDB$RELATION_NAME = ' +
+    QuotedStr(pTabela) + '; ');
+  DM.QueryVerificar.Open;
+
+  if (DM.QueryVerificar.Fields.FieldByName('CONTAGEM').AsInteger > 0) then
+    Result := True;
+end;
+
+class procedure TUtilidades.VerificarTabelas();
+begin
+  if not(VerificarExistenciaDeTabela('CLIENTE'))then
+  begin
+    DM.QueryVerificar.SQL.Clear;
+    DM.QueryVerificar.SQL.Add('CREATE SEQUENCE GENERATOR_CLIENTE_ID;');
+    DM.QueryVerificar.ExecSQL();
+
+    DM.QueryVerificar.SQL.Clear;
+    DM.QueryVerificar.SQL.Add('CREATE TABLE CLIENTE (');
+    DM.QueryVerificar.SQL.Add('ID INTEGER NOT NULL PRIMARY KEY,');
+    DM.QueryVerificar.SQL.Add('NOME VARCHAR(120) NOT NULL,');
+    DM.QueryVerificar.SQL.Add('DOCUMENTO VARCHAR(20),');
+    DM.QueryVerificar.SQL.Add('EMAIL VARCHAR(120),');
+    DM.QueryVerificar.SQL.Add('TELEFONE VARCHAR(30),');
+    DM.QueryVerificar.SQL.Add('DATACADASTRO TIMESTAMP DEFAULT CURRENT_TIMESTAMP');
+    DM.QueryVerificar.SQL.Add(');');
+    DM.QueryVerificar.ExecSQL();
+
+    DM.QueryVerificar.SQL.Clear;
+    DM.QueryVerificar.SQL.Add('CREATE TRIGGER CLIENTE_INSERIR FOR CLIENTE ');
+    DM.QueryVerificar.SQL.Add('ACTIVE BEFORE INSERT POSITION 0 AS ');
+    DM.QueryVerificar.SQL.Add('BEGIN ');
+    DM.QueryVerificar.SQL.Add('  IF (NEW.ID IS NULL) THEN ');
+    DM.QueryVerificar.SQL.Add('    NEW.ID = NEXT VALUE FOR GENERATOR_CLIENTE_ID; ');
+    DM.QueryVerificar.SQL.Add('END;');
+    DM.QueryVerificar.ExecSQL();
+  end;
+
+  if not(VerificarExistenciaDeTabela('ORDEM_SERVICO'))then
+  begin
+    DM.QueryVerificar.SQL.Clear;
+    DM.QueryVerificar.SQL.Add('CREATE SEQUENCE GENERATOR_ORDEM_SERVICO_ID;');
+    DM.QueryVerificar.ExecSQL();
+
+    DM.QueryVerificar.SQL.Clear;
+    DM.QueryVerificar.SQL.Add('CREATE TABLE ORDEM_SERVICO ( ');
+    DM.QueryVerificar.SQL.Add('ID INTEGER NOT NULL PRIMARY KEY, ');
+    DM.QueryVerificar.SQL.Add('CLIENTE_ID INTEGER NOT NULL, ');
+    DM.QueryVerificar.SQL.Add('DATA_ABERTURA DATE NOT NULL, ');
+    DM.QueryVerificar.SQL.Add('DATA_PREVISTA DATE, ');
+    DM.QueryVerificar.SQL.Add('DATA_FECHAMENTO DATE, ');
+    DM.QueryVerificar.SQL.Add('STATUS VARCHAR(15) NOT NULL, ');
+    DM.QueryVerificar.SQL.Add('DESCRICAO_PROBLEMA VARCHAR(500), ');
+    DM.QueryVerificar.SQL.Add('VALOR_TOTAL NUMERIC(15,2) DEFAULT 0, ');
+    DM.QueryVerificar.SQL.Add('CONSTRAINT FK_OS_CLIENTE FOREIGN KEY (CLIENTE_ID) REFERENCES CLIENTE(ID) ');
+    DM.QueryVerificar.SQL.Add(');');
+    DM.QueryVerificar.ExecSQL();
+
+    DM.QueryVerificar.SQL.Clear;
+    DM.QueryVerificar.SQL.Add('CREATE TRIGGER ORDEM_SERVICO_INSERIR FOR ORDEM_SERVICO ');
+    DM.QueryVerificar.SQL.Add('ACTIVE BEFORE INSERT POSITION 0 AS ');
+    DM.QueryVerificar.SQL.Add('BEGIN ');
+    DM.QueryVerificar.SQL.Add('  IF (NEW.ID IS NULL) THEN ');
+    DM.QueryVerificar.SQL.Add('    NEW.ID = NEXT VALUE FOR GENERATOR_ORDEM_SERVICO_ID; ');
+    DM.QueryVerificar.SQL.Add('END;');
+    DM.QueryVerificar.ExecSQL();
+
+    DM.QueryVerificar.SQL.Clear;
+    DM.QueryVerificar.SQL.Add('CREATE INDEX IDX_OS_STATUS ON ORDEM_SERVICO (STATUS);');
+    DM.QueryVerificar.ExecSQL();
+
+    DM.QueryVerificar.SQL.Clear;
+    DM.QueryVerificar.SQL.Add('CREATE INDEX IDX_OS_CLIENTE ON ORDEM_SERVICO (CLIENTE_ID);');
+    DM.QueryVerificar.ExecSQL();
+
+    DM.QueryVerificar.SQL.Clear;
+    DM.QueryVerificar.SQL.Add('CREATE INDEX IDX_OS_DATA_ABERTURA ON ORDEM_SERVICO (DATA_ABERTURA);');
+    DM.QueryVerificar.ExecSQL();
+  end;
+
+  if not(VerificarExistenciaDeTabela('ITEM_ORDEM'))then
+  begin
+    DM.QueryVerificar.SQL.Clear;
+    DM.QueryVerificar.SQL.Add('CREATE SEQUENCE GENERATOR_ITEM_ORDEM_ID;');
+    DM.QueryVerificar.ExecSQL();
+
+    DM.QueryVerificar.SQL.Add('CREATE TABLE ITEM_ORDEM( ');
+    DM.QueryVerificar.SQL.Add('ID INTEGER NOT NULL PRIMARY KEY, ');
+    DM.QueryVerificar.SQL.Add('ORDEM_ID INTEGER NOT NULL, ');
+    DM.QueryVerificar.SQL.Add('DESCRICAO VARCHAR(200) NOT NULL, ');
+    DM.QueryVerificar.SQL.Add('QUANTIDADE NUMERIC(12,2) NOT NULL, ');
+    DM.QueryVerificar.SQL.Add('VALOR_UNITARIO NUMERIC(15,2) NOT NULL, ');
+    DM.QueryVerificar.SQL.Add('CONSTRAINT FK_ITEM_ORDEM FOREIGN KEY (ORDEM_ID) REFERENCES ORDEM_SERVICO(ID) ');
+    DM.QueryVerificar.SQL.Add(');');
+    DM.QueryVerificar.ExecSQL();
+
+    DM.QueryVerificar.SQL.Clear;
+    DM.QueryVerificar.SQL.Add('CREATE TRIGGER ITEM_ORDEM_INSERIR FOR ITEM_ORDEM ');
+    DM.QueryVerificar.SQL.Add('ACTIVE BEFORE INSERT POSITION 0 AS ');
+    DM.QueryVerificar.SQL.Add('BEGIN ');
+    DM.QueryVerificar.SQL.Add('  IF (NEW.ID IS NULL) THEN ');
+    DM.QueryVerificar.SQL.Add('    NEW.ID = NEXT VALUE FOR GENERATOR_ITEM_ORDEM_ID; ');
+    DM.QueryVerificar.SQL.Add('END;');
+    DM.QueryVerificar.ExecSQL();
+  end;
+end;
+
+end.
+ 

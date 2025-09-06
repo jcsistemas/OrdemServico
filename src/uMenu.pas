@@ -39,6 +39,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure TimerRelogioTimer(Sender: TObject);
     procedure O1Click(Sender: TObject);
+    procedure btnClientesClick(Sender: TObject);
   private
     { Private declarations }
     procedure LerImagemFundo();
@@ -54,7 +55,7 @@ var
 
 implementation
 
-uses uSobre, Math, uDM;
+uses uSobre, Math, uDM, uClientes, uUtilidades;
 
 {$R *.dfm}
 
@@ -166,6 +167,16 @@ begin
     Abort;
   end;
   DM := TDM.Create(Self);
+  TUtilidades.VerificarTabelas;
+  DM.TBCliente.Open;
+  DM.TBOrdemServico.Open;
+  DM.TBItemOrdem.Open;
+end;
+
+procedure TfrmMenu.btnClientesClick(Sender: TObject);
+begin
+  frmClientes := TfrmClientes.Create(Self);
+  frmClientes.ShowModal;
 end;
 
 end.

@@ -9,7 +9,7 @@ uses
 type
   TfrmClientes = class(TForm)
     Panel1: TPanel;
-    dbgrd1: TDBGrid;
+    DBGrid1: TDBGrid;
     Panel2: TPanel;
     btnInserir: TSpeedButton;
     btnEditar: TSpeedButton;
@@ -19,6 +19,18 @@ type
     btnSair: TSpeedButton;
     btnExcluir: TSpeedButton;
     procedure btnSairClick(Sender: TObject);
+    procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure FormShow(Sender: TObject);
+    procedure edtBuscarEnter(Sender: TObject);
+    procedure edtBuscarExit(Sender: TObject);
+    procedure edtBuscarChange(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure edtBuscarKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure DBGrid1DblClick(Sender: TObject);
+    procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
   public
@@ -37,6 +49,73 @@ uses uDM;
 procedure TfrmClientes.btnSairClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TfrmClientes.DBGrid1DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+  if not odd(DM.TBCliente.RecNo) then
+   begin
+      if not (gdSelected in State) then
+      begin
+         DBGrid1.Canvas.Brush.Color := TColor($FFEFE0);
+         DBGrid1.Canvas.FillRect(Rect);
+         DBGrid1.DefaultDrawDataCell(rect,Column.Field,state);
+      end;
+   end;
+end;
+
+procedure TfrmClientes.FormShow(Sender: TObject);
+begin
+  DM.TBCliente.Open;
+  DM.TBCliente.RecordCount;
+end;
+
+procedure TfrmClientes.edtBuscarEnter(Sender: TObject);
+begin
+  edtBuscar.Color := clInfoBk;
+end;
+
+procedure TfrmClientes.edtBuscarExit(Sender: TObject);
+begin
+  edtBuscar.Color := clWhite;
+end;
+
+procedure TfrmClientes.edtBuscarChange(Sender: TObject);
+begin
+  DM.TBCliente.Filtered := false;
+  DM.TBCliente.Filter := 'LOWER(NOME) LIKE '+QuotedStr('%'+AnsiLowerCase(edtBuscar.Text)+'%');
+  DM.TBCliente.Filtered := true; 
+end;
+
+procedure TfrmClientes.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  DM.TBCliente.Filtered := false;
+end;
+
+procedure TfrmClientes.edtBuscarKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if(key = vk_return)then
+    DBGrid1.SetFocus;
+end;
+
+procedure TfrmClientes.DBGrid1DblClick(Sender: TObject);
+begin
+  if(btnEditar.Enabled)then
+    btnEditar.Click;
+end;
+
+procedure TfrmClientes.DBGrid1KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if(key = vk_return)then
+  begin
+    if(btnEditar.Enabled)then
+      btnEditar.Click;
+  end;
 end;
 
 end.

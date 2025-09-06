@@ -29,7 +29,6 @@ object DM: TDM
       'Interbase TransIsolation=ReadCommited'
       'Trim Char=False')
     VendorLib = 'gds32.dll'
-    Connected = True
     Left = 32
     Top = 8
   end
@@ -314,5 +313,12 @@ object DM: TDM
     DataSet = TBItemOrdem
     Left = 304
     Top = 152
+  end
+  object QueryVerificar: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = SQLConnection1
+    Left = 32
+    Top = 64
   end
 end

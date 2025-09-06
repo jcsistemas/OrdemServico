@@ -5,15 +5,15 @@ uses
   uMenu in 'uMenu.pas' {frmMenu},
   uSobre in 'uSobre.pas' {frmSobre},
   uDM in 'uDM.pas' {DM: TDataModule},
-  uClientes in 'uClientes.pas' {frmClientes};
+  uClientes in 'uClientes.pas' {frmClientes},
+  uUtilidades in 'uUtilidades.pas',
+  uClienteEditar in 'uClienteEditar.pas' {frmClienteEditar};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.CreateForm(TfrmMenu, frmMenu);
-  Application.CreateForm(TfrmSobre, frmSobre);
-  Application.CreateForm(TDM, DM);
-  Application.CreateForm(TfrmClientes, frmClientes);
+  Application.CreateForm(TfrmClienteEditar, frmClienteEditar);
   Application.Run;
 end.

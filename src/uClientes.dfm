@@ -11,6 +11,8 @@ object frmClientes: TfrmClientes
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnClose = FormClose
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -34,9 +36,13 @@ object frmClientes: TfrmClientes
       Width = 1105
       Height = 21
       TabOrder = 0
+      OnChange = edtBuscarChange
+      OnEnter = edtBuscarEnter
+      OnExit = edtBuscarExit
+      OnKeyDown = edtBuscarKeyDown
     end
   end
-  object dbgrd1: TDBGrid
+  object DBGrid1: TDBGrid
     Left = 0
     Top = 65
     Width = 975
@@ -50,6 +56,9 @@ object frmClientes: TfrmClientes
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnDrawColumnCell = DBGrid1DrawColumnCell
+    OnDblClick = DBGrid1DblClick
+    OnKeyDown = DBGrid1KeyDown
     Columns = <
       item
         Expanded = False
@@ -89,7 +98,7 @@ object frmClientes: TfrmClientes
         Expanded = False
         FieldName = 'DATACADASTRO'
         Title.Caption = 'Data Cadastro'
-        Width = 100
+        Width = 114
         Visible = True
       end>
   end

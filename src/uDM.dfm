@@ -314,4 +314,11 @@ object DM: TDM
     Left = 304
     Top = 152
   end
+  object QueryVerificar: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = SQLConnection1
+    Left = 32
+    Top = 64
+  end
 end
