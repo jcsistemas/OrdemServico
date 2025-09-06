@@ -1,0 +1,111 @@
+unit uBuscaCNPJ;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Mask, Buttons, ExtCtrls, Menus;
+
+type
+  TfrmBuscaCNPJ = class(TForm)
+    Panel1: TPanel;
+    lbl1: TLabel;
+    btnBuscar: TSpeedButton;
+    edtBuscaCNPJ: TMaskEdit;
+    grp1: TGroupBox;
+    lbl2: TLabel;
+    lbl3: TLabel;
+    lbl4: TLabel;
+    lbl5: TLabel;
+    lbl6: TLabel;
+    lbl7: TLabel;
+    lbl8: TLabel;
+    lbl9: TLabel;
+    lbl10: TLabel;
+    lbl11: TLabel;
+    lbl12: TLabel;
+    lbl13: TLabel;
+    lbl16: TLabel;
+    lbl17: TLabel;
+    lbl18: TLabel;
+    edtPorte: TEdit;
+    edtRazaoSocial: TEdit;
+    edtAbertura: TEdit;
+    edtEndereco: TEdit;
+    edtNumero: TEdit;
+    edtComplemento: TEdit;
+    edtBairro: TEdit;
+    edtCidade: TEdit;
+    edtUF: TEdit;
+    edtCEP: TEdit;
+    edtSituacao: TEdit;
+    edtFantasia: TEdit;
+    edtEmail: TEdit;
+    edtTelefone: TEdit;
+    edtNaturezaJurifica: TEdit;
+    Panel3: TPanel;
+    btnSair: TSpeedButton;
+    PopUp1: TPopupMenu;
+    B1: TMenuItem;
+    procedure btnSairClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnBuscarClick(Sender: TObject);
+    procedure B1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmBuscaCNPJ: TfrmBuscaCNPJ;
+
+implementation
+
+uses uUtilidades;
+
+{$R *.dfm}
+
+procedure TfrmBuscaCNPJ.btnSairClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfrmBuscaCNPJ.FormShow(Sender: TObject);
+begin
+  edtBuscaCNPJ.SetFocus;
+end;
+
+procedure TfrmBuscaCNPJ.btnBuscarClick(Sender: TObject);
+var
+  lJSON, lCNPJ: String;
+begin
+  lCNPJ := edtBuscaCNPJ.Text;
+  lCNPJ := TUtilidades.ExtrairApenasNumeros(lCNPJ);
+  lJSON := TUtilidades.ConsumirAPISemAutenticacao('https://www.receitaws.com.br/v1/cnpj/'
+      + lCNPJ + '/?callback=meu_callbackcnpj', '', 'GET');
+
+  edtRazaoSocial.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'nome');
+  edtFantasia.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'fantasia');
+  edtEndereco.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'logradouro');
+  edtNumero.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'numero');
+  edtComplemento.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'complemento');
+  edtBairro.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'bairro');
+  edtCidade.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'municipio');
+  edtUF.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'uf');
+  edtCEP.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'cep');
+  edtTelefone.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'telefone');
+  edtEmail.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'email');
+  edtNaturezaJurifica.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'natureza_juridica');
+  edtSituacao.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'situacao');
+  edtAbertura.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'abertura');
+  edtPorte.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'porte');
+end;
+
+procedure TfrmBuscaCNPJ.B1Click(Sender: TObject);
+begin
+  if(btnBuscar.Enabled)then
+    btnBuscar.Click;
+end;
+
+end.

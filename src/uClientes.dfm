@@ -11,6 +11,7 @@ object frmClientes: TfrmClientes
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  WindowState = wsMaximized
   OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
@@ -433,7 +434,7 @@ object frmClientes: TfrmClientes
         C92736BF2635BE2635BE2735BE2736BE2837BF505CC9A0A6DFF3F3F9FFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
     end
-    object btn1: TSpeedButton
+    object btnBuscarCNPJ: TSpeedButton
       Left = 467
       Top = 5
       Width = 150
@@ -539,6 +540,7 @@ object frmClientes: TfrmClientes
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+      OnClick = btnBuscarCNPJClick
     end
     object Panel3: TPanel
       Left = 805

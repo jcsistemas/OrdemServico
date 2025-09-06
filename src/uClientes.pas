@@ -18,7 +18,7 @@ type
     Panel3: TPanel;
     btnSair: TSpeedButton;
     btnExcluir: TSpeedButton;
-    btn1: TSpeedButton;
+    btnBuscarCNPJ: TSpeedButton;
     procedure btnSairClick(Sender: TObject);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -34,6 +34,7 @@ type
       Shift: TShiftState);
     procedure btnInserirClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
+    procedure btnBuscarCNPJClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -46,7 +47,7 @@ var
 
 implementation
 
-uses uDM, uClienteEditar;
+uses uDM, uClienteEditar, uBuscaCNPJ;
 
 {$R *.dfm}
 
@@ -143,6 +144,12 @@ begin
     frmClienteEditar := TfrmClienteEditar.Create(Self);
     frmClienteEditar.ShowModal;
   end;
+end;
+
+procedure TfrmClientes.btnBuscarCNPJClick(Sender: TObject);
+begin
+  frmBuscaCNPJ := TfrmBuscaCNPJ.Create(Self);
+  frmBuscaCNPJ.ShowModal;
 end;
 
 end.

@@ -7,7 +7,8 @@ uses
   uDM in 'uDM.pas' {DM: TDataModule},
   uClientes in 'uClientes.pas' {frmClientes},
   uUtilidades in 'uUtilidades.pas',
-  uClienteEditar in 'uClienteEditar.pas' {frmClienteEditar};
+  uClienteEditar in 'uClienteEditar.pas' {frmClienteEditar},
+  uBuscaCNPJ in 'uBuscaCNPJ.pas' {frmBuscaCNPJ};
 
 {$R *.res}
 
@@ -15,5 +16,6 @@ begin
   Application.Initialize;
   Application.CreateForm(TfrmMenu, frmMenu);
   Application.CreateForm(TfrmClienteEditar, frmClienteEditar);
+  Application.CreateForm(TfrmBuscaCNPJ, frmBuscaCNPJ);
   Application.Run;
 end.
