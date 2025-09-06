@@ -11,7 +11,9 @@ object frmClienteEditar: TfrmClienteEditar
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  PopupMenu = PopUp1
   Position = poDesktopCenter
+  OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -185,6 +187,7 @@ object frmClienteEditar: TfrmClienteEditar
       Width = 250
       Height = 75
       Cursor = crHandPoint
+      Hint = 'Tecla de Atalho: Esc'
       Caption = 'Cancelar'
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -353,10 +356,26 @@ object frmClienteEditar: TfrmClienteEditar
     Height = 21
     DataField = 'DATACADASTRO'
     DataSource = DM.DSCliente
-    Enabled = False
+    ReadOnly = True
     TabOrder = 5
     OnEnter = DBedtDATACADASTROEnter
     OnExit = DBedtDATACADASTROExit
     OnKeyDown = DBedtDATACADASTROKeyDown
+  end
+  object PopUp1: TPopupMenu
+    Left = 472
+    Top = 16
+    object S1: TMenuItem
+      Caption = 'Salvar'
+      ShortCut = 116
+      Visible = False
+      OnClick = S1Click
+    end
+    object C1: TMenuItem
+      Caption = 'Cancelar'
+      ShortCut = 27
+      Visible = False
+      OnClick = C1Click
+    end
   end
 end

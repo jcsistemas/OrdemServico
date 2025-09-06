@@ -47,10 +47,12 @@ type
     btnSair: TSpeedButton;
     PopUp1: TPopupMenu;
     B1: TMenuItem;
+    btnCadastrar: TSpeedButton;
     procedure btnSairClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnBuscarClick(Sender: TObject);
     procedure B1Click(Sender: TObject);
+    procedure btnCadastrarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -62,7 +64,7 @@ var
 
 implementation
 
-uses uUtilidades;
+uses uUtilidades, uDM;
 
 {$R *.dfm}
 
@@ -99,12 +101,37 @@ begin
   edtNaturezaJurifica.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'natureza_juridica');
   edtSituacao.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'situacao');
   edtAbertura.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'abertura');
+  edtPorte.Text := TUtilidades.ExtrairValorNoDoJSON(lJSON, 'porte');
 end;
 
 procedure TfrmBuscaCNPJ.B1Click(Sender: TObject);
 begin
   if(btnBuscar.Enabled)then
     btnBuscar.Click;
+end;
+
+procedure TfrmBuscaCNPJ.btnCadastrarClick(Sender: TObject);
+var
+  lDocumento: String;
+begin
+  lDocumento := TUtilidades.ExtrairApenasNumeros(edtBuscaCNPJ.Text);
+  if(DM.TBCliente.Locate('DOCUMENTO',lDocumento,[]))then
+  begin
+    ShowMessage('Esta empresa já foi cadastrada como cliente!');
+    Abort;
+  end;
+  if(DM.TBCliente.Locate('DOCUMENTO',edtBuscaCNPJ.Text,[]))then
+  begin
+    ShowMessage('Esta empresa já foi cadastrada como cliente!');
+    Abort;
+  end;
+  DM.TBCliente.Insert;
+  DM.TBClienteNOME.Value := edtRazaoSocial.Text;
+  DM.TBClienteDOCUMENTO.Value := edtBuscaCNPJ.Text;
+  DM.TBClienteEMAIL.Value := edtEmail.Text;
+  DM.TBClienteTELEFONE.Text := edtTelefone.Text;
+  DM.TBCliente.Post;
+  DM.TBCliente.ApplyUpdates(0);
 end;
 
 end.

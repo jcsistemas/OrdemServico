@@ -3,7 +3,7 @@ object frmMenu: TfrmMenu
   Top = 113
   Width = 1082
   Height = 675
-  Caption = 'Sistema de Ordem de Servi'#231'oi'
+  Caption = 'Sistema de Ordem de Servi'#231'o'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -147,7 +147,7 @@ object frmMenu: TfrmMenu
       Width = 150
       Height = 100
       Cursor = crHandPoint
-      Caption = 'Ordem de Servi'#231'o'
+      Caption = 'Ordens de Servi'#231'o'
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
         180000000000000C0000232E0000232E00000000000000000001FFFFFFFFFFFF
@@ -513,12 +513,19 @@ object frmMenu: TfrmMenu
       object C3: TMenuItem
         Caption = 'Clientes'
         ImageIndex = 17
+        ShortCut = 112
+        OnClick = C3Click
       end
     end
     object O1: TMenuItem
-      Caption = 'Ordem de Servi'#231'o'
+      Caption = 'Ordens de Servi'#231'o'
       ImageIndex = 5
-      OnClick = O1Click
+      object O2: TMenuItem
+        Caption = 'Ordens de Servi'#231'o'
+        ImageIndex = 5
+        ShortCut = 113
+        OnClick = O2Click
+      end
     end
     object R1: TMenuItem
       Caption = 'Relat'#243'rios'

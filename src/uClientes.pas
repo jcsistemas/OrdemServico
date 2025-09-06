@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Grids, DBGrids, ExtCtrls, Buttons, StdCtrls;
+  Dialogs, Grids, DBGrids, ExtCtrls, Buttons, StdCtrls, Menus;
 
 type
   TfrmClientes = class(TForm)
@@ -19,6 +19,13 @@ type
     btnSair: TSpeedButton;
     btnExcluir: TSpeedButton;
     btnBuscarCNPJ: TSpeedButton;
+    PopUp1: TPopupMenu;
+    I1: TMenuItem;
+    E1: TMenuItem;
+    E2: TMenuItem;
+    B1: TMenuItem;
+    S1: TMenuItem;
+    btn1: TSpeedButton;
     procedure btnSairClick(Sender: TObject);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -36,6 +43,12 @@ type
     procedure btnEditarClick(Sender: TObject);
     procedure btnBuscarCNPJClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
+    procedure I1Click(Sender: TObject);
+    procedure E1Click(Sender: TObject);
+    procedure E2Click(Sender: TObject);
+    procedure B1Click(Sender: TObject);
+    procedure S1Click(Sender: TObject);
+    procedure btn1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -169,6 +182,66 @@ begin
     end;
     DM.TBCliente.Delete;
     DM.TBCliente.ApplyUpdates(0);
+  end;
+end;
+
+procedure TfrmClientes.I1Click(Sender: TObject);
+begin
+  if(btnInserir.Enabled)then
+    btnInserir.Click;
+end;
+
+procedure TfrmClientes.E1Click(Sender: TObject);
+begin
+  if(btnEditar.Enabled)then
+    btnEditar.Click;
+end;
+
+procedure TfrmClientes.E2Click(Sender: TObject);
+begin
+  if(btnExcluir.Enabled)then
+    btnExcluir.Click;
+end;
+
+procedure TfrmClientes.B1Click(Sender: TObject);
+begin
+  if(btnBuscarCNPJ.Enabled)then
+    btnBuscarCNPJ.Click;
+end;
+
+procedure TfrmClientes.S1Click(Sender: TObject);
+begin
+  if(btnSair.Enabled)then
+    btnSair.Click;
+end;
+
+procedure TfrmClientes.btn1Click(Sender: TObject);
+var
+  SaveDialogCSV: TSaveDialog;
+  lArquivoCSV: TStringList;
+begin
+  SaveDialogCSV := TSaveDialog.Create(Self);
+  lArquivoCSV := TStringList.Create;
+  try
+    SaveDialogCSV.Filter := '*.csv|*.csv';
+    SaveDialogCSV.Execute;
+    if(SaveDialogCSV.FileName <> '')then
+    begin
+      lArquivoCSV.Add('ID;Nome;Documento;Email;Telefone;Data de Cadastro');
+      DM.TBCliente.First;
+      while not(DM.TBCliente.Eof)do
+      begin
+        lArquivoCSV.Add(DM.TBClienteID.AsString+';'+DM.TBClienteNOME.AsString+
+        ';'+DM.TBClienteDOCUMENTO.AsString+';'+DM.TBClienteEMAIL.AsString+';'+
+        DM.TBClienteTELEFONE.AsString+';'+DM.TBClienteDATACADASTRO.AsString);
+
+        DM.TBCliente.Next;
+      end;
+      lArquivoCSV.SaveToFile(SaveDialogCSV.FileName);
+    end;
+  finally
+    SaveDialogCSV.Free;
+    lArquivoCSV.Free;
   end;
 end;
 

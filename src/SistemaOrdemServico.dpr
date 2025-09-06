@@ -14,8 +14,7 @@ uses
 
 begin
   Application.Initialize;
+  Application.Title := 'Sistema de Ordens de Serviço';
   Application.CreateForm(TfrmMenu, frmMenu);
-  Application.CreateForm(TfrmClienteEditar, frmClienteEditar);
-  Application.CreateForm(TfrmBuscaCNPJ, frmBuscaCNPJ);
   Application.Run;
 end.

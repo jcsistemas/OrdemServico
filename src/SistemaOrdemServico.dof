@@ -110,7 +110,7 @@ ActiveLang=
 ProjectLang=
 RootDir=C:\Borland\Delphi7\Bin\
 [Version Info]
-IncludeVerInfo=0
+IncludeVerInfo=1
 AutoIncBuild=0
 MajorVer=1
 MinorVer=0
@@ -124,7 +124,7 @@ DLL=0
 Locale=1046
 CodePage=1252
 [Version Info Keys]
-CompanyName=
+CompanyName=Jardel da Costa
 FileDescription=
 FileVersion=1.0.0.0
 InternalName=

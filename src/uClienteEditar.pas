@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Buttons, ExtCtrls, StdCtrls, Mask, DBCtrls, DB;
+  Dialogs, Buttons, ExtCtrls, StdCtrls, Mask, DBCtrls, DB, Menus;
 
 type
   TfrmClienteEditar = class(TForm)
@@ -23,6 +23,9 @@ type
     DBedtTELEFONE: TDBEdit;
     lbl6: TLabel;
     DBedtDATACADASTRO: TDBEdit;
+    PopUp1: TPopupMenu;
+    S1: TMenuItem;
+    C1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure DBedtDOCUMENTOKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -40,6 +43,9 @@ type
     procedure DBedtNOMEExit(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
+    procedure S1Click(Sender: TObject);
+    procedure C1Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -167,6 +173,25 @@ begin
   DM.TBCliente.ApplyUpdates(0);
   btnCancelar.Enabled := false;
   Close;
+end;
+
+procedure TfrmClienteEditar.S1Click(Sender: TObject);
+begin
+  if(btnSalvar.Enabled)then
+    btnSalvar.Click;
+end;
+
+procedure TfrmClienteEditar.C1Click(Sender: TObject);
+begin
+  if(btnCancelar.Enabled)then
+    btnCancelar.Click;
+end;
+
+procedure TfrmClienteEditar.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  if(btnCancelar.Enabled)then
+    btnCancelar.Click;
 end;
 
 end.

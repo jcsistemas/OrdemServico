@@ -32,14 +32,16 @@ type
     TimerRelogio: TTimer;
     dlgOpen1: TOpenDialog;
     O1: TMenuItem;
+    O2: TMenuItem;
     procedure btnSairClick(Sender: TObject);
     procedure S1Click(Sender: TObject);
     procedure S2Click(Sender: TObject);
     procedure A1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure TimerRelogioTimer(Sender: TObject);
-    procedure O1Click(Sender: TObject);
     procedure btnClientesClick(Sender: TObject);
+    procedure C3Click(Sender: TObject);
+    procedure O2Click(Sender: TObject);
   private
     { Private declarations }
     procedure LerImagemFundo();
@@ -153,12 +155,6 @@ begin
   lblDataHorario.Caption := FormatDateTime('DD/MM/YYYY',Date)+' '+FormatDateTime('hh:m:ss',Time)+'   ';
 end;
 
-procedure TfrmMenu.O1Click(Sender: TObject);
-begin
-  if(btnOrdemDeServico.Enabled)then
-    btnOrdemDeServico.Click;
-end;
-
 procedure TfrmMenu.CarregarDataModule();
 begin
   if not(FileExists(FLocalAplicacao+'BASEDADOS.FDB'))then
@@ -167,7 +163,7 @@ begin
     Abort;
   end;
   DM := TDM.Create(Self);
-  TUtilidades.Create;
+  TUtilidades.VerificarTabelas;
   DM.TBCliente.Open;
   DM.TBOrdemServico.Open;
   DM.TBItemOrdem.Open;
@@ -177,6 +173,18 @@ procedure TfrmMenu.btnClientesClick(Sender: TObject);
 begin
   frmClientes := TfrmClientes.Create(Self);
   frmClientes.ShowModal;
+end;
+
+procedure TfrmMenu.C3Click(Sender: TObject);
+begin
+  if(btnClientes.Enabled)then
+    btnClientes.Click;
+end;
+
+procedure TfrmMenu.O2Click(Sender: TObject);
+begin
+  if(btnOrdemDeServico.Enabled)then
+    btnOrdemDeServico.Click;
 end;
 
 end.

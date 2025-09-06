@@ -11,7 +11,9 @@ object frmClienteEditar: TfrmClienteEditar
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  PopupMenu = PopUp1
   Position = poDesktopCenter
+  OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -77,6 +79,7 @@ object frmClienteEditar: TfrmClienteEditar
       Width = 250
       Height = 75
       Cursor = crHandPoint
+      Hint = 'Tecla de Atalho: F5'
       Caption = 'Salvar'
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -177,6 +180,8 @@ object frmClienteEditar: TfrmClienteEditar
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+      ParentShowHint = False
+      ShowHint = True
       OnClick = btnSalvarClick
     end
     object btnCancelar: TSpeedButton
@@ -185,6 +190,7 @@ object frmClienteEditar: TfrmClienteEditar
       Width = 250
       Height = 75
       Cursor = crHandPoint
+      Hint = 'Tecla de Atalho: Esc'
       Caption = 'Cancelar'
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -285,6 +291,8 @@ object frmClienteEditar: TfrmClienteEditar
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFAFAFA3B4AC62737C12737C02838
         C12838C12939C12939C1293AC12A3AC12A3AC12A3AC12B3BC12B3BC23E4DC6FA
         FAFAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+      ParentShowHint = False
+      ShowHint = True
       OnClick = btnCancelarClick
     end
   end
@@ -358,5 +366,21 @@ object frmClienteEditar: TfrmClienteEditar
     OnEnter = DBedtDATACADASTROEnter
     OnExit = DBedtDATACADASTROExit
     OnKeyDown = DBedtDATACADASTROKeyDown
+  end
+  object PopUp1: TPopupMenu
+    Left = 472
+    Top = 16
+    object S1: TMenuItem
+      Caption = 'Salvar'
+      ShortCut = 116
+      Visible = False
+      OnClick = S1Click
+    end
+    object C1: TMenuItem
+      Caption = 'Cancelar'
+      ShortCut = 27
+      Visible = False
+      OnClick = C1Click
+    end
   end
 end
