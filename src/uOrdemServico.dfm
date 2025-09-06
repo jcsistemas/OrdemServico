@@ -1,7 +1,7 @@
 object frmOrdemServico: TfrmOrdemServico
   Left = 305
   Top = 184
-  Width = 819
+  Width = 830
   Height = 581
   Caption = 'Lan'#231'amento de Ordem de Servi'#231'o'
   Color = clBtnFace
@@ -18,7 +18,7 @@ object frmOrdemServico: TfrmOrdemServico
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
-    Left = 673
+    Left = 684
     Top = 0
     Width = 138
     Height = 550
@@ -1115,7 +1115,7 @@ object frmOrdemServico: TfrmOrdemServico
   object Panel3: TPanel
     Left = 0
     Top = 0
-    Width = 673
+    Width = 684
     Height = 550
     Align = alClient
     BevelOuter = bvNone
@@ -1129,7 +1129,7 @@ object frmOrdemServico: TfrmOrdemServico
     object Panel4: TPanel
       Left = 0
       Top = 0
-      Width = 673
+      Width = 684
       Height = 273
       Align = alTop
       BevelOuter = bvNone
@@ -1233,7 +1233,6 @@ object frmOrdemServico: TfrmOrdemServico
         Height = 21
         DataField = 'DATA_ABERTURA'
         DataSource = DM.DSOrdemServico
-        MaxLength = 10
         TabOrder = 4
         OnEnter = DBedtDATA_ABERTURA1Enter
         OnExit = DBedtDATA_ABERTURA1Exit
@@ -1247,7 +1246,6 @@ object frmOrdemServico: TfrmOrdemServico
         Height = 21
         DataField = 'DATA_PREVISTA'
         DataSource = DM.DSOrdemServico
-        MaxLength = 10
         TabOrder = 5
         OnEnter = DBedtDATA_PREVISTA1Enter
         OnExit = DBedtDATA_PREVISTA1Exit
@@ -1261,7 +1259,6 @@ object frmOrdemServico: TfrmOrdemServico
         Height = 21
         DataField = 'DATA_FECHAMENTO'
         DataSource = DM.DSOrdemServico
-        MaxLength = 10
         TabOrder = 6
         OnEnter = DBedtDATA_FECHAMENTO1Enter
         OnExit = DBedtDATA_FECHAMENTO1Exit
@@ -1321,7 +1318,7 @@ object frmOrdemServico: TfrmOrdemServico
       object Panel5: TPanel
         Left = 0
         Top = 223
-        Width = 673
+        Width = 684
         Height = 50
         Align = alBottom
         BevelOuter = bvNone
@@ -1337,7 +1334,7 @@ object frmOrdemServico: TfrmOrdemServico
         object lbl1: TLabel
           Left = 0
           Top = 0
-          Width = 673
+          Width = 684
           Height = 13
           Align = alTop
           Alignment = taCenter
@@ -1493,7 +1490,7 @@ object frmOrdemServico: TfrmOrdemServico
     object DBGrid1: TDBGrid
       Left = 0
       Top = 273
-      Width = 673
+      Width = 684
       Height = 277
       Align = alClient
       DataSource = DM.DSItemOrdem

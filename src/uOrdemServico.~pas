@@ -695,9 +695,10 @@ begin
   begin
     DM.TBOrdemServico.Filter := 'ID='+DM.TBOrdemServicoID.AsString;
     DM.TBOrdemServico.Filtered := true;
-  end;
 
-
+    frxDBDatasetOrdem.DataSet := DM.TBOrdemServico;
+    frxDBDatasetItem.DataSet := DM.TBItemOrdem;
+  end;        
 
   frxReport1.LoadFromFile(FLocalAplicacao+'frOrdemServico.fr3');
   frxReport1.PrepareReport;
