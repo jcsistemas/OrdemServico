@@ -11,6 +11,8 @@ object frmOrdemServico: TfrmOrdemServico
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  PopupMenu = PopUp1
+  Position = poDesktopCenter
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -556,7 +558,7 @@ object frmOrdemServico: TfrmOrdemServico
         C92736BF2635BE2635BE2735BE2736BE2837BF505CC9A0A6DFF3F3F9FFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
     end
-    object btnPDF: TSpeedButton
+    object btnImprimir: TSpeedButton
       Left = 5
       Top = 288
       Width = 125
@@ -695,7 +697,7 @@ object frmOrdemServico: TfrmOrdemServico
         49FFB38049FFB38049FFB38049FFB38049FFB38149FFB5834CFFB48652B40000
         0004000000000000000000000000000000000000000000000000}
     end
-    object btn1: TSpeedButton
+    object btnPDF: TSpeedButton
       Left = 5
       Top = 345
       Width = 125
@@ -833,6 +835,7 @@ object frmOrdemServico: TfrmOrdemServico
         07FFB67B07FFB67B08FFB57B08FFB67B08FFB67B07FFB67B07FFB67B08FFB57B
         08FFB67B08FFB67B07FFB67B07FFB67C09FFB67E0EFFB88319DC000000050000
         0000000000000000000000000000000000000000000000000000}
+      OnClick = btnPDFClick
     end
     object Panel2: TPanel
       Left = 0
@@ -949,6 +952,57 @@ object frmOrdemServico: TfrmOrdemServico
           FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
           FFFFFFFFFFFFFFFFFFFFFFFEFEFEE9EFF5CEE3F63E759FF9F9F9}
       end
+    end
+  end
+  object PopUp1: TPopupMenu
+    Left = 616
+    Top = 32
+    object N1: TMenuItem
+      Caption = 'Novo'
+      ShortCut = 112
+      Visible = False
+      OnClick = N1Click
+    end
+    object E1: TMenuItem
+      Caption = 'Editar'
+      ShortCut = 113
+      Visible = False
+      OnClick = E1Click
+    end
+    object S1: TMenuItem
+      Caption = 'Salvar'
+      ShortCut = 116
+      Visible = False
+      OnClick = S1Click
+    end
+    object C1: TMenuItem
+      Caption = 'Cancelar'
+      ShortCut = 27
+      Visible = False
+      OnClick = C1Click
+    end
+    object E2: TMenuItem
+      Caption = 'Excluir'
+      ShortCut = 8238
+      Visible = False
+      OnClick = E2Click
+    end
+    object I1: TMenuItem
+      Caption = 'Imprimir'
+      ShortCut = 16464
+      Visible = False
+      OnClick = I1Click
+    end
+    object P1: TMenuItem
+      Caption = 'PDF'
+      ShortCut = 16453
+      Visible = False
+    end
+    object S2: TMenuItem
+      Caption = 'Sair'
+      ShortCut = 115
+      Visible = False
+      OnClick = S2Click
     end
   end
 end

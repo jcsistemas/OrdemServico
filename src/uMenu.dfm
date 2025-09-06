@@ -248,6 +248,7 @@ object frmMenu: TfrmMenu
         F8ECECEBB0B0AEAFAFADB0B0AEF9F9F9F9F9F9B0B0AEAFAFADB0B0AEF8F8F8EC
         ECEBB0B0AEB0B0AEC1C1BFFBFBFBFFFFFFFFFFFFFFFFFFFFFFFF}
       Layout = blGlyphTop
+      OnClick = btnOrdemDeServicoClick
     end
     object btnRelatorios: TSpeedButton
       Left = 313

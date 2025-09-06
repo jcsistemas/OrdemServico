@@ -42,6 +42,7 @@ type
     procedure btnClientesClick(Sender: TObject);
     procedure C3Click(Sender: TObject);
     procedure O2Click(Sender: TObject);
+    procedure btnOrdemDeServicoClick(Sender: TObject);
   private
     { Private declarations }
     procedure LerImagemFundo();
@@ -57,7 +58,7 @@ var
 
 implementation
 
-uses uSobre, Math, uDM, uClientes, uUtilidades;
+uses uSobre, Math, uDM, uClientes, uUtilidades, uOrdemServico;
 
 {$R *.dfm}
 
@@ -185,6 +186,12 @@ procedure TfrmMenu.O2Click(Sender: TObject);
 begin
   if(btnOrdemDeServico.Enabled)then
     btnOrdemDeServico.Click;
+end;
+
+procedure TfrmMenu.btnOrdemDeServicoClick(Sender: TObject);
+begin
+  frmOrdemServico := TfrmOrdemServico.Create(Self);
+  frmOrdemServico.ShowModal;
 end;
 
 end.

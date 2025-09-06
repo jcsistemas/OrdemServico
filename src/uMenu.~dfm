@@ -3,7 +3,7 @@ object frmMenu: TfrmMenu
   Top = 113
   Width = 1082
   Height = 675
-  Caption = 'Sistema de Ordem de Servi'#231'oi'
+  Caption = 'Sistema de Ordem de Servi'#231'o'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
