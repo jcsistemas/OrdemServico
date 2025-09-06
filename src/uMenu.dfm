@@ -514,6 +514,11 @@ object frmMenu: TfrmMenu
         ImageIndex = 17
       end
     end
+    object O1: TMenuItem
+      Caption = 'Ordem de Servi'#231'o'
+      ImageIndex = 5
+      OnClick = O1Click
+    end
     object R1: TMenuItem
       Caption = 'Relat'#243'rios'
       ImageIndex = 0

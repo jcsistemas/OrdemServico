@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, Buttons, XPMan, Menus, ImgList, jpeg, StdCtrls;
+  Dialogs, ExtCtrls, Buttons, XPMan, Menus, ImgList, jpeg, StdCtrls, DBXpress, DB, SqlExpr;
 
 type
   TfrmMenu = class(TForm)
@@ -31,16 +31,19 @@ type
     lblDataHorario: TLabel;
     TimerRelogio: TTimer;
     dlgOpen1: TOpenDialog;
+    O1: TMenuItem;
     procedure btnSairClick(Sender: TObject);
     procedure S1Click(Sender: TObject);
     procedure S2Click(Sender: TObject);
     procedure A1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure TimerRelogioTimer(Sender: TObject);
+    procedure O1Click(Sender: TObject);
   private
     { Private declarations }
     procedure LerImagemFundo();
     procedure IniciarRelogio();
+    procedure CarregarDataModule();
   public
     { Public declarations }
   end;
@@ -51,7 +54,7 @@ var
 
 implementation
 
-uses uSobre, Math;
+uses uSobre, Math, uDM;
 
 {$R *.dfm}
 
@@ -110,6 +113,7 @@ end;
 procedure TfrmMenu.FormShow(Sender: TObject);
 begin
   FLocalAplicacao := ExtractFilePath(Application.ExeName);
+  CriarBancoDadosEVerificarAtualizacoes();
   LerImagemFundo();
   IniciarRelogio();
 end;
@@ -123,7 +127,7 @@ begin
     if(FileExists(FLocalAplicacao+'planodefundo.ini'))then
     begin
       ArquivoPlanoFundo.LoadFromFile(FLocalAplicacao+'planodefundo.ini');
-      if(ArquivoPlanoFundo[0] <> '')then
+      if(ArquivoPlanoFundo.Count > 0)and(ArquivoPlanoFundo[0] <> '')then
       begin
         if(ArquivoPlanoFundo.Count > 0)and(FileExists(ArquivoPlanoFundo[0]))then
         begin
@@ -146,6 +150,22 @@ end;
 procedure TfrmMenu.TimerRelogioTimer(Sender: TObject);
 begin
   lblDataHorario.Caption := FormatDateTime('DD/MM/YYYY',Date)+' '+FormatDateTime('hh:m:ss',Time)+'   ';
+end;
+
+procedure TfrmMenu.O1Click(Sender: TObject);
+begin
+  if(btnOrdemDeServico.Enabled)then
+    btnOrdemDeServico.Click;
+end;
+
+procedure TfrmMenu.CarregarDataModule();
+begin
+  if not(FileExists(FLocalAplicacao+'BASEDADOS.FDB'))then
+  begin
+    ShowMessage('Arquivo do banco de dados BASEDADOS.FDB não encontrado!');
+    Abort;
+  end;
+  DM := TDM.Create(Self);
 end;
 
 end.
