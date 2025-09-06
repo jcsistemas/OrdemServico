@@ -18,6 +18,7 @@ type
     Panel3: TPanel;
     btnSair: TSpeedButton;
     btnExcluir: TSpeedButton;
+    btn1: TSpeedButton;
     procedure btnSairClick(Sender: TObject);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);

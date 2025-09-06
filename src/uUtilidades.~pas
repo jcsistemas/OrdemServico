@@ -2,7 +2,8 @@ unit uUtilidades;
 
 interface
 
-uses SysUtils;
+uses SysUtils, IdHTTP, IdSSLOpenSSL, ShellApi,
+Classes, DateUtils, Graphics, Windows, Forms;
 
 type
   TUtilidades = class
@@ -12,6 +13,9 @@ type
     { Public declarations }
     class function VerificarExistenciaDeTabela(pTabela: String): Boolean;
     class procedure VerificarTabelas();
+    class function ConsumirAPISemAutenticacao(pURL: String; pBody: String = ''; pMetodo: String = 'POST'): String;
+    class function ExtrairValorNoDoJSON(pJSON, pNo: String): String;
+    class function ExtrairApenasNumeros(leitura: String): String;
   end;
 
 implementation
@@ -61,7 +65,7 @@ begin
     DM.QueryVerificar.ExecSQL();
   end;
 
-  if not(DM.VerificarExistenciaDeTabela('ORDEM_SERVICO'))then
+  if not(VerificarExistenciaDeTabela('ORDEM_SERVICO'))then
   begin
     DM.QueryVerificar.SQL.Clear;
     DM.QueryVerificar.SQL.Add('CREATE SEQUENCE GENERATOR_ORDEM_SERVICO_ID;');
@@ -103,7 +107,7 @@ begin
     DM.QueryVerificar.ExecSQL();
   end;
 
-  if not(DM.VerificarExistenciaDeTabela('ITEM_ORDEM'))then
+  if not(VerificarExistenciaDeTabela('ITEM_ORDEM'))then
   begin
     DM.QueryVerificar.SQL.Clear;
     DM.QueryVerificar.SQL.Add('CREATE SEQUENCE GENERATOR_ITEM_ORDEM_ID;');
@@ -128,6 +132,128 @@ begin
     DM.QueryVerificar.SQL.Add('END;');
     DM.QueryVerificar.ExecSQL();
   end;
+end;
+
+class function TUtilidades.ConsumirAPISemAutenticacao(pURL: String; pBody: String = ''; pMetodo: String = 'POST'): String;
+var
+  IdHTTP: TIdHTTP;
+  IdSSLIOHandler: TIdSSLIOHandlerSocketOpenSSL;
+  Response: TStringStream;
+  RequestStream: TStringStream;
+begin
+  Result := '';
+  try
+    IdHTTP := TIdHTTP.Create(nil);
+    IdSSLIOHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+    Response := TStringStream.Create('');
+    RequestStream := TStringStream.Create('');
+    try
+      IdSSLIOHandler.SSLOptions.Method := sslvTLSv1_2; // Força TLS 1.2
+      IdSSLIOHandler.SSLOptions.SSLVersions := [sslvTLSv1_2]; // Só permite TLS 1.2
+      IdHTTP.IOHandler := IdSSLIOHandler;
+      IdHTTP.Request.ContentType := 'application/json';
+      IdHTTP.Request.Accept := 'application/json';
+      IdHTTP.Request.UserAgent := 'Mozilla/3.0 (compatible; Indy Library)';
+      RequestStream.WriteString(pBody);
+      RequestStream.Position := 0;
+
+      if(pMetodo = 'POST')then
+        IdHTTP.Post(pURL, RequestStream, Response)
+      else if(pMetodo = 'GET')then
+        IdHTTP.Get(pURL,Response)
+      else if(pMetodo = 'PATCH')then
+        IdHTTP.Patch(pURL, RequestStream, Response)
+      else if(pMetodo = 'DELETE')then
+        IdHTTP.Delete(pURL, Response);
+
+      Result := Response.DataString;
+    finally
+      RequestStream.Free;
+      Response.Free;
+      IdSSLIOHandler.Free;
+      IdHTTP.Free;
+    end;
+  except
+    on E: Exception do
+      Result := E.Message;
+  end;
+end;
+
+class function TUtilidades.ExtrairValorNoDoJSON(pJSON, pNo: String): String;
+var
+  i, tamanho_json, tamanho_no, posicao_no: Integer;
+  letra, palavra, valorno, ultimocaracter: String;
+begin
+  valorno := '';
+  pNo := '"'+pNo+'"';
+  tamanho_no := Length(pNo);
+  tamanho_json := Length(pJSON);
+  i := 1;
+  while(i <= tamanho_json)do
+  begin
+    palavra := Copy(pJSON, i, tamanho_no);
+    if(palavra = pNo)then
+    begin
+      i := i + tamanho_no + 1;
+      letra := Copy(pJSON,i,1);
+      while(letra = ' ')do
+      begin
+        i := i + 1;
+        letra := Copy(pJSON,i,1);
+        if(i > tamanho_json)then
+          letra := '"';
+      end;
+
+      if(letra = '"')then
+        ultimocaracter := '"'
+      else
+        ultimocaracter := ',';
+
+      i := i + 1;
+      letra := Copy(pJSON,i,1);
+      while(letra <> ultimocaracter)do
+      begin
+        letra := Copy(pJSON,i,1);
+        if(letra <> ultimocaracter)then
+        begin
+          valorno := valorno + letra;
+        end;
+        i := i + 1;
+        if(i > tamanho_json)then
+          letra := ultimocaracter;
+      end;
+    end;
+    i := i + 1;
+  end;
+  Result := valorno;
+end;
+
+class function TUtilidades.ExtrairApenasNumeros(leitura: String): String;
+var
+   c: Integer;
+   t: Integer;
+   l: String;
+   leit: String;
+   resultado: String;
+begin
+   leit := leitura;
+   c := 1;
+   t := Length(leit);
+   resultado := '';
+
+   while(c <= t)do
+   begin
+      l := Copy(leit, c, 1);
+
+      if ((l = '0') or (l = '1') or (l = '2') or (l = '3') or (l = '4') or (l = '5') or (l = '6') or (l = '7')
+        or (l = '8') or (l = '9')) then
+      begin
+         resultado := resultado + l;
+      end;
+      c := c + 1;
+   end;
+
+   Result := resultado;
 end;
 
 end.
