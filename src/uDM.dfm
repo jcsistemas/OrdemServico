@@ -130,7 +130,6 @@ object DM: TDM
     object SQLOrdemServicoCLIENTE_ID: TIntegerField
       FieldName = 'CLIENTE_ID'
       ProviderFlags = [pfInUpdate]
-      Required = True
     end
     object SQLOrdemServicoDATA_ABERTURA: TDateField
       FieldName = 'DATA_ABERTURA'
@@ -181,7 +180,6 @@ object DM: TDM
     object TBOrdemServicoCLIENTE_ID: TIntegerField
       FieldName = 'CLIENTE_ID'
       ProviderFlags = [pfInUpdate]
-      Required = True
     end
     object TBOrdemServicoDATA_ABERTURA: TDateField
       FieldName = 'DATA_ABERTURA'
@@ -332,7 +330,6 @@ object DM: TDM
     Properties.Strings = (
       'AutoEncodeStrings=True'
       'controls_cp=GET_ACP')
-    Connected = True
     Port = 0
     Database = 'D:\Sistemas\SkyInformatica\OrdemServico\src\BASEDADOS.FDB'
     User = 'sysdba'

@@ -71,10 +71,14 @@ type
     procedure btnSairClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
+    procedure btnInserirItemClick(Sender: TObject);
+    procedure btnEditarItemClick(Sender: TObject);
+    procedure btnExcluirItemClick(Sender: TObject);
   private
     { Private declarations }
-    procedure modo_navegacao;
-    procedure modo_edicao;
+    procedure modo_navegacao();
+    procedure modo_edicao();
+    procedure AtualizarTotal();
   public
     { Public declarations }
   end;
@@ -82,10 +86,11 @@ type
 var
   frmOrdemServico: TfrmOrdemServico;
   FNovaOrdemServico: Boolean;
+  FNovoItemOrdem: Boolean;
 
 implementation
 
-uses uDM, uUtilidades, uMenu;
+uses uDM, uUtilidades, uMenu, uItemOrdemEditar, DB;
 
 {$R *.dfm}
 
@@ -194,7 +199,7 @@ end;
 
 procedure TfrmOrdemServico.FormShow(Sender: TObject);
 begin
-  modo_navegacao;
+  modo_navegacao();
 end;
 
 procedure TfrmOrdemServico.btnNovoClick(Sender: TObject);
@@ -205,18 +210,21 @@ begin
   lIDOrdemServico := TUtilidades.GerarChavePrimaria('ORDEM_SERVICO');
   DM.TBOrdemServico.Insert;
   DM.TBOrdemServicoID.Value := lIDOrdemServico;
+  DM.TBOrdemServicoDATA_ABERTURA.Value := date;
+  DM.TBOrdemServicoSTATUS.Value := 'Aberta';
   DM.TBOrdemServico.Post;
   DM.TBOrdemServico.ApplyUpdates(0);
-  if(DM.TBOrdemServico.Locate('ID',lIDOrdemServico,[]))then
-  begin
-    DM.TBOrdemServico.Edit;
-    modo_edicao;
-    DBedtCLIENTE_ID1.SetFocus;
-  end;
+  DM.TBOrdemServico.Locate('ID',lIDOrdemServico,[]);
+  DM.TBOrdemServico.Edit;
+  modo_edicao();
+  DBedtCLIENTE_ID1.SetFocus;
 end;
 
 procedure TfrmOrdemServico.btnEditarClick(Sender: TObject);
 begin
+  if(DM.TBOrdemServico.RecordCount = 0)then
+    Abort;
+    
   FNovaOrdemServico := false;
   DM.TBOrdemServico.Edit;
   modo_edicao;
@@ -226,7 +234,7 @@ end;
 procedure TfrmOrdemServico.btnSalvarClick(Sender: TObject);
 begin
   DBMemoDESCRICAO_PROBLEMA.SetFocus;
-  if(DM.TBCliente.Locate('ID',DM.TBOrdemServicoCLIENTE_ID.AsInteger,[]))then
+  if not(DM.TBCliente.Locate('ID',DM.TBOrdemServicoCLIENTE_ID.AsInteger,[]))then
   begin
     ShowMessage('Cliente não localizado! Informe o cliente');
     DBedtCLIENTE_ID1.SetFocus;
@@ -244,10 +252,10 @@ end;
 
 procedure TfrmOrdemServico.btnCancelarClick(Sender: TObject);
 var
-  lOrdemServico: Integer;
+  lOrdemServicoCancelada: Integer;
 begin
   DBMemoDESCRICAO_PROBLEMA.SetFocus;
-  lOrdemServico := DM.TBOrdemServicoID.AsInteger;
+  lOrdemServicoCancelada := DM.TBOrdemServicoID.AsInteger;
 
   if(FNovaOrdemServico)then
   begin
@@ -263,19 +271,22 @@ begin
 
   if(FNovaOrdemServico)then
   begin
-    if(DM.TBOrdemServico.Locate('ID',lOrdemServico,[]))then
+    if(DM.TBOrdemServico.Locate('ID',lOrdemServicoCancelada,[]))then
     begin
       DM.TBOrdemServico.Delete;
       DM.TBOrdemServico.ApplyUpdates(0);
     end;
   end;
-  
+
   modo_navegacao;
 end;
 
 procedure TfrmOrdemServico.btnExcluirClick(Sender: TObject);
 begin
-  if(Application.MessageBox('Você realmente deseja excluir o cliente?','Atenção',MB_ICONQUESTION + MB_YESNO)=mrYes)then
+  if(DM.TBOrdemServico.RecordCount = 0)then
+    Abort;
+    
+  if(Application.MessageBox('Você realmente deseja excluir esta ordem de serviço?','Atenção',MB_ICONQUESTION + MB_YESNO)=mrYes)then
   begin
     if(FConexao = 'Zeos')then
     begin
@@ -290,6 +301,71 @@ begin
       end;
       DM.TBOrdemServico.Delete;
       DM.TBOrdemServico.ApplyUpdates(0);
+    end;
+  end;
+end;
+
+procedure TfrmOrdemServico.btnInserirItemClick(Sender: TObject);
+begin
+  FNovoItemOrdem := true;
+  DM.TBItemOrdem.Insert;
+  DM.TBItemOrdemORDEM_ID.AsInteger := DM.TBOrdemServicoID.AsInteger;
+  frmItemOrdemEditar := TfrmItemOrdemEditar.Create(Self);
+  frmItemOrdemEditar.ShowModal;
+  AtualizarTotal();
+end;
+
+procedure TfrmOrdemServico.btnEditarItemClick(Sender: TObject);
+begin
+  FNovoItemOrdem := false;
+  DM.TBItemOrdem.Edit;
+  frmItemOrdemEditar := TfrmItemOrdemEditar.Create(Self);
+  frmItemOrdemEditar.ShowModal;
+  AtualizarTotal();
+end;
+
+procedure TfrmOrdemServico.btnExcluirItemClick(Sender: TObject);
+begin
+  if(Application.MessageBox('Você realmente deseja excluir este item da ordem de serviço?','Atenção',MB_ICONQUESTION + MB_YESNO)=mrYes)then
+  begin
+    if(FConexao = 'Zeos')then
+    begin
+      DM.TItemOrdem.Delete;
+      DM.TItemOrdem.ApplyUpdates;
+    end else
+    begin
+      DM.TBItemOrdem.Delete;
+      DM.TBItemOrdem.ApplyUpdates(0);
+    end;
+    AtualizarTotal();
+  end;
+end;
+
+procedure TfrmOrdemServico.AtualizarTotal();
+begin
+  if(btnEditar.Enabled)then
+    btnEditar.Click;
+
+  if(btnSalvar.Enabled)then
+  begin
+    if(FConexao = 'Zeos')then
+    begin
+      DM.QVerificar.Close;
+      DM.QVerificar.SQL.Clear;
+      DM.QVerificar.SQL.Add('SELECT SUM(VALOR_UNITARIO * QUANTIDADE) AS SOMA ');
+      DM.QVerificar.SQL.Add('FROM ITEM_ORDEM WHERE ORDEM_ID = :pOrdemServico ');
+      DM.QVerificar.Params.ParamByName('pOrdemServico').AsInteger := DM.TBOrdemServicoID.AsInteger;
+      DM.QVerificar.Open;
+      DM.TOrdemServicoVALOR_TOTAL.AsFloat := DM.QVerificar.Fields.FieldByName('SOMA').AsFloat;
+    end else
+    begin
+      DM.QueryVerificar.Close;
+      DM.QueryVerificar.SQL.Clear;
+      DM.QueryVerificar.SQL.Add('SELECT SUM(VALOR_UNITARIO * QUANTIDADE) AS SOMA ');
+      DM.QueryVerificar.SQL.Add('FROM ITEM_ORDEM WHERE ORDEM_ID = :pOrdemServico ');
+      DM.QueryVerificar.Params.ParamByName('pOrdemServico').AsInteger := DM.TBOrdemServicoID.AsInteger;
+      DM.QueryVerificar.Open;
+      DM.TBOrdemServicoVALOR_TOTAL.AsFloat := DM.QueryVerificar.Fields.FieldByName('SOMA').AsFloat;
     end;
   end;
 end;

@@ -130,7 +130,6 @@ object DM: TDM
     object SQLOrdemServicoCLIENTE_ID: TIntegerField
       FieldName = 'CLIENTE_ID'
       ProviderFlags = [pfInUpdate]
-      Required = True
     end
     object SQLOrdemServicoDATA_ABERTURA: TDateField
       FieldName = 'DATA_ABERTURA'
@@ -422,6 +421,9 @@ object DM: TDM
     Connection = ZConnection1
     OnCalcFields = TItemOrdemCalcFields
     TableName = 'ITEM_ORDEM'
+    MasterFields = 'ID'
+    MasterSource = DSOrdemServico
+    LinkedFields = 'ORDEM_ID'
     Left = 312
     Top = 272
     object TItemOrdemID: TIntegerField

@@ -1,0 +1,159 @@
+unit uItemOrdemEditar;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Mask, DBCtrls, Buttons, ExtCtrls, DB;
+
+type
+  TfrmItemOrdemEditar = class(TForm)
+    lbl1: TLabel;
+    DBedtID: TDBEdit;
+    lbl2: TLabel;
+    DBedtDESCRICAO: TDBEdit;
+    lbl3: TLabel;
+    DBedtQUANTIDADE: TDBEdit;
+    lbl4: TLabel;
+    DBedtVALOR_UNITARIO: TDBEdit;
+    lbl5: TLabel;
+    DBedtSUBTOTAL: TDBEdit;
+    Panel2: TPanel;
+    btnSalvar: TSpeedButton;
+    btnCancelar: TSpeedButton;
+    procedure FormShow(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure DBedtDESCRICAOEnter(Sender: TObject);
+    procedure DBedtQUANTIDADEEnter(Sender: TObject);
+    procedure DBedtVALOR_UNITARIOEnter(Sender: TObject);
+    procedure DBedtSUBTOTALEnter(Sender: TObject);
+    procedure DBedtDESCRICAOExit(Sender: TObject);
+    procedure DBedtQUANTIDADEExit(Sender: TObject);
+    procedure DBedtVALOR_UNITARIOExit(Sender: TObject);
+    procedure DBedtSUBTOTALExit(Sender: TObject);
+    procedure DBedtDESCRICAOKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure DBedtSUBTOTALKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmItemOrdemEditar: TfrmItemOrdemEditar;
+
+implementation
+
+uses uMenu, uOrdemServico, uDM;
+
+{$R *.dfm}
+
+procedure TfrmItemOrdemEditar.FormShow(Sender: TObject);
+begin
+  if(FNovoItemOrdem)then
+    Caption := 'Inserção de Novo Item da Ordem de Serviço'
+  else
+    Caption := 'Edição de Item da Ordem de Serviço';
+end;
+
+procedure TfrmItemOrdemEditar.btnSalvarClick(Sender: TObject);
+begin
+  DBedtSUBTOTAL.SetFocus;
+
+  if(DM.TBItemOrdem.State = dsBrowse)then
+   DM.TBItemOrdem.Edit;
+
+  DM.TBItemOrdem.Post;
+  DM.TBItemOrdem.ApplyUpdates(0);
+  DM.TBItemOrdem.Refresh;
+  btnCancelar.Enabled := false;
+  Close;
+end;
+
+procedure TfrmItemOrdemEditar.btnCancelarClick(Sender: TObject);
+begin
+  DBedtSUBTOTAL.SetFocus;
+  DM.TBItemOrdem.Cancel;
+  btnCancelar.Enabled := false;
+  Close;
+end;
+
+procedure TfrmItemOrdemEditar.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  if(btnCancelar.Enabled)then
+    btnCancelar.Click;
+end;
+
+procedure TfrmItemOrdemEditar.DBedtDESCRICAOEnter(Sender: TObject);
+begin
+  DBedtDESCRICAO.Color := clInfoBk;
+end;
+
+procedure TfrmItemOrdemEditar.DBedtQUANTIDADEEnter(Sender: TObject);
+begin
+  DBedtQUANTIDADE.Color := clInfoBk;
+end;
+
+procedure TfrmItemOrdemEditar.DBedtVALOR_UNITARIOEnter(Sender: TObject);
+begin
+  DBedtVALOR_UNITARIO.Color := clInfoBk;
+end;
+
+procedure TfrmItemOrdemEditar.DBedtSUBTOTALEnter(Sender: TObject);
+begin
+  DBedtVALOR_UNITARIO.Color := clInfoBk;
+end;
+
+procedure TfrmItemOrdemEditar.DBedtDESCRICAOExit(Sender: TObject);
+begin
+  DBedtDESCRICAO.Color := clWhite;
+end;
+
+procedure TfrmItemOrdemEditar.DBedtQUANTIDADEExit(Sender: TObject);
+begin
+  DBedtQUANTIDADE.Color := clWhite;
+end;
+
+procedure TfrmItemOrdemEditar.DBedtVALOR_UNITARIOExit(Sender: TObject);
+begin
+  DBedtVALOR_UNITARIO.Color := clWhite;
+end;
+
+procedure TfrmItemOrdemEditar.DBedtSUBTOTALExit(Sender: TObject);
+begin
+  DBedtSUBTOTAL.Color := clWhite;
+end;
+
+procedure TfrmItemOrdemEditar.DBedtDESCRICAOKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if((key = vk_return)or(key = 40))then
+  begin
+    Perform(WM_NEXTDLGCTL,0,0);
+  end else
+  if(key = 38)then
+  begin
+    Perform(WM_NEXTDLGCTL,1,0);
+  end;
+end;
+
+procedure TfrmItemOrdemEditar.DBedtSUBTOTALKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if((key = vk_return)or(key = 40))then
+  begin
+    if(btnSalvar.Enabled)then
+      btnSalvar.Click;
+  end else
+  if(key = 38)then
+  begin
+    Perform(WM_NEXTDLGCTL,1,0);
+  end;
+end;
+
+end.

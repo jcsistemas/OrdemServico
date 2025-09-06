@@ -74,7 +74,7 @@ procedure TfrmClienteEditar.DBedtDOCUMENTOKeyDown(Sender: TObject;
 begin
   if((key = vk_return)or(key = 40))then
   begin
-    Perform(WM_NEXTDLGCTL,0,0)
+    Perform(WM_NEXTDLGCTL,0,0);
   end else
   if(key = 38)then
   begin

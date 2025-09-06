@@ -2,7 +2,7 @@ object frmClienteEditar: TfrmClienteEditar
   Left = 303
   Top = 259
   Width = 562
-  Height = 278
+  Height = 253
   Caption = '   '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -67,17 +67,17 @@ object frmClienteEditar: TfrmClienteEditar
   end
   object Panel2: TPanel
     Left = 0
-    Top = 162
+    Top = 157
     Width = 554
-    Height = 85
+    Height = 65
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 6
     object btnSalvar: TSpeedButton
-      Left = 24
+      Left = 71
       Top = 5
-      Width = 250
-      Height = 75
+      Width = 200
+      Height = 50
       Cursor = crHandPoint
       Hint = 'Tecla de Atalho: F5'
       Caption = 'Salvar'
@@ -185,10 +185,10 @@ object frmClienteEditar: TfrmClienteEditar
       OnClick = btnSalvarClick
     end
     object btnCancelar: TSpeedButton
-      Left = 283
+      Left = 282
       Top = 5
-      Width = 250
-      Height = 75
+      Width = 200
+      Height = 50
       Cursor = crHandPoint
       Hint = 'Tecla de Atalho: Esc'
       Caption = 'Cancelar'

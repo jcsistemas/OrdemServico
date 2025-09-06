@@ -90,7 +90,7 @@ begin
       DM.QVerificar.SQL.Clear;
       DM.QVerificar.SQL.Add('CREATE TABLE ORDEM_SERVICO ( ');
       DM.QVerificar.SQL.Add('ID INTEGER NOT NULL PRIMARY KEY, ');
-      DM.QVerificar.SQL.Add('CLIENTE_ID INTEGER NOT NULL, ');
+      DM.QVerificar.SQL.Add('CLIENTE_ID INTEGER, ');
       DM.QVerificar.SQL.Add('DATA_ABERTURA DATE NOT NULL, ');
       DM.QVerificar.SQL.Add('DATA_PREVISTA DATE, ');
       DM.QVerificar.SQL.Add('DATA_FECHAMENTO DATE, ');
@@ -129,6 +129,7 @@ begin
       DM.QVerificar.SQL.Add('CREATE SEQUENCE GENERATOR_ITEM_ORDEM_ID;');
       DM.QVerificar.ExecSQL();
 
+      DM.QVerificar.SQL.Clear;
       DM.QVerificar.SQL.Add('CREATE TABLE ITEM_ORDEM( ');
       DM.QVerificar.SQL.Add('ID INTEGER NOT NULL PRIMARY KEY, ');
       DM.QVerificar.SQL.Add('ORDEM_ID INTEGER NOT NULL, ');
@@ -186,7 +187,7 @@ begin
       DM.QueryVerificar.SQL.Clear;
       DM.QueryVerificar.SQL.Add('CREATE TABLE ORDEM_SERVICO ( ');
       DM.QueryVerificar.SQL.Add('ID INTEGER NOT NULL PRIMARY KEY, ');
-      DM.QueryVerificar.SQL.Add('CLIENTE_ID INTEGER NOT NULL, ');
+      DM.QueryVerificar.SQL.Add('CLIENTE_ID INTEGER, ');
       DM.QueryVerificar.SQL.Add('DATA_ABERTURA DATE NOT NULL, ');
       DM.QueryVerificar.SQL.Add('DATA_PREVISTA DATE, ');
       DM.QueryVerificar.SQL.Add('DATA_FECHAMENTO DATE, ');
@@ -225,6 +226,7 @@ begin
       DM.QueryVerificar.SQL.Add('CREATE SEQUENCE GENERATOR_ITEM_ORDEM_ID;');
       DM.QueryVerificar.ExecSQL();
 
+      DM.QueryVerificar.SQL.Clear;
       DM.QueryVerificar.SQL.Add('CREATE TABLE ITEM_ORDEM( ');
       DM.QueryVerificar.SQL.Add('ID INTEGER NOT NULL PRIMARY KEY, ');
       DM.QueryVerificar.SQL.Add('ORDEM_ID INTEGER NOT NULL, ');
@@ -378,7 +380,7 @@ begin
     lQryGerarChavePrimaria.SQLConnection := DM.SQLConnection1;
     lQryGerarChavePrimaria.SQL.Add('SELECT MAX(ID) AS ID FROM '+pTabela);
     lQryGerarChavePrimaria.Open;
-    Result := lQryGerarChavePrimaria.Fields.FieldByName('ID').AsInteger;
+    Result := lQryGerarChavePrimaria.Fields.FieldByName('ID').AsInteger + 1;
   finally
     lQryGerarChavePrimaria.Free;
   end;

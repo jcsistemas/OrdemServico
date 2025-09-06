@@ -985,9 +985,9 @@ object frmOrdemServico: TfrmOrdemServico
     end
     object Panel2: TPanel
       Left = 0
-      Top = 490
+      Top = 456
       Width = 138
-      Height = 60
+      Height = 94
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 0
@@ -1099,16 +1099,16 @@ object frmOrdemServico: TfrmOrdemServico
           FFFFFFFFFFFFFFFFFFFFFFFEFEFEE9EFF5CEE3F63E759FF9F9F9}
         OnClick = btnSairClick
       end
-    end
-    object DBNavigator1: TDBNavigator
-      Left = 5
-      Top = 456
-      Width = 124
-      Height = 25
-      Cursor = crHandPoint
-      DataSource = DM.DSOrdemServico
-      VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
-      TabOrder = 1
+      object DBNavigator1: TDBNavigator
+        Left = 5
+        Top = 59
+        Width = 124
+        Height = 25
+        Cursor = crHandPoint
+        DataSource = DM.DSOrdemServico
+        VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
+        TabOrder = 0
+      end
     end
   end
   object Panel3: TPanel
@@ -1325,6 +1325,7 @@ object frmOrdemServico: TfrmOrdemServico
             92F6DE93F6DD93F6DD93F6DC91F6DC90F5DC91F6DC93F6DC93F6DD93F6DD92F6
             DE8AF2D9008946FFFFFF77C29F00894600874300864300864300864300864300
             864300864300864300864300864300874300894677C29FFFFFFF}
+          OnClick = btnInserirItemClick
         end
         object btnEditarItem: TSpeedButton
           Left = 273
@@ -1368,6 +1369,7 @@ object frmOrdemServico: TfrmOrdemServico
             C3FFB57F20A60000000000000000000000000000000000000000B9872DEFB681
             24FFB57F1FFFB47E1EFFB47E1EFFB47E1EFFB47E1EFFB47F1FFFB58022FFB783
             27EA000000000000000000000000000000000000000000000000}
+          OnClick = btnEditarItemClick
         end
         object btnExcluirItem: TSpeedButton
           Left = 530
@@ -1403,6 +1405,7 @@ object frmOrdemServico: TfrmOrdemServico
             C5C9EE2737BF6A77DC9EA9F2AFBAF8AFBBF8AFBAF89EA9F26A77DC2737BFC5C9
             EEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF838CDA2F3EC22737BF27
             37BF2737BF2F3EC2838CDAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+          OnClick = btnExcluirItemClick
         end
       end
       object DBMemoDESCRICAO_PROBLEMA: TDBMemo

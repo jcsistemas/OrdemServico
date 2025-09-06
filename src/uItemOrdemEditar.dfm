@@ -1,9 +1,9 @@
-object frmClienteEditar: TfrmClienteEditar
-  Left = 303
-  Top = 259
-  Width = 562
-  Height = 253
-  Caption = '   '
+object frmItemOrdemEditar: TfrmItemOrdemEditar
+  Left = 387
+  Top = 135
+  Width = 457
+  Height = 218
+  Caption = '      '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,14 +11,13 @@ object frmClienteEditar: TfrmClienteEditar
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  PopupMenu = PopUp1
   Position = poDesktopCenter
   OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object lbl1: TLabel
-    Left = 16
+    Left = 8
     Top = 8
     Width = 11
     Height = 13
@@ -26,55 +25,105 @@ object frmClienteEditar: TfrmClienteEditar
     FocusControl = DBedtID
   end
   object lbl2: TLabel
-    Left = 72
+    Left = 64
     Top = 8
-    Width = 28
+    Width = 48
     Height = 13
-    Caption = 'Nome'
-    FocusControl = DBedtNOME
+    Caption = 'Descri'#231#227'o'
+    FocusControl = DBedtDESCRICAO
   end
   object lbl3: TLabel
-    Left = 16
-    Top = 56
+    Left = 8
+    Top = 64
     Width = 55
     Height = 13
-    Caption = 'Documento'
-    FocusControl = DBedtDOCUMENTO
+    Caption = 'Quantidade'
+    FocusControl = DBedtQUANTIDADE
   end
   object lbl4: TLabel
-    Left = 184
-    Top = 56
-    Width = 25
+    Left = 111
+    Top = 64
+    Width = 63
     Height = 13
-    Caption = 'Email'
-    FocusControl = DBedtEMAIL
+    Caption = 'Valor Unit'#225'rio'
+    FocusControl = DBedtVALOR_UNITARIO
   end
   object lbl5: TLabel
-    Left = 16
-    Top = 104
-    Width = 42
+    Left = 276
+    Top = 64
+    Width = 39
     Height = 13
-    Caption = 'Telefone'
-    FocusControl = DBedtTELEFONE
+    Caption = 'Subtotal'
+    FocusControl = DBedtSUBTOTAL
   end
-  object lbl6: TLabel
-    Left = 290
-    Top = 104
-    Width = 68
-    Height = 13
-    Caption = 'Data Cadastro'
-    FocusControl = DBedtDATACADASTRO
+  object DBedtID: TDBEdit
+    Left = 8
+    Top = 24
+    Width = 50
+    Height = 21
+    DataField = 'ID'
+    DataSource = DM.DSItemOrdem
+    Enabled = False
+    TabOrder = 0
+  end
+  object DBedtDESCRICAO: TDBEdit
+    Left = 64
+    Top = 24
+    Width = 361
+    Height = 21
+    DataField = 'DESCRICAO'
+    DataSource = DM.DSItemOrdem
+    TabOrder = 1
+    OnEnter = DBedtDESCRICAOEnter
+    OnExit = DBedtDESCRICAOExit
+    OnKeyDown = DBedtDESCRICAOKeyDown
+  end
+  object DBedtQUANTIDADE: TDBEdit
+    Left = 8
+    Top = 80
+    Width = 89
+    Height = 21
+    DataField = 'QUANTIDADE'
+    DataSource = DM.DSItemOrdem
+    TabOrder = 2
+    OnEnter = DBedtQUANTIDADEEnter
+    OnExit = DBedtQUANTIDADEExit
+    OnKeyDown = DBedtDESCRICAOKeyDown
+  end
+  object DBedtVALOR_UNITARIO: TDBEdit
+    Left = 111
+    Top = 80
+    Width = 150
+    Height = 21
+    DataField = 'VALOR_UNITARIO'
+    DataSource = DM.DSItemOrdem
+    TabOrder = 3
+    OnEnter = DBedtVALOR_UNITARIOEnter
+    OnExit = DBedtVALOR_UNITARIOExit
+    OnKeyDown = DBedtDESCRICAOKeyDown
+  end
+  object DBedtSUBTOTAL: TDBEdit
+    Left = 276
+    Top = 80
+    Width = 150
+    Height = 21
+    DataField = 'SUBTOTAL'
+    DataSource = DM.DSItemOrdem
+    TabOrder = 4
+    OnEnter = DBedtSUBTOTALEnter
+    OnExit = DBedtSUBTOTALExit
+    OnKeyDown = DBedtSUBTOTALKeyDown
   end
   object Panel2: TPanel
     Left = 0
-    Top = 157
-    Width = 554
+    Top = 122
+    Width = 449
     Height = 65
     Align = alBottom
     BevelOuter = bvNone
-    TabOrder = 6
+    TabOrder = 5
     object btnSalvar: TSpeedButton
-      Left = 71
+      Left = 20
       Top = 5
       Width = 200
       Height = 50
@@ -185,7 +234,7 @@ object frmClienteEditar: TfrmClienteEditar
       OnClick = btnSalvarClick
     end
     object btnCancelar: TSpeedButton
-      Left = 282
+      Left = 231
       Top = 5
       Width = 200
       Height = 50
@@ -294,93 +343,6 @@ object frmClienteEditar: TfrmClienteEditar
       ParentShowHint = False
       ShowHint = True
       OnClick = btnCancelarClick
-    end
-  end
-  object DBedtID: TDBEdit
-    Left = 16
-    Top = 24
-    Width = 49
-    Height = 21
-    DataField = 'ID'
-    DataSource = DM.DSCliente
-    Enabled = False
-    TabOrder = 0
-  end
-  object DBedtNOME: TDBEdit
-    Left = 72
-    Top = 24
-    Width = 465
-    Height = 21
-    DataField = 'NOME'
-    DataSource = DM.DSCliente
-    TabOrder = 1
-    OnEnter = DBedtNOMEEnter
-    OnExit = DBedtNOMEExit
-    OnKeyDown = DBedtDOCUMENTOKeyDown
-  end
-  object DBedtDOCUMENTO: TDBEdit
-    Left = 16
-    Top = 72
-    Width = 161
-    Height = 21
-    DataField = 'DOCUMENTO'
-    DataSource = DM.DSCliente
-    TabOrder = 2
-    OnEnter = DBedtDOCUMENTOEnter
-    OnExit = DBedtDOCUMENTOExit
-    OnKeyDown = DBedtDOCUMENTOKeyDown
-  end
-  object DBedtEMAIL: TDBEdit
-    Left = 184
-    Top = 72
-    Width = 354
-    Height = 21
-    DataField = 'EMAIL'
-    DataSource = DM.DSCliente
-    TabOrder = 3
-    OnEnter = DBedtEMAILEnter
-    OnExit = DBedtEMAILExit
-    OnKeyDown = DBedtDOCUMENTOKeyDown
-  end
-  object DBedtTELEFONE: TDBEdit
-    Left = 16
-    Top = 120
-    Width = 265
-    Height = 21
-    DataField = 'TELEFONE'
-    DataSource = DM.DSCliente
-    TabOrder = 4
-    OnEnter = DBedtTELEFONEEnter
-    OnExit = DBedtTELEFONEExit
-    OnKeyDown = DBedtDOCUMENTOKeyDown
-  end
-  object DBedtDATACADASTRO: TDBEdit
-    Left = 290
-    Top = 120
-    Width = 248
-    Height = 21
-    DataField = 'DATACADASTRO'
-    DataSource = DM.DSCliente
-    ReadOnly = True
-    TabOrder = 5
-    OnEnter = DBedtDATACADASTROEnter
-    OnExit = DBedtDATACADASTROExit
-    OnKeyDown = DBedtDATACADASTROKeyDown
-  end
-  object PopUp1: TPopupMenu
-    Left = 472
-    Top = 16
-    object S1: TMenuItem
-      Caption = 'Salvar'
-      ShortCut = 116
-      Visible = False
-      OnClick = S1Click
-    end
-    object C1: TMenuItem
-      Caption = 'Cancelar'
-      ShortCut = 27
-      Visible = False
-      OnClick = C1Click
     end
   end
 end
