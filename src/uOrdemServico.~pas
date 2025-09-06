@@ -52,7 +52,7 @@ type
     btnInserirItem: TSpeedButton;
     btnEditarItem: TSpeedButton;
     btnExcluirItem: TSpeedButton;
-    dbmmoDESCRICAO_PROBLEMA: TDBMemo;
+    DBMemoDESCRICAO_PROBLEMA: TDBMemo;
     btnConsultar: TSpeedButton;
     DBNavigator1: TDBNavigator;
     procedure N1Click(Sender: TObject);
@@ -68,6 +68,9 @@ type
     procedure btnNovoClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
   private
     { Private declarations }
     procedure modo_navegacao;
@@ -144,6 +147,7 @@ begin
   DBedtVALOR_TOTAL1.Enabled := false;
   dblkcbbCLIENTE_ID.Enabled := false;
   DBcbbSTATUS1.Enabled := false;
+  DBMemoDESCRICAO_PROBLEMA.Enabled := false;
   btnNovo.Enabled := true;
   btnEditar.Enabled := true;
   btnSalvar.Enabled := false;
@@ -167,6 +171,7 @@ begin
   DBedtVALOR_TOTAL1.Enabled := true;
   dblkcbbCLIENTE_ID.Enabled := true;
   DBcbbSTATUS1.Enabled := true;
+  DBMemoDESCRICAO_PROBLEMA.Enabled := true;
   btnNovo.Enabled := false;
   btnEditar.Enabled := false;
   btnSalvar.Enabled := true;
@@ -206,6 +211,7 @@ begin
   begin
     DM.TBOrdemServico.Edit;
     modo_edicao;
+    DBedtCLIENTE_ID1.SetFocus;
   end;
 end;
 
@@ -219,6 +225,7 @@ end;
 
 procedure TfrmOrdemServico.btnSalvarClick(Sender: TObject);
 begin
+  DBMemoDESCRICAO_PROBLEMA.SetFocus;
   if(DM.TBCliente.Locate('ID',DM.TBOrdemServicoCLIENTE_ID.AsInteger,[]))then
   begin
     ShowMessage('Cliente não localizado! Informe o cliente');
@@ -228,6 +235,60 @@ begin
   DM.TBOrdemServico.Post;
   DM.TBOrdemServico.ApplyUpdates(0);
   modo_navegacao;
+end;
+
+procedure TfrmOrdemServico.btnSairClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfrmOrdemServico.btnCancelarClick(Sender: TObject);
+var
+  lOrdemServico: Integer;
+begin
+  DBMemoDESCRICAO_PROBLEMA.SetFocus;
+  lOrdemServico := DM.TBOrdemServicoID.AsInteger;
+
+  if(FNovaOrdemServico)then
+  begin
+    DM.TBItemOrdem.First;
+    while not(DM.TBItemOrdem.Eof)do
+    begin
+      DM.TBItemOrdem.Delete;
+      DM.TBItemOrdem.ApplyUpdates(0);
+    end;
+  end;
+
+  DM.TBOrdemServico.Cancel;
+
+  if(FNovaOrdemServico)then
+  begin
+    if(DM.TBOrdemServico.Locate('ID',lOrdemServico,[]))then
+    begin
+      DM.TBOrdemServico.Delete;
+      DM.TBOrdemServico.ApplyUpdates(0);
+    end;
+  end;
+  
+  modo_navegacao;
+end;
+
+procedure TfrmOrdemServico.btnExcluirClick(Sender: TObject);
+begin
+  if(Application.MessageBox('Você realmente deseja excluir o cliente?','Atenção',MB_ICONQUESTION + MB_YESNO)=mrYes)then
+  begin
+    if(FNovaOrdemServico)then
+    begin
+      DM.TBItemOrdem.First;
+      while not(DM.TBItemOrdem.Eof)do
+      begin
+        DM.TBItemOrdem.Delete;
+        DM.TBItemOrdem.ApplyUpdates(0);
+      end;
+      DM.TBOrdemServico.Delete;
+      DM.TBOrdemServico.ApplyUpdates(0);
+    end;
+  end;
 end;
 
 end.

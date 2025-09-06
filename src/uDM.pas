@@ -86,8 +86,10 @@ type
     TItemOrdemVALOR_UNITARIO: TFloatField;
     QVerificar: TZQuery;
     TBClienteDATACADASTRO: TSQLTimeStampField;
+    TItemOrdemSUBTOTAL: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure TBItemOrdemCalcFields(DataSet: TDataSet);
+    procedure TItemOrdemCalcFields(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -130,6 +132,11 @@ end;
 procedure TDM.TBItemOrdemCalcFields(DataSet: TDataSet);
 begin
   DM.TBItemOrdemSUBTOTAL.AsFloat := DM.TBItemOrdemVALOR_UNITARIO.AsFloat * DM.TBItemOrdemVALOR_UNITARIO.AsFloat;
+end;
+
+procedure TDM.TItemOrdemCalcFields(DataSet: TDataSet);
+begin
+  DM.TItemOrdemSUBTOTAL.AsFloat := DM.TItemOrdemVALOR_UNITARIO.AsFloat * DM.TItemOrdemVALOR_UNITARIO.AsFloat;
 end;
 
 end.

@@ -455,6 +455,7 @@ object frmOrdemServico: TfrmOrdemServico
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFAFAFA3B4AC62737C12737C02838
         C12838C12939C12939C1293AC12A3AC12A3AC12A3AC12B3BC12B3BC23E4DC6FA
         FAFAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+      OnClick = btnCancelarClick
     end
     object btnExcluir: TSpeedButton
       Left = 5
@@ -562,6 +563,7 @@ object frmOrdemServico: TfrmOrdemServico
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF2F3F99FA5DF4E5B
         C92736BF2635BE2635BE2735BE2736BE2837BF505CC9A0A6DFF3F3F9FFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+      OnClick = btnExcluirClick
     end
     object btnImprimir: TSpeedButton
       Left = 5
@@ -1095,6 +1097,7 @@ object frmOrdemServico: TfrmOrdemServico
           FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
           FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
           FFFFFFFFFFFFFFFFFFFFFFFEFEFEE9EFF5CEE3F63E759FF9F9F9}
+        OnClick = btnSairClick
       end
     end
     object DBNavigator1: TDBNavigator
@@ -1402,7 +1405,7 @@ object frmOrdemServico: TfrmOrdemServico
             37BF2737BF2F3EC2838CDAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
         end
       end
-      object dbmmoDESCRICAO_PROBLEMA: TDBMemo
+      object DBMemoDESCRICAO_PROBLEMA: TDBMemo
         Left = 8
         Top = 118
         Width = 645
@@ -1419,6 +1422,7 @@ object frmOrdemServico: TfrmOrdemServico
       Height = 277
       Align = alClient
       DataSource = DM.DSItemOrdem
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
       TabOrder = 1
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText

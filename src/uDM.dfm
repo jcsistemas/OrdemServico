@@ -332,6 +332,7 @@ object DM: TDM
     Properties.Strings = (
       'AutoEncodeStrings=True'
       'controls_cp=GET_ACP')
+    Connected = True
     Port = 0
     Database = 'D:\Sistemas\SkyInformatica\OrdemServico\src\BASEDADOS.FDB'
     User = 'sysdba'
@@ -390,14 +391,17 @@ object DM: TDM
     object TOrdemServicoDATA_ABERTURA: TDateField
       FieldName = 'DATA_ABERTURA'
       ProviderFlags = [pfInUpdate]
+      EditMask = '!99/99/9999;1;_'
     end
     object TOrdemServicoDATA_PREVISTA: TDateField
       FieldName = 'DATA_PREVISTA'
       ProviderFlags = [pfInUpdate]
+      EditMask = '!99/99/9999;1;_'
     end
     object TOrdemServicoDATA_FECHAMENTO: TDateField
       FieldName = 'DATA_FECHAMENTO'
       ProviderFlags = [pfInUpdate]
+      EditMask = '!99/99/9999;1;_'
     end
     object TOrdemServicoSTATUS: TStringField
       FieldName = 'STATUS'
@@ -412,11 +416,16 @@ object DM: TDM
     object TOrdemServicoVALOR_TOTAL: TFloatField
       FieldName = 'VALOR_TOTAL'
       ProviderFlags = [pfInUpdate]
+      currency = True
     end
   end
   object TItemOrdem: TZTable
     Connection = ZConnection1
+    OnCalcFields = TItemOrdemCalcFields
     TableName = 'ITEM_ORDEM'
+    MasterFields = 'ID'
+    MasterSource = DSOrdemServico
+    LinkedFields = 'ORDEM_ID'
     Left = 312
     Top = 272
     object TItemOrdemID: TIntegerField
@@ -439,6 +448,14 @@ object DM: TDM
     object TItemOrdemVALOR_UNITARIO: TFloatField
       FieldName = 'VALOR_UNITARIO'
       ProviderFlags = [pfInUpdate]
+      currency = True
+    end
+    object TItemOrdemSUBTOTAL: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'SUBTOTAL'
+      ProviderFlags = [pfInUpdate]
+      currency = True
+      Calculated = True
     end
   end
   object QVerificar: TZQuery
