@@ -17,9 +17,9 @@ object frmSobre: TfrmSobre
   object lbl1: TLabel
     Left = 16
     Top = 8
-    Width = 93
+    Width = 146
     Height = 13
-    Caption = #205'cones cedidos por:'
+    Caption = 'Atribui'#231#227'o: '#205'cones cedidos por:'
   end
   object lblLinkFatCow: TLabel
     Left = 16

@@ -1,7 +1,7 @@
 object frmSobre: TfrmSobre
   Left = 214
   Top = 113
-  Width = 300
+  Width = 275
   Height = 150
   Caption = 'Sobre'
   Color = clBtnFace
