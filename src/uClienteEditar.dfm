@@ -353,6 +353,7 @@ object frmClienteEditar: TfrmClienteEditar
     Height = 21
     DataField = 'DATACADASTRO'
     DataSource = DM.DSCliente
+    ReadOnly = True
     TabOrder = 5
     OnEnter = DBedtDATACADASTROEnter
     OnExit = DBedtDATACADASTROExit

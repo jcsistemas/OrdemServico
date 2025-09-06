@@ -42,7 +42,7 @@ object DM: TDM
     Top = 8
     object SQLClienteID: TIntegerField
       FieldName = 'ID'
-      ProviderFlags = [pfInUpdate]
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
     end
     object SQLClienteNOME: TStringField
       FieldName = 'NOME'
@@ -82,7 +82,7 @@ object DM: TDM
     Top = 104
     object TBClienteID: TIntegerField
       FieldName = 'ID'
-      ProviderFlags = [pfInUpdate]
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
     end
     object TBClienteNOME: TStringField
       FieldName = 'NOME'
@@ -102,7 +102,7 @@ object DM: TDM
     object TBClienteTELEFONE: TStringField
       FieldName = 'TELEFONE'
       ProviderFlags = [pfInUpdate]
-      EditMask = '!\(99\)99999-9999;1;_'
+      EditMask = '!\(99\)99999-9999'
       Size = 30
     end
     object TBClienteDATACADASTRO: TSQLTimeStampField
