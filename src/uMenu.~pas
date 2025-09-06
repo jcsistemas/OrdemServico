@@ -123,7 +123,7 @@ begin
     if(FileExists(FLocalAplicacao+'planodefundo.ini'))then
     begin
       ArquivoPlanoFundo.LoadFromFile(FLocalAplicacao+'planodefundo.ini');
-      if(ArquivoPlanoFundo.Count > 0)and(ArquivoPlanoFundo[0] <> '')then
+      if(ArquivoPlanoFundo[0] <> '')then
       begin
         if(ArquivoPlanoFundo.Count > 0)and(FileExists(ArquivoPlanoFundo[0]))then
         begin

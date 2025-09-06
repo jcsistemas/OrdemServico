@@ -2,14 +2,12 @@ program SistemaOrdemServico;
 
 uses
   Forms,
-  uMenu in 'uMenu.pas' {frmMenu},
-  uSobre in 'uSobre.pas' {frmSobre};
+  uMenu in 'uMenu.pas' {frmMenu};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.CreateForm(TfrmMenu, frmMenu);
-  Application.CreateForm(TfrmSobre, frmSobre);
   Application.Run;
 end.
