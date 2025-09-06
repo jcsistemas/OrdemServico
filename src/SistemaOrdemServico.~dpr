@@ -8,7 +8,8 @@ uses
   uClientes in 'uClientes.pas' {frmClientes},
   uUtilidades in 'uUtilidades.pas',
   uClienteEditar in 'uClienteEditar.pas' {frmClienteEditar},
-  uBuscaCNPJ in 'uBuscaCNPJ.pas' {frmBuscaCNPJ};
+  uBuscaCNPJ in 'uBuscaCNPJ.pas' {frmBuscaCNPJ},
+  uOrdemServico in 'uOrdemServico.pas' {frmOrdemServico};
 
 {$R *.res}
 
@@ -16,5 +17,6 @@ begin
   Application.Initialize;
   Application.Title := 'Sistema de Ordens de Serviço';
   Application.CreateForm(TfrmMenu, frmMenu);
+  Application.CreateForm(TfrmOrdemServico, frmOrdemServico);
   Application.Run;
 end.

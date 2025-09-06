@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, Buttons, Menus;
+  Dialogs, ExtCtrls, Buttons, Menus, StdCtrls, Mask, DBCtrls, Grids,
+  DBGrids;
 
 type
   TfrmOrdemServico = class(TForm)
@@ -27,6 +28,33 @@ type
     I1: TMenuItem;
     P1: TMenuItem;
     S2: TMenuItem;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    lbl9: TLabel;
+    DBedtID1: TDBEdit;
+    lbl10: TLabel;
+    DBedtCLIENTE_ID1: TDBEdit;
+    lbl11: TLabel;
+    DBedtDATA_ABERTURA1: TDBEdit;
+    lbl12: TLabel;
+    DBedtDATA_PREVISTA1: TDBEdit;
+    lbl13: TLabel;
+    DBedtDATA_FECHAMENTO1: TDBEdit;
+    lbl14: TLabel;
+    dblkcbbCLIENTE_ID: TDBLookupComboBox;
+    DBcbbSTATUS1: TDBComboBox;
+    lbl15: TLabel;
+    lbl16: TLabel;
+    DBedtVALOR_TOTAL1: TDBEdit;
+    dbgrd1: TDBGrid;
+    Panel5: TPanel;
+    lbl1: TLabel;
+    btnInserirItem: TSpeedButton;
+    btnEditarItem: TSpeedButton;
+    btnExcluirItem: TSpeedButton;
+    dbmmoDESCRICAO_PROBLEMA: TDBMemo;
+    btnConsultar: TSpeedButton;
+    DBNavigator1: TDBNavigator;
     procedure N1Click(Sender: TObject);
     procedure E1Click(Sender: TObject);
     procedure S1Click(Sender: TObject);
@@ -35,16 +63,26 @@ type
     procedure I1Click(Sender: TObject);
     procedure btnPDFClick(Sender: TObject);
     procedure S2Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
   private
     { Private declarations }
+    procedure modo_navegacao;
+    procedure modo_edicao;
   public
     { Public declarations }
   end;
 
 var
   frmOrdemServico: TfrmOrdemServico;
+  FNovaOrdemServico: Boolean;
 
 implementation
+
+uses uDM, uUtilidades;
 
 {$R *.dfm}
 
@@ -94,6 +132,102 @@ procedure TfrmOrdemServico.S2Click(Sender: TObject);
 begin
   if(btnSair.Enabled)then
     btnSair.Click;
+end;
+
+procedure TfrmOrdemServico.modo_navegacao;
+begin
+  DBedtID1.Enabled := false;
+  DBedtCLIENTE_ID1.Enabled := false;
+  DBedtDATA_ABERTURA1.Enabled := false;
+  DBedtDATA_PREVISTA1.Enabled := false;
+  DBedtDATA_FECHAMENTO1.Enabled := false;
+  DBedtVALOR_TOTAL1.Enabled := false;
+  dblkcbbCLIENTE_ID.Enabled := false;
+  DBcbbSTATUS1.Enabled := false;
+  btnNovo.Enabled := true;
+  btnEditar.Enabled := true;
+  btnSalvar.Enabled := false;
+  btnCancelar.Enabled := false;
+  btnExcluir.Enabled := true;
+  btnImprimir.Enabled := true;
+  btnPDF.Enabled := true;
+  btnSair.Enabled := true;
+  btnInserirItem.Enabled := true;
+  btnEditarItem.Enabled := true;
+  btnExcluirItem.Enabled := true;
+end;
+
+procedure TfrmOrdemServico.modo_edicao;
+begin
+  DBedtID1.Enabled := true;
+  DBedtCLIENTE_ID1.Enabled := true;
+  DBedtDATA_ABERTURA1.Enabled := true;
+  DBedtDATA_PREVISTA1.Enabled := true;
+  DBedtDATA_FECHAMENTO1.Enabled := true;
+  DBedtVALOR_TOTAL1.Enabled := true;
+  dblkcbbCLIENTE_ID.Enabled := true;
+  DBcbbSTATUS1.Enabled := true;
+  btnNovo.Enabled := false;
+  btnEditar.Enabled := false;
+  btnSalvar.Enabled := true;
+  btnCancelar.Enabled := true;
+  btnExcluir.Enabled := false;
+  btnImprimir.Enabled := false;
+  btnPDF.Enabled := false;
+  btnSair.Enabled := false;
+  btnInserirItem.Enabled := true;
+  btnEditarItem.Enabled := true;
+  btnExcluirItem.Enabled := true;
+end;
+
+procedure TfrmOrdemServico.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  if(btnCancelar.Enabled)then
+    btnCancelar.Click;
+end;
+
+procedure TfrmOrdemServico.FormShow(Sender: TObject);
+begin
+  modo_navegacao;
+end;
+
+procedure TfrmOrdemServico.btnNovoClick(Sender: TObject);
+var
+  lIDOrdemServico: Integer;
+begin
+  FNovaOrdemServico := true;
+  lIDOrdemServico := TUtilidades.GerarChavePrimaria('ORDEM_SERVICO');
+  DM.TBOrdemServico.Insert;
+  DM.TBOrdemServicoID.Value := lIDOrdemServico;
+  DM.TBOrdemServico.Post;
+  DM.TBOrdemServico.ApplyUpdates(0);
+  if(DM.TBOrdemServico.Locate('ID',lIDOrdemServico,[]))then
+  begin
+    DM.TBOrdemServico.Edit;
+    modo_edicao;
+  end;
+end;
+
+procedure TfrmOrdemServico.btnEditarClick(Sender: TObject);
+begin
+  FNovaOrdemServico := false;
+  DM.TBOrdemServico.Edit;
+  modo_edicao;
+  DBedtCLIENTE_ID1.SetFocus;
+end;
+
+procedure TfrmOrdemServico.btnSalvarClick(Sender: TObject);
+begin
+  if(DM.TBCliente.Locate('ID',DM.TBOrdemServicoCLIENTE_ID.AsInteger,[]))then
+  begin
+    ShowMessage('Cliente não localizado! Informe o cliente');
+    DBedtCLIENTE_ID1.SetFocus;
+    Abort;
+  end;
+  DM.TBOrdemServico.Post;
+  DM.TBOrdemServico.ApplyUpdates(0);
+  modo_navegacao;
 end;
 
 end.

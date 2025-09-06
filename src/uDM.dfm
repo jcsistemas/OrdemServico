@@ -126,7 +126,6 @@ object DM: TDM
     object SQLOrdemServicoID: TIntegerField
       FieldName = 'ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
     end
     object SQLOrdemServicoCLIENTE_ID: TIntegerField
       FieldName = 'CLIENTE_ID'
@@ -178,7 +177,6 @@ object DM: TDM
     object TBOrdemServicoID: TIntegerField
       FieldName = 'ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
     end
     object TBOrdemServicoCLIENTE_ID: TIntegerField
       FieldName = 'CLIENTE_ID'
@@ -236,7 +234,6 @@ object DM: TDM
     object SQLItemOrdemID: TIntegerField
       FieldName = 'ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
     end
     object SQLItemOrdemORDEM_ID: TIntegerField
       FieldName = 'ORDEM_ID'
@@ -271,14 +268,18 @@ object DM: TDM
   end
   object TBItemOrdem: TClientDataSet
     Aggregates = <>
+    IndexFieldNames = 'ORDEM_ID'
+    MasterFields = 'ID'
+    MasterSource = DSOrdemServico
+    PacketRecords = 0
     Params = <>
     ProviderName = 'DSPItemOrdem'
+    OnCalcFields = TBItemOrdemCalcFields
     Left = 304
     Top = 104
     object TBItemOrdemID: TIntegerField
       FieldName = 'ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
     end
     object TBItemOrdemORDEM_ID: TIntegerField
       FieldName = 'ORDEM_ID'
@@ -305,6 +306,12 @@ object DM: TDM
       currency = True
       Precision = 15
       Size = 2
+    end
+    object TBItemOrdemSUBTOTAL: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'SUBTOTAL'
+      currency = True
+      Calculated = True
     end
   end
   object DSItemOrdem: TDataSource

@@ -2,8 +2,8 @@ unit uUtilidades;
 
 interface
 
-uses SysUtils, IdHTTP, IdSSLOpenSSL, ShellApi,
-Classes, DateUtils, Graphics, Windows, Forms;
+uses SysUtils, IdHTTP, IdSSLOpenSSL, ShellApi, Classes, DateUtils, Graphics,
+  Windows, Forms, DBXpress, DB, SqlExpr, FMTBcd, DBClient, Provider;
 
 type
   TUtilidades = class
@@ -16,6 +16,7 @@ type
     class function ConsumirAPISemAutenticacao(pURL: String; pBody: String = ''; pMetodo: String = 'POST'): String;
     class function ExtrairValorNoDoJSON(pJSON, pNo: String): String;
     class function ExtrairApenasNumeros(leitura: String): String;
+    class function GerarChavePrimaria(pTabela: String): Integer;
   end;
 
 implementation
@@ -181,7 +182,7 @@ end;
 
 class function TUtilidades.ExtrairValorNoDoJSON(pJSON, pNo: String): String;
 var
-  i, tamanho_json, tamanho_no, posicao_no: Integer;
+  i, tamanho_json, tamanho_no: Integer;
   letra, palavra, valorno, ultimocaracter: String;
 begin
   valorno := '';
@@ -254,6 +255,21 @@ begin
    end;
 
    Result := resultado;
+end;
+
+class function TUtilidades.GerarChavePrimaria(pTabela: String): Integer;
+var
+  lQryGerarChavePrimaria: TSQLQuery;
+begin
+  lQryGerarChavePrimaria := TSQLQuery.Create();
+  try
+    lQryGerarChavePrimaria.SQLConnection := DM.SQLConnection1;
+    lQryGerarChavePrimaria.SQL.Add('SELECT MAX(ID) AS ID FROM '+pTabela);
+    lQryGerarChavePrimaria.Open;
+    Result := lQryGerarChavePrimaria.Fields.FieldByName('ID').AsInteger;
+  finally
+    lQryGerarChavePrimaria.Free;
+  end;
 end;
 
 end.

@@ -59,7 +59,9 @@ type
     TBItemOrdemQUANTIDADE: TFMTBCDField;
     TBItemOrdemVALOR_UNITARIO: TFMTBCDField;
     QueryVerificar: TSQLQuery;
+    TBItemOrdemSUBTOTAL: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
+    procedure TBItemOrdemCalcFields(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -86,6 +88,11 @@ begin
   SQLConnection1.ParamsLoaded := true;
   SQLConnection1.ConnectionName := 'ORDEMSERVICO';
   SQLConnection1.Connected := true;
+end;
+
+procedure TDM.TBItemOrdemCalcFields(DataSet: TDataSet);
+begin
+  DM.TBItemOrdemSUBTOTAL.AsFloat := DM.TBItemOrdemVALOR_UNITARIO.AsFloat * DM.TBItemOrdemVALOR_UNITARIO.AsFloat;
 end;
 
 end.
