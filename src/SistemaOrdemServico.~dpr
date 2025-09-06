@@ -17,6 +17,5 @@ begin
   Application.Initialize;
   Application.Title := 'Sistema de Ordens de Serviço';
   Application.CreateForm(TfrmMenu, frmMenu);
-  Application.CreateForm(TfrmOrdemServico, frmOrdemServico);
   Application.Run;
 end.

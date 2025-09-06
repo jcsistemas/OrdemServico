@@ -64,7 +64,7 @@ var
 
 implementation
 
-uses uUtilidades, uDM;
+uses uUtilidades, uDM, uMenu;
 
 {$R *.dfm}
 
@@ -125,13 +125,26 @@ begin
     ShowMessage('Esta empresa já foi cadastrada como cliente!');
     Abort;
   end;
-  DM.TBCliente.Insert;
-  DM.TBClienteNOME.Value := edtRazaoSocial.Text;
-  DM.TBClienteDOCUMENTO.Value := edtBuscaCNPJ.Text;
-  DM.TBClienteEMAIL.Value := edtEmail.Text;
-  DM.TBClienteTELEFONE.Text := edtTelefone.Text;
-  DM.TBCliente.Post;
-  DM.TBCliente.ApplyUpdates(0);
+  if(FConexao = 'Zeos')then
+  begin
+    DM.TCliente.Insert;
+    DM.TClienteNOME.Value := edtRazaoSocial.Text;
+    DM.TClienteDOCUMENTO.Value := edtBuscaCNPJ.Text;
+    DM.TClienteEMAIL.Value := edtEmail.Text;
+    DM.TClienteTELEFONE.Text := edtTelefone.Text;
+    DM.TCliente.Post;
+    DM.TCliente.ApplyUpdates(0);
+  end else
+  begin
+    DM.TBCliente.Insert;
+    DM.TBClienteNOME.Value := edtRazaoSocial.Text;
+    DM.TBClienteDOCUMENTO.Value := edtBuscaCNPJ.Text;
+    DM.TBClienteEMAIL.Value := edtEmail.Text;
+    DM.TBClienteTELEFONE.Text := edtTelefone.Text;
+    DM.TBCliente.Post;
+    DM.TBCliente.ApplyUpdates(0);
+  end;
+  Close;
 end;
 
 end.

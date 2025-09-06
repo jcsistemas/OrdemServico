@@ -3,7 +3,9 @@ unit uDM;
 interface
 
 uses
-  SysUtils, Classes, DBXpress, DB, SqlExpr, FMTBcd, DBClient, Provider;
+  SysUtils, Classes, DBXpress, DB, SqlExpr, FMTBcd, DBClient, Provider,
+  ADODB, Dialogs, ZAbstractRODataset, ZAbstractDataset, ZAbstractTable,
+  ZDataset, ZAbstractConnection, ZConnection;
 
 type
   TDM = class(TDataModule)
@@ -23,7 +25,6 @@ type
     TBClienteDOCUMENTO: TStringField;
     TBClienteEMAIL: TStringField;
     TBClienteTELEFONE: TStringField;
-    TBClienteDATACADASTRO: TSQLTimeStampField;
     SQLOrdemServico: TSQLDataSet;
     DSPOrdemServico: TDataSetProvider;
     TBOrdemServico: TClientDataSet;
@@ -60,6 +61,31 @@ type
     TBItemOrdemVALOR_UNITARIO: TFMTBCDField;
     QueryVerificar: TSQLQuery;
     TBItemOrdemSUBTOTAL: TFloatField;
+    ZConnection1: TZConnection;
+    TCliente: TZTable;
+    TClienteID: TIntegerField;
+    TClienteNOME: TStringField;
+    TClienteDOCUMENTO: TStringField;
+    TClienteEMAIL: TStringField;
+    TClienteTELEFONE: TStringField;
+    TClienteDATACADASTRO: TDateTimeField;
+    TOrdemServico: TZTable;
+    TItemOrdem: TZTable;
+    TOrdemServicoID: TIntegerField;
+    TOrdemServicoCLIENTE_ID: TIntegerField;
+    TOrdemServicoDATA_ABERTURA: TDateField;
+    TOrdemServicoDATA_PREVISTA: TDateField;
+    TOrdemServicoDATA_FECHAMENTO: TDateField;
+    TOrdemServicoSTATUS: TStringField;
+    TOrdemServicoDESCRICAO_PROBLEMA: TStringField;
+    TOrdemServicoVALOR_TOTAL: TFloatField;
+    TItemOrdemID: TIntegerField;
+    TItemOrdemORDEM_ID: TIntegerField;
+    TItemOrdemDESCRICAO: TStringField;
+    TItemOrdemQUANTIDADE: TFloatField;
+    TItemOrdemVALOR_UNITARIO: TFloatField;
+    QVerificar: TZQuery;
+    TBClienteDATACADASTRO: TSQLTimeStampField;
     procedure DataModuleCreate(Sender: TObject);
     procedure TBItemOrdemCalcFields(DataSet: TDataSet);
   private
@@ -79,15 +105,26 @@ uses uMenu;
 
 procedure TDM.DataModuleCreate(Sender: TObject);
 begin
-  SQLConnection1.Connected := false;
-  SQLConnection1.Params.Clear;
-  SQLConnection1.Params.Values['Database'] := FLocalAplicacao + 'BASEDADOS.FDB';
-  SQLConnection1.Params.Values['User_name'] := 'SYSDBA';
-  SQLConnection1.Params.Values['Password'] := 'masterkey';
-  SQLConnection1.Params.Values['SQLDialect'] := '3';
-  SQLConnection1.ParamsLoaded := true;
-  SQLConnection1.ConnectionName := 'ORDEMSERVICO';
-  SQLConnection1.Connected := true;
+  if(FConexao = 'Zeos')then
+  begin
+    ZConnection1.Database := FLocalAplicacao + 'BASEDADOS.FDB';
+    ZConnection1.Connected := true;
+
+    DSCliente.DataSet := TCliente;
+    DSOrdemServico.DataSet := TOrdemServico;
+    DSItemOrdem.DataSet := TItemOrdem;       
+  end else
+  begin
+    SQLConnection1.Connected := false;
+    SQLConnection1.Params.Clear;
+    SQLConnection1.Params.Values['Database'] := FLocalAplicacao + 'BASEDADOS.FDB';
+    SQLConnection1.Params.Values['User_name'] := 'SYSDBA';
+    SQLConnection1.Params.Values['Password'] := 'masterkey';
+    SQLConnection1.Params.Values['SQLDialect'] := '3';
+    SQLConnection1.ParamsLoaded := true;
+    SQLConnection1.ConnectionName := 'ORDEMSERVICO';
+    SQLConnection1.Connected := true;
+  end;
 end;
 
 procedure TDM.TBItemOrdemCalcFields(DataSet: TDataSet);

@@ -42,6 +42,7 @@ type
     procedure btnClientesClick(Sender: TObject);
     procedure C3Click(Sender: TObject);
     procedure O2Click(Sender: TObject);
+    procedure btnOrdemDeServicoClick(Sender: TObject);
   private
     { Private declarations }
     procedure LerImagemFundo();
@@ -54,10 +55,12 @@ type
 var
   frmMenu: TfrmMenu;
   FLocalAplicacao: String;
+  FConexao: String;
 
 implementation
 
-uses uSobre, Math, uDM, uClientes, uUtilidades;
+uses uSobre, Math, uDM, uClientes, uUtilidades, uOrdemServico,
+  uEscolhaConexao;
 
 {$R *.dfm}
 
@@ -116,6 +119,8 @@ end;
 procedure TfrmMenu.FormShow(Sender: TObject);
 begin
   FLocalAplicacao := ExtractFilePath(Application.ExeName);
+  frmEscolhaConexao := TfrmEscolhaConexao.Create(Self);
+  frmEscolhaConexao.ShowModal;
   CarregarDataModule();
   LerImagemFundo();
   IniciarRelogio();
@@ -165,8 +170,8 @@ begin
   DM := TDM.Create(Self);
   TUtilidades.VerificarTabelas;
   DM.TBCliente.Open;
-  DM.TBOrdemServico.Open;
-  DM.TBItemOrdem.Open;
+  //DM.TBOrdemServico.Open;
+  //DM.TBItemOrdem.Open;
 end;
 
 procedure TfrmMenu.btnClientesClick(Sender: TObject);
@@ -185,6 +190,12 @@ procedure TfrmMenu.O2Click(Sender: TObject);
 begin
   if(btnOrdemDeServico.Enabled)then
     btnOrdemDeServico.Click;
+end;
+
+procedure TfrmMenu.btnOrdemDeServicoClick(Sender: TObject);
+begin
+  frmOrdemServico := TfrmOrdemServico.Create(Self);
+  frmOrdemServico.ShowModal;
 end;
 
 end.

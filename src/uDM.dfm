@@ -3,7 +3,7 @@ object DM: TDM
   OnCreate = DataModuleCreate
   Left = 891
   Top = 330
-  Height = 249
+  Height = 417
   Width = 391
   object SQLConnection1: TSQLConnection
     ConnectionName = 'ORDEMSERVICO'
@@ -325,5 +325,126 @@ object DM: TDM
     SQLConnection = SQLConnection1
     Left = 32
     Top = 64
+  end
+  object ZConnection1: TZConnection
+    ControlsCodePage = cGET_ACP
+    AutoEncodeStrings = True
+    Properties.Strings = (
+      'AutoEncodeStrings=True'
+      'controls_cp=GET_ACP')
+    Port = 0
+    Database = 'D:\Sistemas\SkyInformatica\OrdemServico\src\BASEDADOS.FDB'
+    User = 'sysdba'
+    Password = 'masterkey'
+    Protocol = 'firebird'
+    Left = 40
+    Top = 272
+  end
+  object TCliente: TZTable
+    Connection = ZConnection1
+    TableName = 'CLIENTE'
+    Left = 128
+    Top = 272
+    object TClienteID: TIntegerField
+      FieldName = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object TClienteNOME: TStringField
+      FieldName = 'NOME'
+      ProviderFlags = [pfInUpdate]
+      Size = 120
+    end
+    object TClienteDOCUMENTO: TStringField
+      FieldName = 'DOCUMENTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object TClienteEMAIL: TStringField
+      FieldName = 'EMAIL'
+      ProviderFlags = [pfInUpdate]
+      Size = 120
+    end
+    object TClienteTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      ProviderFlags = [pfInUpdate]
+      EditMask = '!\(99\)99999-9999'
+      Size = 30
+    end
+    object TClienteDATACADASTRO: TDateTimeField
+      FieldName = 'DATACADASTRO'
+      ProviderFlags = [pfInUpdate]
+    end
+  end
+  object TOrdemServico: TZTable
+    Connection = ZConnection1
+    TableName = 'ORDEM_SERVICO'
+    Left = 216
+    Top = 272
+    object TOrdemServicoID: TIntegerField
+      FieldName = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object TOrdemServicoCLIENTE_ID: TIntegerField
+      FieldName = 'CLIENTE_ID'
+      ProviderFlags = [pfInUpdate]
+    end
+    object TOrdemServicoDATA_ABERTURA: TDateField
+      FieldName = 'DATA_ABERTURA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object TOrdemServicoDATA_PREVISTA: TDateField
+      FieldName = 'DATA_PREVISTA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object TOrdemServicoDATA_FECHAMENTO: TDateField
+      FieldName = 'DATA_FECHAMENTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object TOrdemServicoSTATUS: TStringField
+      FieldName = 'STATUS'
+      ProviderFlags = [pfInUpdate]
+      Size = 15
+    end
+    object TOrdemServicoDESCRICAO_PROBLEMA: TStringField
+      FieldName = 'DESCRICAO_PROBLEMA'
+      ProviderFlags = [pfInUpdate]
+      Size = 500
+    end
+    object TOrdemServicoVALOR_TOTAL: TFloatField
+      FieldName = 'VALOR_TOTAL'
+      ProviderFlags = [pfInUpdate]
+    end
+  end
+  object TItemOrdem: TZTable
+    Connection = ZConnection1
+    TableName = 'ITEM_ORDEM'
+    Left = 312
+    Top = 272
+    object TItemOrdemID: TIntegerField
+      FieldName = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object TItemOrdemORDEM_ID: TIntegerField
+      FieldName = 'ORDEM_ID'
+      ProviderFlags = [pfInUpdate]
+    end
+    object TItemOrdemDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      ProviderFlags = [pfInUpdate]
+      Size = 200
+    end
+    object TItemOrdemQUANTIDADE: TFloatField
+      FieldName = 'QUANTIDADE'
+      ProviderFlags = [pfInUpdate]
+    end
+    object TItemOrdemVALOR_UNITARIO: TFloatField
+      FieldName = 'VALOR_UNITARIO'
+      ProviderFlags = [pfInUpdate]
+    end
+  end
+  object QVerificar: TZQuery
+    Connection = ZConnection1
+    Params = <>
+    Left = 40
+    Top = 328
   end
 end

@@ -79,6 +79,7 @@ object frmClienteEditar: TfrmClienteEditar
       Width = 250
       Height = 75
       Cursor = crHandPoint
+      Hint = 'Tecla de Atalho: F5'
       Caption = 'Salvar'
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -179,6 +180,8 @@ object frmClienteEditar: TfrmClienteEditar
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+      ParentShowHint = False
+      ShowHint = True
       OnClick = btnSalvarClick
     end
     object btnCancelar: TSpeedButton
@@ -288,6 +291,8 @@ object frmClienteEditar: TfrmClienteEditar
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFAFAFA3B4AC62737C12737C02838
         C12838C12939C12939C1293AC12A3AC12A3AC12A3AC12B3BC12B3BC23E4DC6FA
         FAFAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+      ParentShowHint = False
+      ShowHint = True
       OnClick = btnCancelarClick
     end
   end

@@ -55,10 +55,12 @@ type
 var
   frmMenu: TfrmMenu;
   FLocalAplicacao: String;
+  FConexao: String;
 
 implementation
 
-uses uSobre, Math, uDM, uClientes, uUtilidades, uOrdemServico;
+uses uSobre, Math, uDM, uClientes, uUtilidades, uOrdemServico,
+  uEscolhaConexao;
 
 {$R *.dfm}
 
@@ -117,6 +119,8 @@ end;
 procedure TfrmMenu.FormShow(Sender: TObject);
 begin
   FLocalAplicacao := ExtractFilePath(Application.ExeName);
+  frmEscolhaConexao := TfrmEscolhaConexao.Create(Self);
+  frmEscolhaConexao.ShowModal;
   CarregarDataModule();
   LerImagemFundo();
   IniciarRelogio();
@@ -165,9 +169,17 @@ begin
   end;
   DM := TDM.Create(Self);
   TUtilidades.VerificarTabelas;
-  DM.TBCliente.Open;
-  DM.TBOrdemServico.Open;
-  DM.TBItemOrdem.Open;
+  if(FConexao = 'Zeos')then
+  begin
+    DM.TCliente.Open;
+    DM.TOrdemServico.Open;
+    DM.TItemOrdem.Open;
+  end else
+  begin
+    DM.TBCliente.Open;
+    DM.TBOrdemServico.Open;
+    DM.TBItemOrdem.Open;
+  end;
 end;
 
 procedure TfrmMenu.btnClientesClick(Sender: TObject);

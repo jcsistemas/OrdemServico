@@ -57,7 +57,7 @@ var
 
 implementation
 
-uses uDM, uClientes;
+uses uDM, uClientes, uMenu;
 
 {$R *.dfm}
 
@@ -148,10 +148,19 @@ end;
 
 procedure TfrmClienteEditar.btnCancelarClick(Sender: TObject);
 begin
-  if(DM.TBCliente.State = dsBrowse)then
-    DM.TBCliente.Edit;
+  if(FConexao = 'Zeos')then
+  begin
+    if(DM.TCliente.State = dsBrowse)then
+      DM.TCliente.Edit;
 
-  DM.TBCliente.Cancel;
+    DM.TCliente.Cancel;
+  end else
+  begin
+    if(DM.TBCliente.State = dsBrowse)then
+      DM.TBCliente.Edit;
+
+    DM.TBCliente.Cancel;
+  end;
   btnCancelar.Enabled := false;
   Close;
 end;
@@ -159,18 +168,33 @@ end;
 procedure TfrmClienteEditar.btnSalvarClick(Sender: TObject);
 begin
   DBedtEMAIL.SetFocus;
-  
-  if(DM.TBCliente.State = dsBrowse)then
-    DM.TBCliente.Edit;
-
-  if(DM.TBClienteNOME.Value = '')then
+  if(FConexao = 'Zeos')then
   begin
-    ShowMessage('Informe o nome!');
-    Abort;
+    if(DM.TCliente.State = dsBrowse)then
+      DM.TCliente.Edit;
+
+    if(DM.TClienteNOME.Value = '')then
+    begin
+      ShowMessage('Informe o nome!');
+      Abort;
+    end;
+
+    DM.TCliente.Post;
+    DM.TCliente.ApplyUpdates(0);
+  end else
+  begin
+    if(DM.TBCliente.State = dsBrowse)then
+      DM.TBCliente.Edit;
+
+    if(DM.TBClienteNOME.Value = '')then
+    begin
+      ShowMessage('Informe o nome!');
+      Abort;
+    end;
+
+    DM.TBCliente.Post;
+    DM.TBCliente.ApplyUpdates(0);
   end;
-    
-  DM.TBCliente.Post;
-  DM.TBCliente.ApplyUpdates(0);
   btnCancelar.Enabled := false;
   Close;
 end;

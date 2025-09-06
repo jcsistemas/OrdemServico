@@ -61,7 +61,7 @@ var
 
 implementation
 
-uses uDM, uClienteEditar, uBuscaCNPJ;
+uses uDM, uClienteEditar, uBuscaCNPJ, uMenu;
 
 {$R *.dfm}
 
@@ -74,15 +74,29 @@ procedure TfrmClientes.DBGrid1DrawColumnCell(Sender: TObject;
   const Rect: TRect; DataCol: Integer; Column: TColumn;
   State: TGridDrawState);
 begin
-  if not odd(DM.TBCliente.RecNo) then
-   begin
+  if(FConexao = 'Zeos')then
+  begin
+    if not odd(DM.TCliente.RecNo) then
+    begin
       if not (gdSelected in State) then
       begin
          DBGrid1.Canvas.Brush.Color := TColor($FFEFE0);
          DBGrid1.Canvas.FillRect(Rect);
          DBGrid1.DefaultDrawDataCell(rect,Column.Field,state);
       end;
-   end;
+    end;
+  end else
+  begin
+    if not odd(DM.TBCliente.RecNo) then
+    begin
+      if not (gdSelected in State) then
+      begin
+         DBGrid1.Canvas.Brush.Color := TColor($FFEFE0);
+         DBGrid1.Canvas.FillRect(Rect);
+         DBGrid1.DefaultDrawDataCell(rect,Column.Field,state);
+      end;
+    end;
+  end;
 end;
 
 procedure TfrmClientes.FormShow(Sender: TObject);
@@ -139,24 +153,52 @@ end;
 
 procedure TfrmClientes.btnInserirClick(Sender: TObject);
 begin
-  DM.TBCliente.Filtered := false;
-  DM.TBCliente.Insert;
+  if(FConexao = 'Zeos')then
+  begin
+    DM.TCliente.Filtered := false;
+    DM.TCliente.Insert;
+  end else
+  begin
+    DM.TBCliente.Filtered := false;
+    DM.TBCliente.Insert;
+  end;
+
   frmClienteEditar := TfrmClienteEditar.Create(Self);
   frmClienteEditar.ShowModal;
-  DM.TBCliente.Refresh;
+
+  if(FConexao = 'Zeos')then
+  begin
+    DM.TCliente.Refresh;
+  end else
+  begin
+    DM.TBCliente.Refresh;
+  end;
 end;
 
 procedure TfrmClientes.btnEditarClick(Sender: TObject);
 var
   lClienteEditado: Integer;
 begin
-  lClienteEditado := DM.TBClienteID.Value;
-  DM.TBCliente.Filtered := false;
-  if(DM.TBCliente.Locate('ID',lClienteEditado,[]))then
+  if(FConexao = 'Zeos')then
   begin
-    DM.TBCliente.Edit;
-    frmClienteEditar := TfrmClienteEditar.Create(Self);
-    frmClienteEditar.ShowModal;
+    lClienteEditado := DM.TClienteID.Value;
+    DM.TCliente.Filtered := false;
+    if(DM.TCliente.Locate('ID',lClienteEditado,[]))then
+    begin
+      DM.TCliente.Edit;
+      frmClienteEditar := TfrmClienteEditar.Create(Self);
+      frmClienteEditar.ShowModal;
+    end;
+  end else
+  begin
+    lClienteEditado := DM.TBClienteID.Value;
+    DM.TBCliente.Filtered := false;
+    if(DM.TBCliente.Locate('ID',lClienteEditado,[]))then
+    begin
+      DM.TBCliente.Edit;
+      frmClienteEditar := TfrmClienteEditar.Create(Self);
+      frmClienteEditar.ShowModal;
+    end;
   end;
 end;
 
@@ -170,18 +212,35 @@ procedure TfrmClientes.btnExcluirClick(Sender: TObject);
 begin
   if(Application.MessageBox('Você realmente deseja excluir o cliente?','Atenção',MB_ICONQUESTION + MB_YESNO)=mrYes)then
   begin
-    DM.QueryVerificar.Close;
-    DM.QueryVerificar.SQL.Clear;
-    DM.QueryVerificar.SQL.Add('SELECT COUNT(*) AS QUANTIDADE FROM ORDEM_SERVICO WHERE CLIENTE_ID = :pCliente');
-    DM.QueryVerificar.Params.ParamByName('pCliente').AsInteger := DM.TBClienteID.Value;
-    DM.QueryVerificar.Open;
-    if(DM.QueryVerificar.Fields.FieldByName('QUANTIDADE').AsInteger > 0)then
+    if(FConexao = 'Zeos')then
     begin
-      ShowMessage('Este cliente já tem ordens de serviço lançadas em seu nome, não é possível excluí-lo sem antes excluir suas ordens de serviço!');
-      Abort;
+      DM.QVerificar.Close;
+      DM.QVerificar.SQL.Clear;
+      DM.QVerificar.SQL.Add('SELECT COUNT(*) AS QUANTIDADE FROM ORDEM_SERVICO WHERE CLIENTE_ID = :pCliente');
+      DM.QVerificar.Params.ParamByName('pCliente').AsInteger := DM.TBClienteID.Value;
+      DM.QVerificar.Open;
+      if(DM.QVerificar.Fields.FieldByName('QUANTIDADE').AsInteger > 0)then
+      begin
+        ShowMessage('Este cliente já tem ordens de serviço lançadas em seu nome, não é possível excluí-lo sem antes excluir suas ordens de serviço!');
+        Abort;
+      end;
+      DM.TCliente.Delete;
+      DM.TCliente.ApplyUpdates;
+    end else
+    begin
+      DM.QueryVerificar.Close;
+      DM.QueryVerificar.SQL.Clear;
+      DM.QueryVerificar.SQL.Add('SELECT COUNT(*) AS QUANTIDADE FROM ORDEM_SERVICO WHERE CLIENTE_ID = :pCliente');
+      DM.QueryVerificar.Params.ParamByName('pCliente').AsInteger := DM.TBClienteID.Value;
+      DM.QueryVerificar.Open;
+      if(DM.QueryVerificar.Fields.FieldByName('QUANTIDADE').AsInteger > 0)then
+      begin
+        ShowMessage('Este cliente já tem ordens de serviço lançadas em seu nome, não é possível excluí-lo sem antes excluir suas ordens de serviço!');
+        Abort;
+      end;
+      DM.TBCliente.Delete;
+      DM.TBCliente.ApplyUpdates(0);
     end;
-    DM.TBCliente.Delete;
-    DM.TBCliente.ApplyUpdates(0);
   end;
 end;
 
@@ -228,14 +287,28 @@ begin
     if(SaveDialogCSV.FileName <> '')then
     begin
       lArquivoCSV.Add('ID;Nome;Documento;Email;Telefone;Data de Cadastro');
-      DM.TBCliente.First;
-      while not(DM.TBCliente.Eof)do
+      if(FConexao = 'Zeos')then
       begin
-        lArquivoCSV.Add(DM.TBClienteID.AsString+';'+DM.TBClienteNOME.AsString+
-        ';'+DM.TBClienteDOCUMENTO.AsString+';'+DM.TBClienteEMAIL.AsString+';'+
-        DM.TBClienteTELEFONE.AsString+';'+DM.TBClienteDATACADASTRO.AsString);
+        DM.TCliente.First;
+        while not(DM.TCliente.Eof)do
+        begin
+          lArquivoCSV.Add(DM.TClienteID.AsString+';'+DM.TClienteNOME.AsString+
+          ';'+DM.TClienteDOCUMENTO.AsString+';'+DM.TClienteEMAIL.AsString+';'+
+          DM.TClienteTELEFONE.AsString+';'+DM.TClienteDATACADASTRO.AsString);
 
-        DM.TBCliente.Next;
+          DM.TCliente.Next;
+        end;
+      end else
+      begin
+        DM.TBCliente.First;
+        while not(DM.TBCliente.Eof)do
+        begin
+          lArquivoCSV.Add(DM.TBClienteID.AsString+';'+DM.TBClienteNOME.AsString+
+          ';'+DM.TBClienteDOCUMENTO.AsString+';'+DM.TBClienteEMAIL.AsString+';'+
+          DM.TBClienteTELEFONE.AsString+';'+DM.TBClienteDATACADASTRO.AsString);
+
+          DM.TBCliente.Next;
+        end;
       end;
       lArquivoCSV.SaveToFile(SaveDialogCSV.FileName);
     end;
