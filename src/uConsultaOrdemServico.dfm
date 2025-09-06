@@ -1,0 +1,260 @@
+object frmConsultaOrdemServico: TfrmConsultaOrdemServico
+  Left = 214
+  Top = 116
+  Width = 1039
+  Height = 675
+  Caption = 'Consulta de Ordem de Servi'#231'o'
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  WindowState = wsMaximized
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 1031
+    Height = 65
+    Align = alTop
+    BevelOuter = bvNone
+    TabOrder = 0
+    object lbl1: TLabel
+      Left = 5
+      Top = 22
+      Width = 53
+      Height = 13
+      Caption = 'Per'#237'odo de'
+    end
+    object lbl2: TLabel
+      Left = 132
+      Top = 22
+      Width = 12
+      Height = 13
+      Caption = ' '#224' '
+    end
+    object btnAtualizar: TSpeedButton
+      Left = 594
+      Top = 9
+      Width = 125
+      Height = 35
+      Cursor = crHandPoint
+      Caption = 'Atualizar'
+      Glyph.Data = {
+        36030000424D3603000000000000360000002800000010000000100000000100
+        18000000000000030000232E0000232E00000000000000000001FFFFFFFFFFFF
+        FFFFFFFFFFFFF5F5F5DADADACCCCCCCCCCCCCCCCCCCCCCCCDADADAF5F5F5FFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDDDDDDA3BFB2369D6E008C4B00
+        8B4A008B4A008C4B369D6EA3BFB2E1E1E1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        E1E1E144A27700905001A16901AB7601AC7901AC7901AB7601A16900905055A8
+        82E1E1E1FFFFFFFFFFFFFFFFFFF5F5F555A88200915202AC7700C38C00D79B00
+        DA9C00DA9C00D79C01C38C01AB7600925355A882F5F5F5FFFFFFFFFFFFAECABD
+        0090510FB48300D29800D59800D19200CF9000D09100D39600D69B00D19801AB
+        76009050AECABDFFFFFFFFFFFF369D6C16AB7810C99600D39700CD8CFFFFFFFF
+        FFFFFFFFFF00CC8C00D19500D59B01C18C01A169369E6EFFFFFFFFFFFF008A48
+        39C49D00D19800CB8CFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00CA8C00CF9600D2
+        9B01AB76008C4BFFFFFFFFFFFF00894652D2B000CC92FFFFFFFFFFFFFFFFFF00
+        C484FFFFFFFFFFFFFFFFFF00C88D00D09A00AD79008B4AFFFFFFFFFFFF008845
+        68DDBE00C991FFFFFFFFFFFF00C68C00C89100C58BFFFFFFFFFFFFFFFFFF00CC
+        9600AD78008B4AFFFFFFFFFFFF00884676E0C600CB9800C59000C69100C89500
+        C99700C89400C38CFFFFFFFFFFFF00C79200AB75008C4BFFFFFFFFFFFF41A675
+        59C9A449DEBC00C79400C89700C99800C99900C99800C79400C38EFFFFFF00BD
+        8A00A06740A878FFFFFFFFFFFFCCE8DB0A9458ADF8E918D0A700C49500C69700
+        C69800C79800C79800C69700C59612B585008F50CCE8DBFFFFFFFFFFFFFFFFFF
+        55B185199C63BCFFF75EE4C900C59A00C39600C49700C59A22CAA22FC1960293
+        556ABC96FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6ABA940E965974D5B6A0F4E194
+        EFDC7CE6CC5ED6B52EB58703915255B288FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFCCE8DA44A87700874400874300874400894644AA7ACCE8DBFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+      Layout = blGlyphRight
+      OnClick = btnAtualizarClick
+    end
+    object lbl3: TLabel
+      Left = 245
+      Top = 22
+      Width = 38
+      Height = 13
+      Caption = 'Cliente: '
+    end
+    object txtDataInicial: TMaskEdit
+      Left = 62
+      Top = 18
+      Width = 68
+      Height = 21
+      CharCase = ecUpperCase
+      EditMask = '!99/99/0000;1;_'
+      MaxLength = 10
+      TabOrder = 0
+      Text = '01/01/2000'
+      OnEnter = txtDataInicialEnter
+      OnExit = txtDataInicialExit
+      OnKeyDown = txtDataInicialKeyDown
+      OnKeyPress = txtDataInicialKeyPress
+    end
+    object txtDataFinal: TMaskEdit
+      Left = 148
+      Top = 18
+      Width = 69
+      Height = 21
+      CharCase = ecUpperCase
+      EditMask = '!99/99/0000;1;_'
+      MaxLength = 10
+      TabOrder = 1
+      Text = '31/12/2100'
+      OnEnter = txtDataFinalEnter
+      OnExit = txtDataFinalExit
+      OnKeyDown = txtDataInicialKeyDown
+      OnKeyPress = txtDataInicialKeyPress
+    end
+    object Panel7: TPanel
+      Left = 924
+      Top = 0
+      Width = 107
+      Height = 65
+      Align = alRight
+      BevelOuter = bvNone
+      TabOrder = 2
+      object btnSair: TSpeedButton
+        Left = 2
+        Top = 8
+        Width = 100
+        Height = 35
+        Cursor = crHandPoint
+        Caption = 'Sair'
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          18000000000000030000232E0000232E00000000000000000001FFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFEDEDEDCDCDCDCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+          CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC9FB2C04B7DA368A4D95C5C5C5C5C5C
+          5E5B5A5E5A595D5A5A5B5A5B5A5B5B5A5B5B5A5B5B5B5A5A5C59565768764E7E
+          A44C80AC5082AB65A2D5FFFFFFFFFFFFFFFFFF3F69A57566677068696D69696C
+          6A696C6A696C6A686E67624C89BA4E85B24D83AE5D8CB2629ED1FFFFFFFFFFFF
+          FFFFFF13826B009346715C626A626367646366646367646268615B4F8ABB5086
+          B44F84B16895B95F9BCDCFCFCFCCCCCCCCCCCC008C464FDDB0008D436B585E65
+          5E6063616062605F645D57518DBE528AB75187B4739FC25D97C90D9154008A47
+          00884500844100DAA260D9B3008D4268545A625B5C605C5A6058525490C2558C
+          BA4E81AD7EA6C85A94C4008A4763EDD000D4A000D29E00CC9C00CD9C6FDCBD00
+          93466154575C57565B534D5794C5588EBC47749B88AFCF5790C0008A4761E1D0
+          60DDCA63DCC800C49B00C69C82E1C80094475C5054585353574F4A5A96CA5B8F
+          BE22B9F795B5D3548DBC109457008A4700884400853F00C1A097E3D1008F435A
+          484E56505153514F524B455B9ACD5C91C120B7F59EBCD75189B8FFFFFFFFFFFF
+          FFFFFF008B44A0E8DA00914455434A524B4D4F4D4E4F4D4C4D46415E9CD25C95
+          C55990C1A6C4DF4E86B5FFFFFFFFFFFFFFFFFF17866D009647523F454F47494D
+          494A4C4A4A4C48484A423D60A0D55D98C95894C6AFCCE64B83B0FFFFFFFFFFFF
+          FFFFFF4D7BB04C3D3B4A4343484544484644484644474542433C365FA1D85C9A
+          CC5896C9B8D3EB4980ACFFFFFFFFFFFFFFFFFF4A7FAC443831433B37433D3843
+          3D38433D38423B363C332CB9DAF57FB0DA5495CCC0DAEF467CA8FFFFFFFFFFFF
+          FFFFFF82A6C34A82AE4A83B04A83B04A83B04A83B04A82AF447DA9709CBFB9D5
+          EBB3D1EAC1DBF24279A5FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEAF2F9CDE3F53F75A1}
+        Layout = blGlyphRight
+        OnClick = btnSairClick
+      end
+    end
+    object dblkcbbClientes: TDBLookupComboBox
+      Left = 285
+      Top = 18
+      Width = 292
+      Height = 21
+      DropDownRows = 30
+      KeyField = 'ID'
+      ListField = 'NOME'
+      ListSource = DM.DSCliente
+      TabOrder = 3
+      OnEnter = dblkcbbClientesEnter
+      OnExit = dblkcbbClientesExit
+      OnKeyDown = dblkcbbClientesKeyDown
+      OnKeyPress = dblkcbbClientesKeyPress
+    end
+    object Check1: TCheckBox
+      Left = 416
+      Top = 40
+      Width = 161
+      Height = 17
+      Caption = 'Selecionar Todos os Clientes'
+      TabOrder = 4
+      OnClick = Check1Click
+    end
+  end
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 65
+    Width = 1031
+    Height = 579
+    Align = alClient
+    DataSource = DM.DSOrdemServico
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    OnDblClick = DBGrid1DblClick
+    OnKeyDown = DBGrid1KeyDown
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'ID'
+        Width = 45
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CLIENTE_ID'
+        Title.Caption = 'Cliente ID'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME_CLIENTE'
+        Title.Caption = 'Nome do Cliente'
+        Width = 250
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATA_ABERTURA'
+        Title.Caption = 'Data Abertura'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATA_PREVISTA'
+        Title.Caption = 'Data Prevista'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATA_FECHAMENTO'
+        Title.Caption = 'Data Fechamento'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'STATUS'
+        Title.Caption = 'Status'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VALOR_TOTAL'
+        Title.Caption = 'Valor Total'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DESCRICAO_PROBLEMA'
+        Title.Caption = 'Desicri'#231#227'o do Problema'
+        Width = 200
+        Visible = True
+      end>
+  end
+end

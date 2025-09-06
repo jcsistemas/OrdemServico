@@ -11,7 +11,8 @@ uses
   uBuscaCNPJ in 'uBuscaCNPJ.pas' {frmBuscaCNPJ},
   uOrdemServico in 'uOrdemServico.pas' {frmOrdemServico},
   uEscolhaConexao in 'uEscolhaConexao.pas' {frmEscolhaConexao},
-  uItemOrdemEditar in 'uItemOrdemEditar.pas' {frmItemOrdemEditar};
+  uItemOrdemEditar in 'uItemOrdemEditar.pas' {frmItemOrdemEditar},
+  uConsultaOrdemServico in 'uConsultaOrdemServico.pas' {frmConsultaOrdemServico};
 
 {$R *.res}
 
@@ -19,5 +20,6 @@ begin
   Application.Initialize;
   Application.Title := 'Sistema de Ordens de Serviço';
   Application.CreateForm(TfrmMenu, frmMenu);
+  Application.CreateForm(TfrmConsultaOrdemServico, frmConsultaOrdemServico);
   Application.Run;
 end.

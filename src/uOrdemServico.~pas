@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, Buttons, Menus, StdCtrls, Mask, DBCtrls, Grids,
-  DBGrids;
+  DBGrids, frxClass, frxDBSet;
 
 type
   TfrmOrdemServico = class(TForm)
@@ -55,6 +55,9 @@ type
     DBMemoDESCRICAO_PROBLEMA: TDBMemo;
     btnConsultar: TSpeedButton;
     DBNavigator1: TDBNavigator;
+    frxReport1: TfrxReport;
+    frxDBDatasetOrdem: TfrxDBDataset;
+    frxDBDatasetItem: TfrxDBDataset;
     procedure N1Click(Sender: TObject);
     procedure E1Click(Sender: TObject);
     procedure S1Click(Sender: TObject);
@@ -103,6 +106,8 @@ type
     procedure DBedtCLIENTE_ID1KeyPress(Sender: TObject; var Key: Char);
     procedure dblkcbbCLIENTE_IDKeyPress(Sender: TObject; var Key: Char);
     procedure DBcbbSTATUS1KeyPress(Sender: TObject; var Key: Char);
+    procedure btnConsultarClick(Sender: TObject);
+    procedure btnImprimirClick(Sender: TObject);
   private
     { Private declarations }
     procedure modo_navegacao();
@@ -116,10 +121,11 @@ var
   frmOrdemServico: TfrmOrdemServico;
   FNovaOrdemServico: Boolean;
   FNovoItemOrdem: Boolean;
+  FOrdemServicoConsultada: Integer;
 
 implementation
 
-uses uDM, uUtilidades, uMenu, uItemOrdemEditar, DB;
+uses uDM, uUtilidades, uMenu, uItemOrdemEditar, DB, uConsultaOrdemServico;
 
 {$R *.dfm}
 
@@ -470,7 +476,7 @@ begin
       DM.QVerificar.SQL.Clear;
       DM.QVerificar.SQL.Add('SELECT SUM(VALOR_UNITARIO * QUANTIDADE) AS SOMA ');
       DM.QVerificar.SQL.Add('FROM ITEM_ORDEM WHERE ORDEM_ID = :pOrdemServico ');
-      DM.QVerificar.Params.ParamByName('pOrdemServico').AsInteger := DM.TBOrdemServicoID.AsInteger;
+      DM.QVerificar.Params.ParamByName('pOrdemServico').AsInteger := DM.TOrdemServicoID.AsInteger;
       DM.QVerificar.Open;
       DM.TOrdemServicoVALOR_TOTAL.AsFloat := DM.QVerificar.Fields.FieldByName('SOMA').AsFloat;
     end else
@@ -561,7 +567,7 @@ end;
 
 procedure TfrmOrdemServico.DBedtCLIENTE_ID1Enter(Sender: TObject);
 begin
-  DBedtCLIENTE_ID.Color := clInfoBk;
+  DBedtCLIENTE_ID1.Color := clInfoBk;
 end;
 
 procedure TfrmOrdemServico.dblkcbbCLIENTE_IDEnter(Sender: TObject);
@@ -658,6 +664,52 @@ procedure TfrmOrdemServico.DBcbbSTATUS1KeyPress(Sender: TObject;
 begin
   if(key = #13)then
     key := #0;
+end;
+
+procedure TfrmOrdemServico.btnConsultarClick(Sender: TObject);
+begin
+  frmConsultaOrdemServico := TfrmConsultaOrdemServico.Create(Self);
+  frmConsultaOrdemServico.ShowModal;
+  
+  if(FConexao = 'Zeos')then
+    DM.TOrdemServico.Locate('ID',FOrdemServicoConsultada,[])
+  else
+    DM.TBOrdemServico.Locate('ID',FOrdemServicoConsultada,[]);
+end;
+
+procedure TfrmOrdemServico.btnImprimirClick(Sender: TObject);
+begin
+  if not (FileExists(FLocalAplicacao+'frOrdemServico.fr3'))then
+  begin
+    ShowMessage('Arquivo do relatório(frOrdemServico.fr3) não encontrado!');
+    Abort;
+  end;
+  if(FConexao = 'Zeos')then
+  begin
+    DM.TOrdemServico.Filter := 'ID='+DM.TOrdemServicoID.AsString;
+    DM.TOrdemServico.Filtered := true;
+
+    frxDBDatasetOrdem.DataSet := DM.TOrdemServico;
+    frxDBDatasetItem.DataSet := DM.TItemOrdem;
+  end else
+  begin
+    DM.TBOrdemServico.Filter := 'ID='+DM.TBOrdemServicoID.AsString;
+    DM.TBOrdemServico.Filtered := true;
+  end;
+
+
+
+  frxReport1.LoadFromFile(FLocalAplicacao+'frOrdemServico.fr3');
+  frxReport1.PrepareReport;
+  frxReport1.ShowReport;
+
+  if(FConexao = 'Zeos')then
+  begin
+    DM.TOrdemServico.Filtered := false;
+  end else
+  begin
+    DM.TBOrdemServico.Filtered := false;
+  end;
 end;
 
 end.

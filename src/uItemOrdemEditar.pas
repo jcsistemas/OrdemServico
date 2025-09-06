@@ -64,13 +64,23 @@ end;
 procedure TfrmItemOrdemEditar.btnSalvarClick(Sender: TObject);
 begin
   DBedtSUBTOTAL.SetFocus;
+  if(FConexao = 'Zeos')then
+  begin
+    if(DM.TItemOrdem.State = dsBrowse)then
+     DM.TItemOrdem.Edit;
 
-  if(DM.TBItemOrdem.State = dsBrowse)then
-   DM.TBItemOrdem.Edit;
+    DM.TItemOrdem.Post;
+    DM.TItemOrdem.ApplyUpdates;
+    DM.TItemOrdem.Refresh;
+  end else
+  begin
+    if(DM.TBItemOrdem.State = dsBrowse)then
+     DM.TBItemOrdem.Edit;
 
-  DM.TBItemOrdem.Post;
-  DM.TBItemOrdem.ApplyUpdates(0);
-  DM.TBItemOrdem.Refresh;
+    DM.TBItemOrdem.Post;
+    DM.TBItemOrdem.ApplyUpdates(0);
+    DM.TBItemOrdem.Refresh;
+  end;
   btnCancelar.Enabled := false;
   Close;
 end;
@@ -78,7 +88,13 @@ end;
 procedure TfrmItemOrdemEditar.btnCancelarClick(Sender: TObject);
 begin
   DBedtSUBTOTAL.SetFocus;
-  DM.TBItemOrdem.Cancel;
+  if(FConexao = 'Zeos')then
+  begin
+    DM.TItemOrdem.Cancel;
+  end else
+  begin
+    DM.TBItemOrdem.Cancel;
+  end;
   btnCancelar.Enabled := false;
   Close;
 end;

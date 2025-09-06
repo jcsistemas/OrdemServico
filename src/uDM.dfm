@@ -171,6 +171,7 @@ object DM: TDM
     Aggregates = <>
     Params = <>
     ProviderName = 'DSPOrdemServico'
+    OnCalcFields = TBOrdemServicoCalcFields
     Left = 208
     Top = 104
     object TBOrdemServicoID: TIntegerField
@@ -215,6 +216,12 @@ object DM: TDM
       Precision = 15
       Size = 2
     end
+    object TBOrdemServicoNOME_CLIENTE: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'NOME_CLIENTE'
+      Size = 120
+      Calculated = True
+    end
   end
   object DSOrdemServico: TDataSource
     DataSet = TBOrdemServico
@@ -225,7 +232,13 @@ object DM: TDM
     CommandText = 'ITEM_ORDEM'
     CommandType = ctTable
     MaxBlobSize = -1
-    Params = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ORDEM_ID'
+        ParamType = ptInput
+        Value = 2
+      end>
     SQLConnection = SQLConnection1
     Left = 304
     Top = 8
@@ -374,6 +387,7 @@ object DM: TDM
   end
   object TOrdemServico: TZTable
     Connection = ZConnection1
+    OnCalcFields = TOrdemServicoCalcFields
     TableName = 'ORDEM_SERVICO'
     Left = 216
     Top = 272
@@ -414,6 +428,12 @@ object DM: TDM
       FieldName = 'VALOR_TOTAL'
       ProviderFlags = [pfInUpdate]
       currency = True
+    end
+    object TOrdemServicoNOME_CLIENTE: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'NOME_CLIENTE'
+      Size = 120
+      Calculated = True
     end
   end
   object TItemOrdem: TZTable

@@ -87,9 +87,13 @@ type
     QVerificar: TZQuery;
     TBClienteDATACADASTRO: TSQLTimeStampField;
     TItemOrdemSUBTOTAL: TFloatField;
+    TBOrdemServicoNOME_CLIENTE: TStringField;
+    TOrdemServicoNOME_CLIENTE: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure TBItemOrdemCalcFields(DataSet: TDataSet);
     procedure TItemOrdemCalcFields(DataSet: TDataSet);
+    procedure TBOrdemServicoCalcFields(DataSet: TDataSet);
+    procedure TOrdemServicoCalcFields(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -137,6 +141,28 @@ end;
 procedure TDM.TItemOrdemCalcFields(DataSet: TDataSet);
 begin
   DM.TItemOrdemSUBTOTAL.AsFloat := DM.TItemOrdemVALOR_UNITARIO.AsFloat * DM.TItemOrdemQUANTIDADE.AsFloat;
+end;
+
+procedure TDM.TBOrdemServicoCalcFields(DataSet: TDataSet);
+begin
+  if(FConexao <> 'Zeos')and(DM.TBCliente.Active)then
+  begin
+    if(DM.TBCliente.Locate('ID',DM.TBOrdemServicoCLIENTE_ID.AsString,[]))then
+      DM.TBOrdemServicoNOME_CLIENTE.AsString := DM.TBClienteNOME.AsString
+    else
+      DM.TBOrdemServicoNOME_CLIENTE.AsString := '';
+  end;
+end;
+
+procedure TDM.TOrdemServicoCalcFields(DataSet: TDataSet);
+begin
+  if(FConexao = 'Zeos')and(DM.TOrdemServico.Active)then
+  begin
+    if(DM.TCliente.Locate('ID',DM.TOrdemServicoCLIENTE_ID.AsInteger,[]))then
+      DM.TOrdemServicoNOME_CLIENTE.AsString := DM.TClienteNOME.AsString
+    else
+      DM.TOrdemServicoNOME_CLIENTE.AsString := '';
+  end;
 end;
 
 end.
