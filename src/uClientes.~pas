@@ -34,6 +34,8 @@ type
       Shift: TShiftState);
     procedure btnInserirClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
+    procedure btnBuscarCNPJClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -46,7 +48,7 @@ var
 
 implementation
 
-uses uDM, uClienteEditar;
+uses uDM, uClienteEditar, uBuscaCNPJ;
 
 {$R *.dfm}
 
@@ -142,6 +144,20 @@ begin
     DM.TBCliente.Edit;
     frmClienteEditar := TfrmClienteEditar.Create(Self);
     frmClienteEditar.ShowModal;
+  end;
+end;
+
+procedure TfrmClientes.btnBuscarCNPJClick(Sender: TObject);
+begin
+  frmBuscaCNPJ := TfrmBuscaCNPJ.Create(Self);
+  frmBuscaCNPJ.ShowModal;
+end;
+
+procedure TfrmClientes.btnExcluirClick(Sender: TObject);
+begin
+  if(Application.MessageBox('Você realmente deseja excluir o cliente?','Atenção',MB_ICONQUESTION + MB_YESNO)=mrYes)then
+  begin
+  
   end;
 end;
 

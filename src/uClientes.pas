@@ -35,6 +35,7 @@ type
     procedure btnInserirClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
     procedure btnBuscarCNPJClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -150,6 +151,25 @@ procedure TfrmClientes.btnBuscarCNPJClick(Sender: TObject);
 begin
   frmBuscaCNPJ := TfrmBuscaCNPJ.Create(Self);
   frmBuscaCNPJ.ShowModal;
+end;
+
+procedure TfrmClientes.btnExcluirClick(Sender: TObject);
+begin
+  if(Application.MessageBox('Você realmente deseja excluir o cliente?','Atenção',MB_ICONQUESTION + MB_YESNO)=mrYes)then
+  begin
+    DM.QueryVerificar.Close;
+    DM.QueryVerificar.SQL.Clear;
+    DM.QueryVerificar.SQL.Add('SELECT COUNT(*) AS QUANTIDADE FROM ORDEM_SERVICO WHERE CLIENTE_ID = :pCliente');
+    DM.QueryVerificar.Params.ParamByName('pCliente').AsInteger := DM.TBClienteID.Value;
+    DM.QueryVerificar.Open;
+    if(DM.QueryVerificar.Fields.FieldByName('QUANTIDADE').AsInteger > 0)then
+    begin
+      ShowMessage('Este cliente já tem ordens de serviço lançadas em seu nome, não é possível excluí-lo sem antes excluir suas ordens de serviço!');
+      Abort;
+    end;
+    DM.TBCliente.Delete;
+    DM.TBCliente.ApplyUpdates(0);
+  end;
 end;
 
 end.
