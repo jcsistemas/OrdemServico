@@ -3,7 +3,9 @@ unit uUtilidades;
 interface
 
 uses SysUtils, IdHTTP, IdSSLOpenSSL, ShellApi, Classes, DateUtils, Graphics,
-  Windows, Forms, DBXpress, DB, SqlExpr, FMTBcd, DBClient, Provider;
+  Windows, Forms, DBXpress, DB, SqlExpr, FMTBcd, DBClient, Provider,
+  ZAbstractRODataset, ZAbstractDataset, ZAbstractTable,
+  ZDataset, ZAbstractConnection;
 
 type
   TUtilidades = class
@@ -374,15 +376,30 @@ end;
 class function TUtilidades.GerarChavePrimaria(pTabela: String): Integer;
 var
   lQryGerarChavePrimaria: TSQLQuery;
+  lQryGerarChavePrimariaZeos: TZQuery;
 begin
-  lQryGerarChavePrimaria := TSQLQuery.Create(nil);
-  try
-    lQryGerarChavePrimaria.SQLConnection := DM.SQLConnection1;
-    lQryGerarChavePrimaria.SQL.Add('SELECT MAX(ID)+1 AS ID FROM '+pTabela);
-    lQryGerarChavePrimaria.Open;
-    Result := lQryGerarChavePrimaria.Fields.FieldByName('ID').AsInteger;
-  finally
-    lQryGerarChavePrimaria.Free;
+  if(FConexao = 'Zeos')then
+  begin
+    lQryGerarChavePrimariaZeos := TZQuery.Create(nil);
+    try
+      lQryGerarChavePrimariaZeos.SQLConnection := DM.ZConnection1;
+      lQryGerarChavePrimariaZeos.SQL.Add('SELECT MAX(ID) AS ID FROM '+pTabela);
+      lQryGerarChavePrimariaZeos.Open;
+      Result := lQryGerarChavePrimariaZeos.Fields.FieldByName('ID').AsInteger + 1;
+    finally
+      lQryGerarChavePrimariaZeos.Free;
+    end;
+  end else
+  begin
+    lQryGerarChavePrimaria := TSQLQuery.Create(nil);
+    try
+      lQryGerarChavePrimaria.SQLConnection := DM.SQLConnection1;
+      lQryGerarChavePrimaria.SQL.Add('SELECT MAX(ID) AS ID FROM '+pTabela);
+      lQryGerarChavePrimaria.Open;
+      Result := lQryGerarChavePrimaria.Fields.FieldByName('ID').AsInteger + 1;
+    finally
+      lQryGerarChavePrimaria.Free;
+    end;
   end;
 end;
 

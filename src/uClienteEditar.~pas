@@ -46,6 +46,7 @@ type
     procedure S1Click(Sender: TObject);
     procedure C1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure DBedtNOMEKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -74,7 +75,7 @@ procedure TfrmClienteEditar.DBedtDOCUMENTOKeyDown(Sender: TObject;
 begin
   if((key = vk_return)or(key = 40))then
   begin
-    Perform(WM_NEXTDLGCTL,0,0).
+    Perform(WM_NEXTDLGCTL,0,0);
   end else
   if(key = 38)then
   begin
@@ -216,6 +217,13 @@ procedure TfrmClienteEditar.FormClose(Sender: TObject;
 begin
   if(btnCancelar.Enabled)then
     btnCancelar.Click;
+end;
+
+procedure TfrmClienteEditar.DBedtNOMEKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if(key = #13)then
+    key := #0;
 end;
 
 end.

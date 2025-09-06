@@ -46,7 +46,7 @@ type
     lbl15: TLabel;
     lbl16: TLabel;
     DBedtVALOR_TOTAL1: TDBEdit;
-    dbgrd1: TDBGrid;
+    DBGrid1: TDBGrid;
     Panel5: TPanel;
     lbl1: TLabel;
     btnInserirItem: TSpeedButton;
@@ -61,7 +61,6 @@ type
     procedure C1Click(Sender: TObject);
     procedure E2Click(Sender: TObject);
     procedure I1Click(Sender: TObject);
-    procedure btnPDFClick(Sender: TObject);
     procedure S2Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -74,6 +73,36 @@ type
     procedure btnInserirItemClick(Sender: TObject);
     procedure btnEditarItemClick(Sender: TObject);
     procedure btnExcluirItemClick(Sender: TObject);
+    procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure DBGrid1DblClick(Sender: TObject);
+    procedure DBedtCLIENTE_ID1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure dblkcbbCLIENTE_IDKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure DBcbbSTATUS1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure DBedtCLIENTE_ID1Enter(Sender: TObject);
+    procedure dblkcbbCLIENTE_IDEnter(Sender: TObject);
+    procedure DBedtVALOR_TOTAL1Enter(Sender: TObject);
+    procedure DBedtDATA_ABERTURA1Enter(Sender: TObject);
+    procedure DBedtDATA_PREVISTA1Enter(Sender: TObject);
+    procedure DBedtDATA_FECHAMENTO1Enter(Sender: TObject);
+    procedure DBcbbSTATUS1Enter(Sender: TObject);
+    procedure DBMemoDESCRICAO_PROBLEMAEnter(Sender: TObject);
+    procedure DBedtCLIENTE_ID1Exit(Sender: TObject);
+    procedure dblkcbbCLIENTE_IDExit(Sender: TObject);
+    procedure DBedtVALOR_TOTAL1Exit(Sender: TObject);
+    procedure DBedtDATA_ABERTURA1Exit(Sender: TObject);
+    procedure DBedtDATA_PREVISTA1Exit(Sender: TObject);
+    procedure DBedtDATA_FECHAMENTO1Exit(Sender: TObject);
+    procedure DBcbbSTATUS1Exit(Sender: TObject);
+    procedure DBMemoDESCRICAO_PROBLEMAExit(Sender: TObject);
+    procedure DBedtCLIENTE_ID1KeyPress(Sender: TObject; var Key: Char);
+    procedure dblkcbbCLIENTE_IDKeyPress(Sender: TObject; var Key: Char);
+    procedure DBcbbSTATUS1KeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     procedure modo_navegacao();
@@ -130,12 +159,6 @@ begin
     btnImprimir.Click;
 end;
 
-procedure TfrmOrdemServico.btnPDFClick(Sender: TObject);
-begin
-  if(btnPDF.Enabled)then
-    btnPDF.Click;
-end;
-
 procedure TfrmOrdemServico.S2Click(Sender: TObject);
 begin
   if(btnSair.Enabled)then
@@ -158,6 +181,7 @@ begin
   btnSalvar.Enabled := false;
   btnCancelar.Enabled := false;
   btnExcluir.Enabled := true;
+  btnConsultar.Enabled := true;
   btnImprimir.Enabled := true;
   btnPDF.Enabled := true;
   btnSair.Enabled := true;
@@ -182,6 +206,7 @@ begin
   btnSalvar.Enabled := true;
   btnCancelar.Enabled := true;
   btnExcluir.Enabled := false;
+  btnConsultar.Enabled := false;
   btnImprimir.Enabled := false;
   btnPDF.Enabled := false;
   btnSair.Enabled := false;
@@ -208,40 +233,79 @@ var
 begin
   FNovaOrdemServico := true;
   lIDOrdemServico := TUtilidades.GerarChavePrimaria('ORDEM_SERVICO');
-  DM.TBOrdemServico.Insert;
-  DM.TBOrdemServicoID.Value := lIDOrdemServico;
-  DM.TBOrdemServicoDATA_ABERTURA.Value := date;
-  DM.TBOrdemServicoSTATUS.Value := 'Aberta';
-  DM.TBOrdemServico.Post;
-  DM.TBOrdemServico.ApplyUpdates(0);
-  DM.TBOrdemServico.Locate('ID',lIDOrdemServico,[]);
-  DM.TBOrdemServico.Edit;
+  if(FConexao = 'Zeos')then
+  begin
+    DM.TOrdemServico.Insert;
+    DM.TOrdemServicoID.Value := lIDOrdemServico;
+    DM.TOrdemServicoDATA_ABERTURA.Value := date;
+    DM.TOrdemServicoSTATUS.Value := 'Aberta';
+    DM.TOrdemServico.Post;
+    DM.TOrdemServico.ApplyUpdates;
+    DM.TOrdemServico.Locate('ID',lIDOrdemServico,[]);
+    DM.TOrdemServico.Edit;
+  end else
+  begin
+    DM.TBOrdemServico.Insert;
+    DM.TBOrdemServicoID.Value := lIDOrdemServico;
+    DM.TBOrdemServicoDATA_ABERTURA.Value := date;
+    DM.TBOrdemServicoSTATUS.Value := 'Aberta';
+    DM.TBOrdemServico.Post;
+    DM.TBOrdemServico.ApplyUpdates(0);
+    DM.TBOrdemServico.Locate('ID',lIDOrdemServico,[]);
+    DM.TBOrdemServico.Edit;
+  end;
   modo_edicao();
   DBedtCLIENTE_ID1.SetFocus;
 end;
 
 procedure TfrmOrdemServico.btnEditarClick(Sender: TObject);
 begin
-  if(DM.TBOrdemServico.RecordCount = 0)then
-    Abort;
+  if(FConexao = 'Zeos')then
+  begin
+    if(DM.TOrdemServico.RecordCount = 0)then
+      Abort;
+  end else
+  begin
+    if(DM.TBOrdemServico.RecordCount = 0)then
+      Abort;
+  end;
     
   FNovaOrdemServico := false;
-  DM.TBOrdemServico.Edit;
+  if(FConexao = 'Zeos')then
+  begin
+    DM.TOrdemServico.Edit;
+  end else
+  begin
+    DM.TBOrdemServico.Edit;
+  end;
   modo_edicao;
   DBedtCLIENTE_ID1.SetFocus;
 end;
 
 procedure TfrmOrdemServico.btnSalvarClick(Sender: TObject);
 begin
-  DBMemoDESCRICAO_PROBLEMA.SetFocus;
-  if not(DM.TBCliente.Locate('ID',DM.TBOrdemServicoCLIENTE_ID.AsInteger,[]))then
+  DBMemoDESCRICAO_PROBLEMA.SetFocus;   
+  if(FConexao = 'Zeos')then
   begin
-    ShowMessage('Cliente não localizado! Informe o cliente');
-    DBedtCLIENTE_ID1.SetFocus;
-    Abort;
+    if not(DM.TCliente.Locate('ID',DM.TOrdemServicoCLIENTE_ID.AsInteger,[]))then
+    begin
+      ShowMessage('Cliente não localizado! Informe o cliente');
+      DBedtCLIENTE_ID1.SetFocus;
+      Abort;
+    end;
+    DM.TOrdemServico.Post;
+    DM.TOrdemServico.ApplyUpdates;
+  end else
+  begin
+    if not(DM.TBCliente.Locate('ID',DM.TBOrdemServicoCLIENTE_ID.AsInteger,[]))then
+    begin
+      ShowMessage('Cliente não localizado! Informe o cliente');
+      DBedtCLIENTE_ID1.SetFocus;
+      Abort;
+    end;
+    DM.TBOrdemServico.Post;
+    DM.TBOrdemServico.ApplyUpdates(0);
   end;
-  DM.TBOrdemServico.Post;
-  DM.TBOrdemServico.ApplyUpdates(0);
   modo_navegacao;
 end;
 
@@ -255,26 +319,51 @@ var
   lOrdemServicoCancelada: Integer;
 begin
   DBMemoDESCRICAO_PROBLEMA.SetFocus;
-  lOrdemServicoCancelada := DM.TBOrdemServicoID.AsInteger;
-
-  if(FNovaOrdemServico)then
+  if(FConexao = 'Zeos')then
   begin
-    DM.TBItemOrdem.First;
-    while not(DM.TBItemOrdem.Eof)do
+    lOrdemServicoCancelada := DM.TOrdemServicoID.AsInteger;
+
+    if(FNovaOrdemServico)then
     begin
-      DM.TBItemOrdem.Delete;
-      DM.TBItemOrdem.ApplyUpdates(0);
+      DM.TItemOrdem.First;
+      while not(DM.TItemOrdem.Eof)do
+      begin
+        DM.TItemOrdem.Delete;
+        DM.TItemOrdem.ApplyUpdates;
+      end;
     end;
-  end;
 
-  DM.TBOrdemServico.Cancel;
-
-  if(FNovaOrdemServico)then
-  begin
-    if(DM.TBOrdemServico.Locate('ID',lOrdemServicoCancelada,[]))then
+    DM.TOrdemServico.Cancel;
+    if(FNovaOrdemServico)then
     begin
-      DM.TBOrdemServico.Delete;
-      DM.TBOrdemServico.ApplyUpdates(0);
+      if(DM.TOrdemServico.Locate('ID',lOrdemServicoCancelada,[]))then
+      begin
+        DM.TOrdemServico.Delete;
+        DM.TOrdemServico.ApplyUpdates;
+      end;
+    end;
+  end else
+  begin
+    lOrdemServicoCancelada := DM.TBOrdemServicoID.AsInteger;
+
+    if(FNovaOrdemServico)then
+    begin
+      DM.TBItemOrdem.First;
+      while not(DM.TBItemOrdem.Eof)do
+      begin
+        DM.TBItemOrdem.Delete;
+        DM.TBItemOrdem.ApplyUpdates(0);
+      end;
+    end;
+
+    DM.TBOrdemServico.Cancel;
+    if(FNovaOrdemServico)then
+    begin
+      if(DM.TBOrdemServico.Locate('ID',lOrdemServicoCancelada,[]))then
+      begin
+        DM.TBOrdemServico.Delete;
+        DM.TBOrdemServico.ApplyUpdates(0);
+      end;
     end;
   end;
 
@@ -283,14 +372,28 @@ end;
 
 procedure TfrmOrdemServico.btnExcluirClick(Sender: TObject);
 begin
-  if(DM.TBOrdemServico.RecordCount = 0)then
-    Abort;
+  if(FConexao = 'Zeos')then
+  begin
+    if(DM.TOrdemServico.RecordCount = 0)then
+      Abort;
+  end else
+  begin
+    if(DM.TBOrdemServico.RecordCount = 0)then
+      Abort;
+  end;
     
   if(Application.MessageBox('Você realmente deseja excluir esta ordem de serviço?','Atenção',MB_ICONQUESTION + MB_YESNO)=mrYes)then
   begin
     if(FConexao = 'Zeos')then
     begin
-
+      DM.TItemOrdem.First;
+      while not(DM.TItemOrdem.Eof)do
+      begin
+        DM.TItemOrdem.Delete;
+        DM.TItemOrdem.ApplyUpdates;
+      end;
+      DM.TOrdemServico.Delete;
+      DM.TOrdemServico.ApplyUpdates;
     end else
     begin
       DM.TBItemOrdem.First;
@@ -308,8 +411,15 @@ end;
 procedure TfrmOrdemServico.btnInserirItemClick(Sender: TObject);
 begin
   FNovoItemOrdem := true;
-  DM.TBItemOrdem.Insert;
-  DM.TBItemOrdemORDEM_ID.AsInteger := DM.TBOrdemServicoID.AsInteger;
+  if(FConexao = 'Zeos')then
+  begin
+    DM.TItemOrdem.Insert;
+    DM.TItemOrdemORDEM_ID.AsInteger := DM.TOrdemServicoID.AsInteger;
+  end else
+  begin
+    DM.TBItemOrdem.Insert;
+    DM.TBItemOrdemORDEM_ID.AsInteger := DM.TBOrdemServicoID.AsInteger;
+  end;
   frmItemOrdemEditar := TfrmItemOrdemEditar.Create(Self);
   frmItemOrdemEditar.ShowModal;
   AtualizarTotal();
@@ -318,7 +428,13 @@ end;
 procedure TfrmOrdemServico.btnEditarItemClick(Sender: TObject);
 begin
   FNovoItemOrdem := false;
-  DM.TBItemOrdem.Edit;
+  if(FConexao = 'Zeos')then
+  begin
+    DM.TItemOrdem.Edit;
+  end else
+  begin
+    DM.TBItemOrdem.Edit;
+  end;
   frmItemOrdemEditar := TfrmItemOrdemEditar.Create(Self);
   frmItemOrdemEditar.ShowModal;
   AtualizarTotal();
@@ -368,6 +484,180 @@ begin
       DM.TBOrdemServicoVALOR_TOTAL.AsFloat := DM.QueryVerificar.Fields.FieldByName('SOMA').AsFloat;
     end;
   end;
+end;
+
+procedure TfrmOrdemServico.DBGrid1DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+  if(FConexao = 'Zeos')then
+  begin
+    if not odd(DM.TItemOrdem.RecNo) then
+    begin
+      if not (gdSelected in State) then
+      begin
+         DBGrid1.Canvas.Brush.Color := TColor($FFEFE0);
+         DBGrid1.Canvas.FillRect(Rect);
+         DBGrid1.DefaultDrawDataCell(rect,Column.Field,state);
+      end;
+    end;
+  end else
+  begin
+    if not odd(DM.TBItemOrdem.RecNo) then
+    begin
+      if not (gdSelected in State) then
+      begin
+         DBGrid1.Canvas.Brush.Color := TColor($FFEFE0);
+         DBGrid1.Canvas.FillRect(Rect);
+         DBGrid1.DefaultDrawDataCell(rect,Column.Field,state);
+      end;
+    end;
+  end;
+end;
+
+procedure TfrmOrdemServico.DBGrid1KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if(key = vk_return)and(btnEditarItem.Enabled)then
+    btnEditarItem.Click;
+end;
+
+procedure TfrmOrdemServico.DBGrid1DblClick(Sender: TObject);
+begin
+  if(btnEditarItem.Enabled)then
+    btnEditarItem.Click;
+end;
+
+procedure TfrmOrdemServico.DBedtCLIENTE_ID1KeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if((key = vk_return)or(key = 40))then
+  begin
+    Perform(WM_NEXTDLGCTL,0,0);
+  end else
+  if(key = 38)then
+  begin
+    Perform(WM_NEXTDLGCTL,1,0);
+  end;
+end;
+
+procedure TfrmOrdemServico.dblkcbbCLIENTE_IDKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if(key = vk_return)then
+  begin
+    Perform(WM_NEXTDLGCTL,0,0);
+  end;
+end;
+
+procedure TfrmOrdemServico.DBcbbSTATUS1KeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if(key = vk_return)then
+  begin
+    Perform(WM_NEXTDLGCTL,0,0);
+  end;
+end;
+
+procedure TfrmOrdemServico.DBedtCLIENTE_ID1Enter(Sender: TObject);
+begin
+  DBedtCLIENTE_ID.Color := clInfoBk;
+end;
+
+procedure TfrmOrdemServico.dblkcbbCLIENTE_IDEnter(Sender: TObject);
+begin
+  dblkcbbCLIENTE_ID.Color := clInfoBk;
+end;
+
+procedure TfrmOrdemServico.DBedtVALOR_TOTAL1Enter(Sender: TObject);
+begin
+  DBedtVALOR_TOTAL1.Color := clInfoBk;
+end;
+
+procedure TfrmOrdemServico.DBedtDATA_ABERTURA1Enter(Sender: TObject);
+begin
+  DBedtDATA_ABERTURA1.Color := clInfoBk;
+end;
+
+procedure TfrmOrdemServico.DBedtDATA_PREVISTA1Enter(Sender: TObject);
+begin
+  DBedtDATA_PREVISTA1.Color := clInfoBk;
+end;
+
+procedure TfrmOrdemServico.DBedtDATA_FECHAMENTO1Enter(Sender: TObject);
+begin
+  DBedtDATA_FECHAMENTO1.Color := clInfoBk;
+end;
+
+procedure TfrmOrdemServico.DBcbbSTATUS1Enter(Sender: TObject);
+begin
+  DBcbbSTATUS1.Color := clInfoBk;
+end;
+
+procedure TfrmOrdemServico.DBMemoDESCRICAO_PROBLEMAEnter(Sender: TObject);
+begin
+  DBMemoDESCRICAO_PROBLEMA.Color := clInfoBk;
+end;
+
+procedure TfrmOrdemServico.DBedtCLIENTE_ID1Exit(Sender: TObject);
+begin
+  DBedtCLIENTE_ID1.Color := clWhite;
+end;
+
+procedure TfrmOrdemServico.dblkcbbCLIENTE_IDExit(Sender: TObject);
+begin
+  dblkcbbCLIENTE_ID.Color := clWhite;
+end;
+
+procedure TfrmOrdemServico.DBedtVALOR_TOTAL1Exit(Sender: TObject);
+begin
+  DBedtVALOR_TOTAL1.Color := clWhite;
+end;
+
+procedure TfrmOrdemServico.DBedtDATA_ABERTURA1Exit(Sender: TObject);
+begin
+  DBedtDATA_ABERTURA1.Color := clWhite;
+end;
+
+procedure TfrmOrdemServico.DBedtDATA_PREVISTA1Exit(Sender: TObject);
+begin
+  DBedtDATA_PREVISTA1.Color := clWhite;
+end;
+
+procedure TfrmOrdemServico.DBedtDATA_FECHAMENTO1Exit(Sender: TObject);
+begin
+  DBedtDATA_FECHAMENTO1.Color := clWhite;
+end;
+
+procedure TfrmOrdemServico.DBcbbSTATUS1Exit(Sender: TObject);
+begin
+  DBcbbSTATUS1.Color := clWhite;
+end;
+
+procedure TfrmOrdemServico.DBMemoDESCRICAO_PROBLEMAExit(Sender: TObject);
+begin
+  DBMemoDESCRICAO_PROBLEMA.Color := clWhite;
+end;
+
+procedure TfrmOrdemServico.DBedtCLIENTE_ID1KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if(key = #13)then
+    key := #0;
+end;
+
+procedure TfrmOrdemServico.dblkcbbCLIENTE_IDKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if(key = #13)then
+    key := #0;
+end;
+
+procedure TfrmOrdemServico.DBcbbSTATUS1KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if(key = #13)then
+    key := #0;
 end;
 
 end.

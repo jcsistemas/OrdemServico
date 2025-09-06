@@ -180,7 +180,6 @@ object DM: TDM
     object TBOrdemServicoCLIENTE_ID: TIntegerField
       FieldName = 'CLIENTE_ID'
       ProviderFlags = [pfInUpdate]
-      Required = True
     end
     object TBOrdemServicoDATA_ABERTURA: TDateField
       FieldName = 'DATA_ABERTURA'

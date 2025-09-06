@@ -317,6 +317,7 @@ object frmClienteEditar: TfrmClienteEditar
     OnEnter = DBedtNOMEEnter
     OnExit = DBedtNOMEExit
     OnKeyDown = DBedtDOCUMENTOKeyDown
+    OnKeyPress = DBedtNOMEKeyPress
   end
   object DBedtDOCUMENTO: TDBEdit
     Left = 16

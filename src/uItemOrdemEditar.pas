@@ -37,6 +37,7 @@ type
       Shift: TShiftState);
     procedure DBedtSUBTOTALKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure DBedtDESCRICAOKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -154,6 +155,13 @@ begin
   begin
     Perform(WM_NEXTDLGCTL,1,0);
   end;
+end;
+
+procedure TfrmItemOrdemEditar.DBedtDESCRICAOKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if(key = #13)then
+    key := #0;
 end;
 
 end.

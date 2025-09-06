@@ -10,7 +10,8 @@ uses
   uClienteEditar in 'uClienteEditar.pas' {frmClienteEditar},
   uBuscaCNPJ in 'uBuscaCNPJ.pas' {frmBuscaCNPJ},
   uOrdemServico in 'uOrdemServico.pas' {frmOrdemServico},
-  uEscolhaConexao in 'uEscolhaConexao.pas' {frmEscolhaConexao};
+  uEscolhaConexao in 'uEscolhaConexao.pas' {frmEscolhaConexao},
+  uItemOrdemEditar in 'uItemOrdemEditar.pas' {frmItemOrdemEditar};
 
 {$R *.res}
 
@@ -19,5 +20,6 @@ begin
   Application.Title := 'Sistema de Ordens de Serviço';
   Application.CreateForm(TfrmMenu, frmMenu);
   Application.CreateForm(TfrmEscolhaConexao, frmEscolhaConexao);
+  Application.CreateForm(TfrmItemOrdemEditar, frmItemOrdemEditar);
   Application.Run;
 end.

@@ -317,6 +317,7 @@ object frmClienteEditar: TfrmClienteEditar
     OnEnter = DBedtNOMEEnter
     OnExit = DBedtNOMEExit
     OnKeyDown = DBedtDOCUMENTOKeyDown
+    OnKeyPress = DBedtNOMEKeyPress
   end
   object DBedtDOCUMENTO: TDBEdit
     Left = 16
@@ -329,6 +330,7 @@ object frmClienteEditar: TfrmClienteEditar
     OnEnter = DBedtDOCUMENTOEnter
     OnExit = DBedtDOCUMENTOExit
     OnKeyDown = DBedtDOCUMENTOKeyDown
+    OnKeyPress = DBedtNOMEKeyPress
   end
   object DBedtEMAIL: TDBEdit
     Left = 184
@@ -341,6 +343,7 @@ object frmClienteEditar: TfrmClienteEditar
     OnEnter = DBedtEMAILEnter
     OnExit = DBedtEMAILExit
     OnKeyDown = DBedtDOCUMENTOKeyDown
+    OnKeyPress = DBedtNOMEKeyPress
   end
   object DBedtTELEFONE: TDBEdit
     Left = 16
@@ -353,6 +356,7 @@ object frmClienteEditar: TfrmClienteEditar
     OnEnter = DBedtTELEFONEEnter
     OnExit = DBedtTELEFONEExit
     OnKeyDown = DBedtDOCUMENTOKeyDown
+    OnKeyPress = DBedtNOMEKeyPress
   end
   object DBedtDATACADASTRO: TDBEdit
     Left = 290
@@ -366,6 +370,7 @@ object frmClienteEditar: TfrmClienteEditar
     OnEnter = DBedtDATACADASTROEnter
     OnExit = DBedtDATACADASTROExit
     OnKeyDown = DBedtDATACADASTROKeyDown
+    OnKeyPress = DBedtNOMEKeyPress
   end
   object PopUp1: TPopupMenu
     Left = 472

@@ -77,6 +77,7 @@ object frmItemOrdemEditar: TfrmItemOrdemEditar
     OnEnter = DBedtDESCRICAOEnter
     OnExit = DBedtDESCRICAOExit
     OnKeyDown = DBedtDESCRICAOKeyDown
+    OnKeyPress = DBedtDESCRICAOKeyPress
   end
   object DBedtQUANTIDADE: TDBEdit
     Left = 8
@@ -89,6 +90,7 @@ object frmItemOrdemEditar: TfrmItemOrdemEditar
     OnEnter = DBedtQUANTIDADEEnter
     OnExit = DBedtQUANTIDADEExit
     OnKeyDown = DBedtDESCRICAOKeyDown
+    OnKeyPress = DBedtDESCRICAOKeyPress
   end
   object DBedtVALOR_UNITARIO: TDBEdit
     Left = 111
@@ -101,6 +103,7 @@ object frmItemOrdemEditar: TfrmItemOrdemEditar
     OnEnter = DBedtVALOR_UNITARIOEnter
     OnExit = DBedtVALOR_UNITARIOExit
     OnKeyDown = DBedtDESCRICAOKeyDown
+    OnKeyPress = DBedtDESCRICAOKeyPress
   end
   object DBedtSUBTOTAL: TDBEdit
     Left = 276
@@ -113,6 +116,7 @@ object frmItemOrdemEditar: TfrmItemOrdemEditar
     OnEnter = DBedtSUBTOTALEnter
     OnExit = DBedtSUBTOTALExit
     OnKeyDown = DBedtSUBTOTALKeyDown
+    OnKeyPress = DBedtDESCRICAOKeyPress
   end
   object Panel2: TPanel
     Left = 0
