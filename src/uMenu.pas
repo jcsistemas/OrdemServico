@@ -23,14 +23,12 @@ type
     ImageListIcones: TImageList;
     C3: TMenuItem;
     R2: TMenuItem;
-    R3: TMenuItem;
     S2: TMenuItem;
     A1: TMenuItem;
     imgPlanoFundo: TImage;
     Panel3: TPanel;
     lblDataHorario: TLabel;
     TimerRelogio: TTimer;
-    dlgOpen1: TOpenDialog;
     O1: TMenuItem;
     O2: TMenuItem;
     procedure btnSairClick(Sender: TObject);
@@ -43,6 +41,8 @@ type
     procedure C3Click(Sender: TObject);
     procedure O2Click(Sender: TObject);
     procedure btnOrdemDeServicoClick(Sender: TObject);
+    procedure R2Click(Sender: TObject);
+    procedure btnRelatoriosClick(Sender: TObject);
   private
     { Private declarations }
     procedure LerImagemFundo();
@@ -60,7 +60,7 @@ var
 implementation
 
 uses uSobre, Math, uDM, uClientes, uUtilidades, uOrdemServico,
-  uEscolhaConexao;
+  uEscolhaConexao, uFiltroRelatorioOrdemServico;
 
 {$R *.dfm}
 
@@ -204,6 +204,18 @@ procedure TfrmMenu.btnOrdemDeServicoClick(Sender: TObject);
 begin
   frmOrdemServico := TfrmOrdemServico.Create(Self);
   frmOrdemServico.ShowModal;
+end;
+
+procedure TfrmMenu.R2Click(Sender: TObject);
+begin
+  if(btnRelatorios.Enabled)then
+    btnRelatorios.Click;
+end;
+
+procedure TfrmMenu.btnRelatoriosClick(Sender: TObject);
+begin
+  frmFiltroRelatorioOrdemServico := TfrmFiltroRelatorioOrdemServico.Create(Self);
+  frmFiltroRelatorioOrdemServico.ShowModal;
 end;
 
 end.

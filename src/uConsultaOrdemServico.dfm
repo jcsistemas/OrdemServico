@@ -1,7 +1,7 @@
 object frmConsultaOrdemServico: TfrmConsultaOrdemServico
-  Left = 214
+  Left = 691
   Top = 116
-  Width = 1039
+  Width = 992
   Height = 675
   Caption = 'Consulta de Ordem de Servi'#231'o'
   Color = clBtnFace
@@ -11,6 +11,7 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  PopupMenu = PopUp1
   WindowState = wsMaximized
   OnClose = FormClose
   OnShow = FormShow
@@ -19,7 +20,7 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1031
+    Width = 984
     Height = 65
     Align = alTop
     BevelOuter = bvNone
@@ -39,10 +40,10 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       Caption = ' '#224' '
     end
     object btnAtualizar: TSpeedButton
-      Left = 594
+      Left = 556
       Top = 9
       Width = 125
-      Height = 35
+      Height = 50
       Cursor = crHandPoint
       Caption = 'Atualizar'
       Glyph.Data = {
@@ -76,11 +77,25 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       OnClick = btnAtualizarClick
     end
     object lbl3: TLabel
-      Left = 245
+      Left = 221
       Top = 22
       Width = 38
       Height = 13
       Caption = 'Cliente: '
+    end
+    object lblValorTotal: TLabel
+      Left = 685
+      Top = 14
+      Width = 129
+      Height = 13
+      Caption = 'Valor Total Listado: R$0,00'
+    end
+    object lblQuantidadeListada: TLabel
+      Left = 685
+      Top = 38
+      Width = 104
+      Height = 13
+      Caption = 'Quantidade Listada: 0'
     end
     object txtDataInicial: TMaskEdit
       Left = 62
@@ -113,18 +128,18 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       OnKeyPress = txtDataInicialKeyPress
     end
     object Panel7: TPanel
-      Left = 924
+      Left = 848
       Top = 0
-      Width = 107
+      Width = 136
       Height = 65
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 2
       object btnSair: TSpeedButton
-        Left = 2
-        Top = 8
-        Width = 100
-        Height = 35
+        Left = 3
+        Top = 9
+        Width = 125
+        Height = 50
         Cursor = crHandPoint
         Caption = 'Sair'
         Glyph.Data = {
@@ -159,7 +174,7 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       end
     end
     object dblkcbbClientes: TDBLookupComboBox
-      Left = 285
+      Left = 261
       Top = 18
       Width = 292
       Height = 21
@@ -173,20 +188,20 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       OnKeyDown = dblkcbbClientesKeyDown
       OnKeyPress = dblkcbbClientesKeyPress
     end
-    object Check1: TCheckBox
-      Left = 416
+    object CheckCliente: TCheckBox
+      Left = 392
       Top = 40
       Width = 161
       Height = 17
       Caption = 'Selecionar Todos os Clientes'
       TabOrder = 4
-      OnClick = Check1Click
+      OnClick = CheckClienteClick
     end
   end
   object DBGrid1: TDBGrid
     Left = 0
     Top = 65
-    Width = 1031
+    Width = 984
     Height = 579
     Align = alClient
     DataSource = DM.DSOrdemServico
@@ -197,6 +212,7 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnDrawColumnCell = DBGrid1DrawColumnCell
     OnDblClick = DBGrid1DblClick
     OnKeyDown = DBGrid1KeyDown
     Columns = <
@@ -256,5 +272,21 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
         Width = 200
         Visible = True
       end>
+  end
+  object PopUp1: TPopupMenu
+    Left = 32
+    Top = 120
+    object A1: TMenuItem
+      Caption = 'Atualizar'
+      ShortCut = 119
+      Visible = False
+      OnClick = A1Click
+    end
+    object S1: TMenuItem
+      Caption = 'Sair'
+      ShortCut = 115
+      Visible = False
+      OnClick = S1Click
+    end
   end
 end

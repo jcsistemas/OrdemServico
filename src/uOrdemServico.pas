@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, Buttons, Menus, StdCtrls, Mask, DBCtrls, Grids,
-  DBGrids, frxClass, frxDBSet;
+  DBGrids, frxClass, frxDBSet, frxExportPDF, ShellApi;
 
 type
   TfrmOrdemServico = class(TForm)
@@ -108,11 +108,13 @@ type
     procedure DBcbbSTATUS1KeyPress(Sender: TObject; var Key: Char);
     procedure btnConsultarClick(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
+    procedure btnPDFClick(Sender: TObject);
   private
     { Private declarations }
     procedure modo_navegacao();
     procedure modo_edicao();
     procedure AtualizarTotal();
+    procedure ExportarParaPDF();
   public
     { Public declarations }
   end;
@@ -703,6 +705,76 @@ begin
   frxReport1.LoadFromFile(FLocalAplicacao+'frOrdemServico.fr3');
   frxReport1.PrepareReport;
   frxReport1.ShowReport;
+
+  if(FConexao = 'Zeos')then
+  begin
+    DM.TOrdemServico.Filtered := false;
+  end else
+  begin
+    DM.TBOrdemServico.Filtered := false;
+  end;
+end;
+
+procedure TfrmOrdemServico.ExportarParaPDF();
+var
+  ExportPDF: TfrxPDFExport;
+  SaveDialogPDF: TSaveDialog;
+  lNomeArquivo: String;
+begin
+  frxReport1.PrepareReport;
+  
+  ExportPDF := TfrxPDFExport.Create(nil);
+  SaveDialogPDF := TSaveDialog.Create(Self);
+  try
+    SaveDialogPDF.Filter := '*.pdf|*.pdf';
+    SaveDialogPDF.Execute;
+    if(SaveDialogPDF.FileName <> '')then
+    begin
+      if(LowerCase(Copy(SaveDialogPDF.FileName,Length(SaveDialogPDF.FileName)-4,4))='.pdf')then
+        lNomeArquivo := SaveDialogPDF.FileName
+      else
+        lNomeArquivo := SaveDialogPDF.FileName + '.pdf';
+
+      ExportPDF.FileName := lNomeArquivo;
+      ExportPDF.ShowDialog := false;
+      ExportPDF.ShowProgress := true;
+      ExportPDF.OverwritePrompt := true;
+      frxReport1.Export(ExportPDF);
+
+      ShellExecute(handle, 'open', PChar(lNomeArquivo), NiL, NiL, SW_SHOWNORMAL);
+    end;
+  finally
+    ExportPDF.Free;
+    SaveDialogPDF.Free;
+  end;
+end;
+
+procedure TfrmOrdemServico.btnPDFClick(Sender: TObject);
+begin
+  if not (FileExists(FLocalAplicacao+'frOrdemServico.fr3'))then
+  begin
+    ShowMessage('Arquivo do relatório(frOrdemServico.fr3) não encontrado!');
+    Abort;
+  end;
+  if(FConexao = 'Zeos')then
+  begin
+    DM.TOrdemServico.Filter := 'ID='+DM.TOrdemServicoID.AsString;
+    DM.TOrdemServico.Filtered := true;
+
+    frxDBDatasetOrdem.DataSet := DM.TOrdemServico;
+    frxDBDatasetItem.DataSet := DM.TItemOrdem;
+  end else
+  begin
+    DM.TBOrdemServico.Filter := 'ID='+DM.TBOrdemServicoID.AsString;
+    DM.TBOrdemServico.Filtered := true;
+
+    frxDBDatasetOrdem.DataSet := DM.TBOrdemServico;
+    frxDBDatasetItem.DataSet := DM.TBItemOrdem;
+  end;        
+
+  frxReport1.LoadFromFile(FLocalAplicacao+'frOrdemServico.fr3');
+
+  ExportarParaPDF();
 
   if(FConexao = 'Zeos')then
   begin

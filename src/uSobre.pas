@@ -28,7 +28,7 @@ implementation
 
 procedure TfrmSobre.lblLinkFatCowClick(Sender: TObject);
 begin
-  shellexecute(handle, 'open', PChar(lblLinkFatCow.Caption), NiL, NiL, SW_SHOWNORMAL);
+  ShellExecute(handle, 'open', PChar(lblLinkFatCow.Caption), NiL, NiL, SW_SHOWNORMAL);
 end;
 
 procedure TfrmSobre.btnSairClick(Sender: TObject);

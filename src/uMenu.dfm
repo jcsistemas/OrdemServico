@@ -357,6 +357,7 @@ object frmMenu: TfrmMenu
         ABAEAEABAEAEABAEAEABAEAEABAEAEABAEAEABADAEABAEAEABAFAFADC5C5C4FB
         FBFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       Layout = blGlyphTop
+      OnClick = btnRelatoriosClick
     end
     object Panel2: TPanel
       Left = 889
@@ -532,12 +533,9 @@ object frmMenu: TfrmMenu
       Caption = 'Relat'#243'rios'
       ImageIndex = 0
       object R2: TMenuItem
-        Caption = 'Relat'#243'rio de Ordem de Servi'#231'o Sint'#233'tico'
+        Caption = 'Relat'#243'rio de Ordens de Servi'#231'o'
         ImageIndex = 6
-      end
-      object R3: TMenuItem
-        Caption = 'Relat'#243'rio de Ordem de Servi'#231'o Anal'#237'tico'
-        ImageIndex = 6
+        OnClick = R2Click
       end
     end
     object C2: TMenuItem
@@ -1234,12 +1232,7 @@ object frmMenu: TfrmMenu
   object TimerRelogio: TTimer
     Enabled = False
     OnTimer = TimerRelogioTimer
-    Left = 256
+    Left = 264
     Top = 128
-  end
-  object dlgOpen1: TOpenDialog
-    Filter = '*.jpg|*.jpg'
-    Left = 152
-    Top = 192
   end
 end

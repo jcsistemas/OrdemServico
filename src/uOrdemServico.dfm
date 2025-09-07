@@ -843,6 +843,7 @@ object frmOrdemServico: TfrmOrdemServico
         07FFB67B07FFB67B08FFB57B08FFB67B08FFB67B07FFB67B07FFB67B08FFB57B
         08FFB67B08FFB67B07FFB67B07FFB67C09FFB67E0EFFB88319DC000000050000
         0000000000000000000000000000000000000000000000000000}
+      OnClick = btnPDFClick
     end
     object btnConsultar: TSpeedButton
       Left = 5
@@ -1542,7 +1543,7 @@ object frmOrdemServico: TfrmOrdemServico
     end
   end
   object PopUp1: TPopupMenu
-    Left = 16
+    Left = 40
     Top = 320
     object N1: TMenuItem
       Caption = 'Novo'
@@ -1601,14 +1602,14 @@ object frmOrdemServico: TfrmOrdemServico
     PrintOptions.Printer = 'Microsoft XPS Document Writer'
     PrintOptions.PrintOnSheet = 9
     ReportOptions.CreateDate = 45906.707182187500000000
-    ReportOptions.LastChange = 45906.786352094910000000
+    ReportOptions.LastChange = 45906.931337881940000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'begin'
       ''
       'end.')
-    Left = 248
-    Top = 384
+    Left = 40
+    Top = 368
     Datasets = <
       item
         DataSet = frxDBDatasetOrdem
@@ -1641,7 +1642,7 @@ object frmOrdemServico: TfrmOrdemServico
       object ReportTitle1: TfrxReportTitle
         FillType = ftBrush
         Frame.Typ = []
-        Height = 287.244280000000000000
+        Height = 279.685039370079000000
         Top = 18.897650000000000000
         Width = 718.110700000000000000
         object txtTitulo: TfrxMemoView
@@ -1775,25 +1776,6 @@ object frmOrdemServico: TfrmOrdemServico
             '[frxDBDataset1."STATUS"]')
           ParentFont = False
         end
-        object txtValorTotal: TfrxMemoView
-          AllowVectorExport = True
-          Left = 555.590910000000000000
-          Top = 49.133890000000000000
-          Width = 158.740260000000000000
-          Height = 18.897650000000000000
-          DataField = 'VALOR_TOTAL'
-          DataSet = frxDBDatasetOrdem
-          DataSetName = 'frxDBDataset1'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          Frame.Typ = []
-          Memo.UTF8 = (
-            '[frxDBDataset1."VALOR_TOTAL"]')
-          ParentFont = False
-        end
         object txtDescricaoProblema: TfrxMemoView
           AllowVectorExport = True
           Left = 3.779530000000000000
@@ -1832,22 +1814,6 @@ object frmOrdemServico: TfrmOrdemServico
           Frame.Typ = []
           Memo.UTF8 = (
             'Status')
-        end
-        object Memo3: TfrxMemoView
-          AllowVectorExport = True
-          Left = 555.590551181102000000
-          Top = 27.968503937007900000
-          Width = 94.488250000000000000
-          Height = 18.897650000000000000
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          Frame.Typ = []
-          Memo.UTF8 = (
-            'Valor Total')
-          ParentFont = False
         end
         object Memo4: TfrxMemoView
           AllowVectorExport = True
@@ -1890,12 +1856,6 @@ object frmOrdemServico: TfrmOrdemServico
           Memo.UTF8 = (
             'Data Prevista')
           ParentFont = False
-        end
-        object Shape1: TfrxShapeView
-          AllowVectorExport = True
-          Width = 721.890230000000000000
-          Height = 275.905690000000000000
-          Frame.Typ = []
         end
         object Shape2: TfrxShapeView
           AllowVectorExport = True
@@ -1952,35 +1912,35 @@ object frmOrdemServico: TfrmOrdemServico
       object ColumnHeader1: TfrxColumnHeader
         FillType = ftBrush
         Frame.Typ = []
-        Height = 30.236220470000000000
-        Top = 328.819110000000000000
+        Height = 24.566929133858300000
+        Top = 321.260050000000000000
         Width = 718.110700000000000000
         object Memo9: TfrxMemoView
           AllowVectorExport = True
-          Left = 3.779527559055120000
-          Top = 3.779530000000020000
-          Width = 188.976377952756000000
-          Height = 17.007874015748000000
+          Left = 3.779527560000000000
+          Top = 1.779530000000000000
+          Width = 188.976377950000000000
+          Height = 17.007874020000000000
           Frame.Typ = []
           Memo.UTF8 = (
             'Decri'#195#167#195#163'o')
         end
         object Memo10: TfrxMemoView
           AllowVectorExport = True
-          Left = 359.055118110236000000
-          Top = 3.779527559055120000
-          Width = 75.590551181102400000
-          Height = 17.007874015748000000
+          Left = 359.055118110000000000
+          Top = 1.779527560000000000
+          Width = 75.590551180000000000
+          Height = 17.007874020000000000
           Frame.Typ = []
           Memo.UTF8 = (
             'Quantidade')
         end
         object Memo11: TfrxMemoView
           AllowVectorExport = True
-          Left = 457.322834645669000000
-          Top = 3.779527559055120000
-          Width = 113.385826771654000000
-          Height = 17.007874015748000000
+          Left = 457.322834650000000000
+          Top = 1.779527560000000000
+          Width = 113.385826770000000000
+          Height = 17.007874020000000000
           Frame.Typ = []
           Memo.UTF8 = (
             'Valor Unit'#195#161'rio')
@@ -1988,16 +1948,21 @@ object frmOrdemServico: TfrmOrdemServico
         object Memo12: TfrxMemoView
           AllowVectorExport = True
           Left = 589.606680000000000000
-          Top = 3.779527559055120000
+          Top = 1.779527560000000000
           Width = 64.252010000000000000
-          Height = 17.007874015748000000
+          Height = 17.007874020000000000
           Frame.Typ = []
           Memo.UTF8 = (
             'Subtotal')
         end
         object Shape5: TfrxShapeView
           AllowVectorExport = True
-          Top = 26.456710000000000000
+          Top = 22.456710000000000000
+          Width = 718.110700000000000000
+          Frame.Typ = []
+        end
+        object Shape7: TfrxShapeView
+          AllowVectorExport = True
           Width = 718.110700000000000000
           Frame.Typ = []
         end
@@ -2005,8 +1970,8 @@ object frmOrdemServico: TfrmOrdemServico
       object MasterData1: TfrxMasterData
         FillType = ftBrush
         Frame.Typ = []
-        Height = 24.566929133858270000
-        Top = 419.527830000000000000
+        Height = 23.055118110000000000
+        Top = 408.189240000000000000
         Width = 718.110700000000000000
         DataSet = frxDBDatasetItem
         DataSetName = 'frxDBDataset2'
@@ -2014,7 +1979,7 @@ object frmOrdemServico: TfrmOrdemServico
         object Memo13: TfrxMemoView
           AllowVectorExport = True
           Left = 3.779530000000000000
-          Top = 1.889763779527559000
+          Top = 1.889763779527560000
           Width = 340.157480310000000000
           Height = 17.007874020000000000
           DataField = 'DESCRICAO'
@@ -2027,7 +1992,7 @@ object frmOrdemServico: TfrmOrdemServico
         object Memo14: TfrxMemoView
           AllowVectorExport = True
           Left = 359.055120550000000000
-          Top = 1.889763779527559000
+          Top = 1.889763779527560000
           Width = 102.047310000000000000
           Height = 17.007874020000000000
           DataField = 'QUANTIDADE'
@@ -2040,7 +2005,7 @@ object frmOrdemServico: TfrmOrdemServico
         object Memo15: TfrxMemoView
           AllowVectorExport = True
           Left = 457.322837090000000000
-          Top = 1.889763779527559000
+          Top = 1.889763779527560000
           Width = 117.165430000000000000
           Height = 17.007874020000000000
           DataField = 'VALOR_UNITARIO'
@@ -2053,7 +2018,7 @@ object frmOrdemServico: TfrmOrdemServico
         object Memo16: TfrxMemoView
           AllowVectorExport = True
           Left = 589.606301650000000000
-          Top = 1.889763779527559000
+          Top = 1.889763779527560000
           Width = 122.834645670000000000
           Height = 17.007874020000000000
           DataField = 'SUBTOTAL'
@@ -2065,9 +2030,51 @@ object frmOrdemServico: TfrmOrdemServico
         end
         object Shape6: TfrxShapeView
           AllowVectorExport = True
-          Top = 20.787401574803150000
+          Top = 20.787401574803200000
           Width = 718.110700000000000000
           Frame.Typ = []
+        end
+      end
+      object ReportSummary1: TfrxReportSummary
+        FillType = ftBrush
+        Frame.Typ = []
+        Height = 56.692950000000000000
+        Top = 491.338900000000000000
+        Width = 718.110700000000000000
+        object Memo17: TfrxMemoView
+          AllowVectorExport = True
+          Left = 589.606680000000000000
+          Top = 26.897650000000000000
+          Width = 158.740260000000000000
+          Height = 18.897650000000000000
+          DataField = 'VALOR_TOTAL'
+          DataSet = frxDBDatasetOrdem
+          DataSetName = 'frxDBDataset1'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8 = (
+            '[frxDBDataset1."VALOR_TOTAL"]')
+          ParentFont = False
+        end
+        object Memo18: TfrxMemoView
+          AllowVectorExport = True
+          Left = 589.606680000000000000
+          Top = 8.000000000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8 = (
+            'Valor Total')
+          ParentFont = False
         end
       end
     end
@@ -2077,15 +2084,15 @@ object frmOrdemServico: TfrmOrdemServico
     CloseDataSource = False
     DataSet = DM.TBOrdemServico
     BCDToCurrency = False
-    Left = 352
-    Top = 384
+    Left = 40
+    Top = 416
   end
   object frxDBDatasetItem: TfrxDBDataset
     UserName = 'frxDBDataset2'
     CloseDataSource = False
     DataSet = DM.TBItemOrdem
     BCDToCurrency = False
-    Left = 456
-    Top = 384
+    Left = 40
+    Top = 464
   end
 end
