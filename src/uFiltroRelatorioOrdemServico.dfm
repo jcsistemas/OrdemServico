@@ -360,21 +360,21 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
       'FROM ORDEM_SERVICO O'
       'LEFT JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID)')
     SQLConnection = DM.SQLConnection1
-    Left = 416
-    Top = 58
+    Left = 440
+    Top = 50
   end
   object DSPRelatorio: TDataSetProvider
     DataSet = QRelatorio
-    Left = 416
-    Top = 79
+    Left = 440
+    Top = 71
   end
   object TBRelatorio: TClientDataSet
     Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'DSPRelatorio'
-    Left = 416
-    Top = 99
+    Left = 440
+    Top = 91
     object TBRelatorioID: TIntegerField
       FieldName = 'ID'
       Required = True
@@ -414,8 +414,8 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
   end
   object DSRelatorio: TDataSource
     DataSet = TBRelatorio
-    Left = 416
-    Top = 120
+    Left = 440
+    Top = 112
   end
   object QRelatorioZeos: TZQuery
     Connection = DM.ZConnection1
@@ -424,8 +424,8 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
       'FROM ORDEM_SERVICO O'
       'LEFT JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID)')
     Params = <>
-    Left = 416
-    Top = 5
+    Left = 432
+    Top = 65533
     object QRelatorioZeosID: TIntegerField
       FieldName = 'ID'
       Required = True
@@ -471,22 +471,26 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
     PrintOptions.Printer = #8226'W'#143#8364
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 45907.528389444400000000
-    ReportOptions.LastChange = 45907.764524513890000000
+    ReportOptions.LastChange = 45907.807501736110000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'begin'
       ''
       'end.')
-    Left = 336
-    Top = 8
+    Left = 440
+    Top = 152
     Datasets = <
       item
-        DataSet = frxDBDataset1
+        DataSet = frxDBDatasetListagem
         DataSetName = 'frxDBDataset1'
       end
       item
-        DataSet = frxDBDataset2
+        DataSet = frxDBDatasetTotalizador
         DataSetName = 'frxDBDataset2'
+      end
+      item
+        DataSet = frxDBDatasetCabecalho
+        DataSetName = 'frxDBDataset3'
       end>
     Variables = <>
     Style = <>
@@ -507,7 +511,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
       object ReportTitle1: TfrxReportTitle
         FillType = ftBrush
         Frame.Typ = []
-        Height = 86.929190000000000000
+        Height = 102.047310000000000000
         Top = 18.897650000000000000
         Width = 718.110700000000000000
         object Memo1: TfrxMemoView
@@ -532,13 +536,18 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
           Left = 3.779530000000000000
           Top = 26.456710000000000000
           Width = 706.772110000000000000
-          Height = 18.897650000000000000
+          Height = 41.574830000000000000
+          DataField = 'DESCRICAO_RELATORIO'
+          DataSet = frxDBDatasetCabecalho
+          DataSetName = 'frxDBDataset3'
           Frame.Typ = []
+          Memo.UTF8 = (
+            '[frxDBDataset3."DESCRICAO_RELATORIO"]')
         end
         object Line1: TfrxLineView
           AllowVectorExport = True
           Left = 3.779530000000000000
-          Top = 52.913420000000000000
+          Top = 72.913420000000000000
           Width = 706.772110000000000000
           Color = clBlack
           Frame.Typ = []
@@ -547,7 +556,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         object Memo3: TfrxMemoView
           Align = baLeft
           AllowVectorExport = True
-          Top = 60.472480000000000000
+          Top = 80.472480000000000000
           Width = 34.015770000000000000
           Height = 15.118110240000000000
           Font.Charset = DEFAULT_CHARSET
@@ -563,7 +572,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         object Memo4: TfrxMemoView
           AllowVectorExport = True
           Left = 49.133890000000000000
-          Top = 60.472480000000000000
+          Top = 80.472480000000000000
           Width = 94.488250000000000000
           Height = 15.118110236220500000
           Font.Charset = DEFAULT_CHARSET
@@ -579,7 +588,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         object Memo5: TfrxMemoView
           AllowVectorExport = True
           Left = 253.228510000000000000
-          Top = 60.472480000000000000
+          Top = 80.472480000000000000
           Width = 71.811023622047200000
           Height = 15.118110236220500000
           Font.Charset = DEFAULT_CHARSET
@@ -595,7 +604,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         object Memo6: TfrxMemoView
           AllowVectorExport = True
           Left = 332.598640000000000000
-          Top = 60.472480000000000000
+          Top = 80.472480000000000000
           Width = 71.811023620000000000
           Height = 15.118110240000000000
           Font.Charset = DEFAULT_CHARSET
@@ -611,7 +620,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         object Memo7: TfrxMemoView
           AllowVectorExport = True
           Left = 411.968770000000000000
-          Top = 60.472480000000000000
+          Top = 80.472480000000000000
           Width = 92.598425200000000000
           Height = 15.118110240000000000
           Font.Charset = DEFAULT_CHARSET
@@ -627,7 +636,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         object Memo8: TfrxMemoView
           AllowVectorExport = True
           Left = 514.016080000000000000
-          Top = 60.472480000000000000
+          Top = 80.472480000000000000
           Width = 49.133890000000000000
           Height = 15.118110240000000000
           Font.Charset = DEFAULT_CHARSET
@@ -643,7 +652,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         object Memo9: TfrxMemoView
           AllowVectorExport = True
           Left = 627.401980000000000000
-          Top = 60.472480000000000000
+          Top = 80.472480000000000000
           Width = 83.149660000000000000
           Height = 15.118110240000000000
           Font.Charset = DEFAULT_CHARSET
@@ -658,7 +667,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         end
         object Line2: TfrxLineView
           AllowVectorExport = True
-          Top = 79.370130000000000000
+          Top = 99.370130000000000000
           Width = 710.551640000000000000
           Color = clBlack
           Frame.Typ = []
@@ -669,9 +678,9 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         FillType = ftBrush
         Frame.Typ = []
         Height = 22.677180000000000000
-        Top = 166.299320000000000000
+        Top = 181.417440000000000000
         Width = 718.110700000000000000
-        DataSet = frxDBDataset1
+        DataSet = frxDBDatasetListagem
         DataSetName = 'frxDBDataset1'
         RowCount = 0
         object Memo10: TfrxMemoView
@@ -681,7 +690,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
           Width = 34.015770000000000000
           Height = 15.118110240000000000
           DataField = 'ID'
-          DataSet = frxDBDataset1
+          DataSet = frxDBDatasetListagem
           DataSetName = 'frxDBDataset1'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -700,7 +709,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
           Width = 199.559055118110000000
           Height = 15.118110240000000000
           DataField = 'NOME'
-          DataSet = frxDBDataset1
+          DataSet = frxDBDatasetListagem
           DataSetName = 'frxDBDataset1'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -719,7 +728,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
           Width = 71.811023620000000000
           Height = 15.118110240000000000
           DataField = 'DATA_ABERTURA'
-          DataSet = frxDBDataset1
+          DataSet = frxDBDatasetListagem
           DataSetName = 'frxDBDataset1'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -738,7 +747,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
           Width = 71.811023620000000000
           Height = 15.118110240000000000
           DataField = 'DATA_PREVISTA'
-          DataSet = frxDBDataset1
+          DataSet = frxDBDatasetListagem
           DataSetName = 'frxDBDataset1'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -757,7 +766,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
           Width = 92.598425200000000000
           Height = 15.118110240000000000
           DataField = 'DATA_FECHAMENTO'
-          DataSet = frxDBDataset1
+          DataSet = frxDBDatasetListagem
           DataSetName = 'frxDBDataset1'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -776,7 +785,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
           Width = 49.133890000000000000
           Height = 15.118110240000000000
           DataField = 'STATUS'
-          DataSet = frxDBDataset1
+          DataSet = frxDBDatasetListagem
           DataSetName = 'frxDBDataset1'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -795,7 +804,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
           Width = 83.149660000000000000
           Height = 15.118110240000000000
           DataField = 'VALOR_TOTAL'
-          DataSet = frxDBDataset1
+          DataSet = frxDBDatasetListagem
           DataSetName = 'frxDBDataset1'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -812,7 +821,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         FillType = ftBrush
         Frame.Typ = []
         Height = 56.692950000000000000
-        Top = 249.448980000000000000
+        Top = 264.567100000000000000
         Width = 718.110700000000000000
         object Line3: TfrxLineView
           AllowVectorExport = True
@@ -845,7 +854,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           DataField = 'SOMA'
-          DataSet = frxDBDataset2
+          DataSet = frxDBDatasetTotalizador
           DataSetName = 'frxDBDataset2'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -880,7 +889,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
           Width = 151.181200000000000000
           Height = 18.897650000000000000
           DataField = 'QUANTIDADE'
-          DataSet = frxDBDataset2
+          DataSet = frxDBDatasetTotalizador
           DataSetName = 'frxDBDataset2'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -895,7 +904,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
       end
     end
   end
-  object frxDBDataset1: TfrxDBDataset
+  object frxDBDatasetListagem: TfrxDBDataset
     UserName = 'frxDBDataset1'
     CloseDataSource = False
     FieldAliases.Strings = (
@@ -910,16 +919,16 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
       'DESCRICAO_PROBLEMA=DESCRICAO_PROBLEMA')
     DataSet = TBRelatorio
     BCDToCurrency = False
-    Left = 336
-    Top = 56
+    Left = 440
+    Top = 176
   end
-  object frxDBDataset2: TfrxDBDataset
+  object frxDBDatasetTotalizador: TfrxDBDataset
     UserName = 'frxDBDataset2'
     CloseDataSource = False
     DataSet = QTotalizador
     BCDToCurrency = False
-    Left = 336
-    Top = 104
+    Left = 440
+    Top = 192
   end
   object QTotalizadorZeos: TZQuery
     Connection = DM.ZConnection1
@@ -928,8 +937,8 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         'SELECT SUM(VALOR_TOTAL) AS SOMA, COUNT(*) AS QUANTIDADE FROM ORD' +
         'EM_SERVICO')
     Params = <>
-    Left = 264
-    Top = 8
+    Left = 351
+    Top = 65533
     object QTotalizadorZeosSOMA: TFloatField
       FieldName = 'SOMA'
       ReadOnly = True
@@ -948,8 +957,8 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         'SELECT SUM(VALOR_TOTAL) AS SOMA, COUNT(*) AS QUANTIDADE  FROM OR' +
         'DEM_SERVICO')
     SQLConnection = DM.SQLConnection1
-    Left = 264
-    Top = 56
+    Left = 278
+    Top = 65533
     object QTotalizadorSOMA: TFMTBCDField
       FieldName = 'SOMA'
       currency = True
@@ -960,5 +969,28 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
       FieldName = 'QUANTIDADE'
       Required = True
     end
+  end
+  object TBDescricao: TClientDataSet
+    Active = True
+    Aggregates = <>
+    Params = <>
+    Left = 352
+    Top = 184
+    Data = {
+      420000009619E0BD010000001800000001000000000003000000420013444553
+      43524943414F5F52454C41544F52494F01004900000001000557494454480200
+      0200C8000000}
+    object TBDescricaoDESCRICAO_RELATORIO: TStringField
+      FieldName = 'DESCRICAO_RELATORIO'
+      Size = 200
+    end
+  end
+  object frxDBDatasetCabecalho: TfrxDBDataset
+    UserName = 'frxDBDataset3'
+    CloseDataSource = False
+    DataSet = TBDescricao
+    BCDToCurrency = False
+    Left = 440
+    Top = 208
   end
 end

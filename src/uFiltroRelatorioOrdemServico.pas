@@ -51,14 +51,17 @@ type
     QRelatorioZeosVALOR_TOTAL: TFloatField;
     QRelatorioZeosNOME: TStringField;
     frxReport1: TfrxReport;
-    frxDBDataset1: TfrxDBDataset;
-    frxDBDataset2: TfrxDBDataset;
+    frxDBDatasetListagem: TfrxDBDataset;
+    frxDBDatasetTotalizador: TfrxDBDataset;
     QTotalizadorZeos: TZQuery;
     QTotalizadorZeosSOMA: TFloatField;
     QTotalizador: TSQLQuery;
     QTotalizadorSOMA: TFMTBCDField;
     QTotalizadorQUANTIDADE: TIntegerField;
     QTotalizadorZeosQUANTIDADE: TIntegerField;
+    TBDescricao: TClientDataSet;
+    TBDescricaoDESCRICAO_RELATORIO: TStringField;
+    frxDBDatasetCabecalho: TfrxDBDataset;
     procedure btnSairClick(Sender: TObject);
     procedure CheckClienteClick(Sender: TObject);
     procedure txtDataInicialKeyDown(Sender: TObject; var Key: Word;
@@ -630,10 +633,15 @@ end;
 procedure TfrmFiltroRelatorioOrdemServico.CarregarDadosRelatorio();
 var
   lIDClienteSelecionado: Integer;
+  lCabecalhoRelatorio: String;
 begin
+  lCabecalhoRelatorio := '';
   lIDClienteSelecionado := 0;
   if(dblkcbbClientes.KeyValue <> null)then
     lIDClienteSelecionado := dblkcbbClientes.KeyValue;
+
+  lCabecalhoRelatorio := 'Relatório de ordens de serviço com data de abertura no período de '+
+    txtDataInicial.Text + ' à ' + txtDataFinal.Text;
     
   if(FConexao = 'Zeos')then
   begin
@@ -650,6 +658,10 @@ begin
     begin
       QRelatorioZeos.SQL.Add('AND O.CLIENTE_ID = :pCliente ');
       QRelatorioZeos.Params.ParamByName('pCliente').AsInteger := lIDClienteSelecionado;
+      lCabecalhoRelatorio := lCabecalhoRelatorio + ', referentes ao cliente: '+dblkcbbClientes.Text+'.';
+    end else
+    begin
+      lCabecalhoRelatorio := lCabecalhoRelatorio + ', de todos os clientes.';
     end;
     case rgOrdenamento.ItemIndex of
       0: QRelatorioZeos.SQL.Add('ORDER BY O.ID ');
@@ -673,6 +685,10 @@ begin
     begin
       QRelatorio.SQL.Add('AND O.CLIENTE_ID = :pCliente ');
       QRelatorio.Params.ParamByName('pCliente').AsInteger := lIDClienteSelecionado;
+      lCabecalhoRelatorio := lCabecalhoRelatorio + ', referentes ao cliente: '+dblkcbbClientes.Text+'.';
+    end else
+    begin
+      lCabecalhoRelatorio := lCabecalhoRelatorio + ', de todos os clientes.';
     end;
     case rgOrdenamento.ItemIndex of
       0: QRelatorio.SQL.Add('ORDER BY O.ID ');
@@ -682,6 +698,14 @@ begin
     QRelatorio.Open;
     TBRelatorio.Open;
   end;
+
+  TBDescricao.Open;
+  while not(TBDescricao.Eof)do
+    TBDescricao.Delete;
+
+  TBDescricao.Append;
+  TBDescricaoDESCRICAO_RELATORIO.Value := lCabecalhoRelatorio;
+  TBDescricao.Post;
 end;
 
 procedure TfrmFiltroRelatorioOrdemServico.btnRelatorioFastClick(
@@ -697,12 +721,12 @@ begin
   CarregarDadosRelatorio();
   if(FConexao = 'Zeos')then
   begin
-    frxDBDataset1.DataSet := QRelatorioZeos;
-    frxDBDataset2.DataSet := QTotalizadorZeos;
+    frxDBDatasetListagem.DataSet := QRelatorioZeos;
+    frxDBDatasetTotalizador.DataSet := QTotalizadorZeos;
   end else
   begin
-    frxDBDataset1.DataSet := TBRelatorio;
-    frxDBDataset2.DataSet := QTotalizador;
+    frxDBDatasetListagem.DataSet := TBRelatorio;
+    frxDBDatasetTotalizador.DataSet := QTotalizador;
   end;
 
   frxReport1.LoadFromFile(FLocalAplicacao+'frRelatorioOrdemServico.fr3');
@@ -805,12 +829,12 @@ begin
   CarregarDadosRelatorio();
   if(FConexao = 'Zeos')then
   begin
-    frxDBDataset1.DataSet := QRelatorioZeos;
-    frxDBDataset2.DataSet := QTotalizadorZeos;
+    frxDBDatasetListagem.DataSet := QRelatorioZeos;
+    frxDBDatasetTotalizador.DataSet := QTotalizadorZeos;
   end else
   begin
-    frxDBDataset1.DataSet := TBRelatorio;
-    frxDBDataset2.DataSet := QTotalizador;
+    frxDBDatasetListagem.DataSet := TBRelatorio;
+    frxDBDatasetTotalizador.DataSet := QTotalizador;
   end;
 
   frxReport1.LoadFromFile(FLocalAplicacao+'frRelatorioOrdemServico.fr3');
