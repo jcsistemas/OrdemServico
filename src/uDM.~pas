@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, Classes, DBXpress, DB, SqlExpr, FMTBcd, DBClient, Provider,
-  ADODB, Dialogs, ZAbstractRODataset, ZAbstractDataset, ZAbstractTable,
+  Dialogs, ZAbstractRODataset, ZAbstractDataset, ZAbstractTable,
   ZDataset, ZAbstractConnection, ZConnection;
 
 type

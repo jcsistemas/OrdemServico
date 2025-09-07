@@ -780,8 +780,41 @@ object frmRelatorioOrdemServicoQuick: TfrmRelatorioOrdemServicoQuick
   end
   object QRelatorioZeos: TZQuery
     Connection = DM.ZConnection1
+    SQL.Strings = (
+      'SELECT O.ID, O.DATA_ABERTURA, O.DATA_PREVISTA,'
+      'O.DATA_FECHAMENTO, O.STATUS, O.VALOR_TOTAL, C.NOME'
+      'FROM ORDEM_SERVICO O'
+      'LEFT JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID)')
     Params = <>
     Left = 344
     Top = 8
+    object QRelatorioZeosID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object QRelatorioZeosDATA_ABERTURA: TDateField
+      FieldName = 'DATA_ABERTURA'
+      Required = True
+    end
+    object QRelatorioZeosDATA_PREVISTA: TDateField
+      FieldName = 'DATA_PREVISTA'
+    end
+    object QRelatorioZeosDATA_FECHAMENTO: TDateField
+      FieldName = 'DATA_FECHAMENTO'
+    end
+    object QRelatorioZeosSTATUS: TStringField
+      FieldName = 'STATUS'
+      Required = True
+      Size = 15
+    end
+    object QRelatorioZeosVALOR_TOTAL: TFloatField
+      FieldName = 'VALOR_TOTAL'
+      currency = True
+    end
+    object QRelatorioZeosNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 120
+    end
   end
 end

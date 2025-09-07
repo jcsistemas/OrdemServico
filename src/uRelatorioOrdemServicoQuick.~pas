@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, QuickRpt, QRCtrls, ExtCtrls, FMTBcd, DB, SqlExpr, DBClient,
-  Provider;
+  Provider, ZAbstractRODataset, ZAbstractDataset, ZDataset;
 
 type
   TfrmRelatorioOrdemServicoQuick = class(TForm)
@@ -47,6 +47,14 @@ type
     TBRelatorioNOME: TStringField;
     QRLabel10: TQRLabel;
     QRDBText7: TQRDBText;
+    QRelatorioZeos: TZQuery;
+    QRelatorioZeosID: TIntegerField;
+    QRelatorioZeosDATA_ABERTURA: TDateField;
+    QRelatorioZeosDATA_PREVISTA: TDateField;
+    QRelatorioZeosDATA_FECHAMENTO: TDateField;
+    QRelatorioZeosSTATUS: TStringField;
+    QRelatorioZeosVALOR_TOTAL: TFloatField;
+    QRelatorioZeosNOME: TStringField;
     procedure QuickRep1BeforePrint(Sender: TCustomQuickRep;
       var PrintReport: Boolean);
     procedure QRBand2BeforePrint(Sender: TQRCustomBand;
@@ -66,7 +74,7 @@ var
 
 implementation
 
-uses uDM;
+uses uDM, uMenu;
 
 {$R *.dfm}
 
@@ -88,7 +96,13 @@ end;
 procedure TfrmRelatorioOrdemServicoQuick.QRBand2BeforePrint(
   Sender: TQRCustomBand; var PrintBand: Boolean);
 begin
-  FSomaTotal := FSomaTotal + TBRelatorioVALOR_TOTAL.AsFloat;
+  if(FConexao = 'Zeos')then
+  begin
+    FSomaTotal := FSomaTotal + QRelatorioZeosVALOR_TOTAL.AsFloat;
+  end else
+  begin
+    FSomaTotal := FSomaTotal + TBRelatorioVALOR_TOTAL.AsFloat;
+  end;
   FQuantidade := FQuantidade + 1;
 end;
 

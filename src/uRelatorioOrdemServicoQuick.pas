@@ -48,6 +48,13 @@ type
     QRLabel10: TQRLabel;
     QRDBText7: TQRDBText;
     QRelatorioZeos: TZQuery;
+    QRelatorioZeosID: TIntegerField;
+    QRelatorioZeosDATA_ABERTURA: TDateField;
+    QRelatorioZeosDATA_PREVISTA: TDateField;
+    QRelatorioZeosDATA_FECHAMENTO: TDateField;
+    QRelatorioZeosSTATUS: TStringField;
+    QRelatorioZeosVALOR_TOTAL: TFloatField;
+    QRelatorioZeosNOME: TStringField;
     procedure QuickRep1BeforePrint(Sender: TCustomQuickRep;
       var PrintReport: Boolean);
     procedure QRBand2BeforePrint(Sender: TQRCustomBand;
@@ -67,7 +74,7 @@ var
 
 implementation
 
-uses uDM;
+uses uDM, uMenu;
 
 {$R *.dfm}
 
@@ -89,8 +96,17 @@ end;
 procedure TfrmRelatorioOrdemServicoQuick.QRBand2BeforePrint(
   Sender: TQRCustomBand; var PrintBand: Boolean);
 begin
-  FSomaTotal := FSomaTotal + TBRelatorioVALOR_TOTAL.AsFloat;
-  FQuantidade := FQuantidade + 1;
+  if(FConexao = 'Zeos')then
+  begin
+    FSomaTotal := FSomaTotal + QRelatorioZeosVALOR_TOTAL.AsFloat;
+    if(QRelatorioZeosID.Value > 0)then
+      FQuantidade := FQuantidade + 1;
+  end else
+  begin
+    FSomaTotal := FSomaTotal + TBRelatorioVALOR_TOTAL.AsFloat;
+    if(TBRelatorioID.Value > 0)then
+      FQuantidade := FQuantidade + 1;
+  end;
 end;
 
 procedure TfrmRelatorioOrdemServicoQuick.QRBand3BeforePrint(

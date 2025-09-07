@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, DBCtrls, Mask, ExtCtrls, Buttons, FMTBcd, DB,
   DBClient, Provider, SqlExpr, ZAbstractRODataset, ZAbstractDataset,
-  ZDataset, ShellApi, ComObj, frxClass, frxDBSet;
+  ZDataset, ShellApi, ComObj, frxClass, frxDBSet, frxExportPDF;
 
 type
   TfrmFiltroRelatorioOrdemServico = class(TForm)
@@ -52,6 +52,13 @@ type
     QRelatorioZeosNOME: TStringField;
     frxReport1: TfrxReport;
     frxDBDataset1: TfrxDBDataset;
+    frxDBDataset2: TfrxDBDataset;
+    QTotalizadorZeos: TZQuery;
+    QTotalizadorZeosSOMA: TFloatField;
+    QTotalizador: TSQLQuery;
+    QTotalizadorSOMA: TFMTBCDField;
+    QTotalizadorQUANTIDADE: TIntegerField;
+    QTotalizadorZeosQUANTIDADE: TIntegerField;
     procedure btnSairClick(Sender: TObject);
     procedure CheckClienteClick(Sender: TObject);
     procedure txtDataInicialKeyDown(Sender: TObject; var Key: Word;
@@ -73,9 +80,12 @@ type
     procedure btnRelatorioQuickClick(Sender: TObject);
     procedure btnRelatorioCSVClick(Sender: TObject);
     procedure btnRelatorioXLSClick(Sender: TObject);
+    procedure btnRelatorioFastClick(Sender: TObject);
   private
     { Private declarations }
     procedure CarregarDadosRelatorio();
+    procedure CarregarDadosTotalizador();
+    procedure ExportarParaPDF();
   public
     { Public declarations }
   end;
@@ -279,15 +289,10 @@ procedure TfrmFiltroRelatorioOrdemServico.btnRelatorioCSVClick(
 var
   SaveDialogCSV: TSaveDialog;
   lArquivoCSV: TStringList;
-  lIDClienteSelecionado: Integer;
   lNomeArquivo: String;
   lSomaTotal: Double;
   lQuantidadeTotal: Integer;
-begin
-  lIDClienteSelecionado := 0;
-  if(dblkcbbClientes.KeyValue <> null)then
-    lIDClienteSelecionado := dblkcbbClientes.KeyValue;
-    
+begin            
   SaveDialogCSV := TSaveDialog.Create(Self);
   lArquivoCSV := TStringList.Create;
   try
@@ -358,7 +363,7 @@ procedure TfrmFiltroRelatorioOrdemServico.btnRelatorioXLSClick(
   Sender: TObject);
 const lTitulo = 'Relatório Ordens de Serviço';
 var
-  objExcel, Sheet, Chart, s : Variant;
+  objExcel, Sheet: Variant;
   lIDClienteSelecionado, i: Integer;
   x_cor_fundo, y_cor_fundo, z_cor_fundo: Integer;
   x_cor_fonte, y_cor_fonte, z_cor_fonte: Integer;
@@ -506,6 +511,7 @@ begin
   Sheet.Range['A3','I3'].Interior.Color := RGB(255,255,255);
 
   i := 4;
+  lCorBranca := true;
   if(FConexao = 'Zeos')then
   begin
     QRelatorioZeos.First;
@@ -674,6 +680,114 @@ begin
     end;
     QRelatorio.Open;
     TBRelatorio.Open;
+  end;
+end;
+
+procedure TfrmFiltroRelatorioOrdemServico.btnRelatorioFastClick(
+  Sender: TObject);
+begin
+  if not (FileExists(FLocalAplicacao+'frRelatorioOrdemServico.fr3'))then
+  begin
+    ShowMessage('Arquivo do relatório(frRelatorioOrdemServico.fr3) não encontrado!');
+    Abort;
+  end;
+
+  CarregarDadosTotalizador();
+  CarregarDadosRelatorio();
+  if(FConexao = 'Zeos')then
+  begin
+    frxDBDataset1.DataSet := QRelatorioZeos;
+    frxDBDataset2.DataSet := QTotalizadorZeos;
+  end else
+  begin
+    frxDBDataset1.DataSet := TBRelatorio;
+    frxDBDataset2.DataSet := QTotalizador;
+  end;
+
+  frxReport1.LoadFromFile(FLocalAplicacao+'frRelatorioOrdemServico.fr3');
+
+  frxReport1.PrepareReport;
+  frxReport1.ShowReport;
+end;
+
+procedure TfrmFiltroRelatorioOrdemServico.CarregarDadosTotalizador();
+var
+  lIDClienteSelecionado: Integer;
+begin
+  lIDClienteSelecionado := 0;
+  if(dblkcbbClientes.KeyValue <> null)then
+    lIDClienteSelecionado := dblkcbbClientes.KeyValue;
+
+  if(FConexao = 'Zeos')then
+  begin
+    QTotalizadorZeos.Close;
+    QTotalizadorZeos.SQL.Clear;
+    QTotalizadorZeos.SQL.Add('SELECT SUM(VALOR_TOTAL) AS SOMA, COUNT(*) AS QUANTIDADE FROM ORDEM_SERVICO ');
+    QTotalizadorZeos.SQL.Add('WHERE ORDEM_SERVICO.DATA_ABERTURA >= :pDataInicial ');
+    QTotalizadorZeos.SQL.Add('AND ORDEM_SERVICO.DATA_ABERTURA <= :pDataFinal ');
+
+    if(CheckCliente.Checked = false)and(lIDClienteSelecionado > 0)then
+      QTotalizadorZeos.SQL.Add('AND ORDEM_SERVICO.CLIENTE_ID = :pCliente ');
+
+    QTotalizadorZeos.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(txtDataInicial.Text);
+    QTotalizadorZeos.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(txtDataFinal.Text);
+
+    if(CheckCliente.Checked = false)and(lIDClienteSelecionado > 0)then
+      QTotalizadorZeos.Params.ParamByName('pCliente').AsInteger := lIDClienteSelecionado;
+
+    QTotalizadorZeos.Open;
+  end else
+  begin
+    QTotalizador.Close;
+    QTotalizador.SQL.Clear;
+    QTotalizador.SQL.Add('SELECT SUM(VALOR_TOTAL) AS SOMA, COUNT(*) AS QUANTIDADE FROM ORDEM_SERVICO ');
+    QTotalizador.SQL.Add('WHERE ORDEM_SERVICO.DATA_ABERTURA >= :pDataInicial ');
+    QTotalizador.SQL.Add('AND ORDEM_SERVICO.DATA_ABERTURA <= :pDataFinal ');
+
+    if(CheckCliente.Checked = false)and(lIDClienteSelecionado > 0)then
+      QTotalizador.SQL.Add('AND ORDEM_SERVICO.CLIENTE_ID = :pCliente ');
+
+    QTotalizador.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(txtDataInicial.Text);
+    QTotalizador.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(txtDataFinal.Text);
+
+    if(CheckCliente.Checked = false)and(lIDClienteSelecionado > 0)then
+      QTotalizador.Params.ParamByName('pCliente').AsInteger := lIDClienteSelecionado;
+
+    QTotalizador.Open;
+  end;
+end;
+
+procedure TfrmFiltroRelatorioOrdemServico.ExportarParaPDF();
+var
+  ExportPDF: TfrxPDFExport;
+  SaveDialogPDF: TSaveDialog;
+  lNomeArquivo: String;
+begin
+  frxReport1.PrepareReport;
+  
+  ExportPDF := TfrxPDFExport.Create(nil);
+  SaveDialogPDF := TSaveDialog.Create(Self);
+  try
+    SaveDialogPDF.Filter := '*.pdf|*.pdf';
+    SaveDialogPDF.Execute;
+    if(SaveDialogPDF.FileName <> '')then
+    begin
+      if(LowerCase(Copy(SaveDialogPDF.FileName,Length(SaveDialogPDF.FileName)-4,4))='.pdf')then
+        lNomeArquivo := SaveDialogPDF.FileName
+      else
+        lNomeArquivo := SaveDialogPDF.FileName + '.pdf';
+
+      ExportPDF.FileName := lNomeArquivo;
+      ExportPDF.ShowDialog := false;
+      ExportPDF.ShowProgress := true;
+      ExportPDF.OverwritePrompt := true;
+      frxReport1.Export(ExportPDF);
+
+      ShellExecute(handle, 'open', PChar(lNomeArquivo), NiL, NiL, SW_SHOWNORMAL);
+    end;
+  finally
+    ExportPDF.Free;
+    SaveDialogPDF.Free;
   end;
 end;
 
