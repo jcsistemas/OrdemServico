@@ -225,7 +225,7 @@ begin
         Abort;
       end;
       DM.TCliente.Delete;
-      DM.TCliente.ApplyUpdates(0);
+      DM.TCliente.ApplyUpdates;
     end else
     begin
       DM.QueryVerificar.Close;

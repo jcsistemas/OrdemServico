@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, DBCtrls, Mask, ExtCtrls, Buttons, FMTBcd, DB,
   DBClient, Provider, SqlExpr, ZAbstractRODataset, ZAbstractDataset,
-  ZDataset, ShellApi, ComObj;
+  ZDataset, ShellApi, ComObj, frxClass, frxDBSet;
 
 type
   TfrmFiltroRelatorioOrdemServico = class(TForm)
@@ -22,7 +22,6 @@ type
     Panel1: TPanel;
     btnRelatorioQuick: TSpeedButton;
     btnRelatorioFast: TSpeedButton;
-    btnRelatorioFortes: TSpeedButton;
     btnRelatorioCSV: TSpeedButton;
     btnRelatorioXLS: TSpeedButton;
     Panel7: TPanel;
@@ -51,6 +50,8 @@ type
     QRelatorioZeosDESCRICAO_PROBLEMA: TStringField;
     QRelatorioZeosVALOR_TOTAL: TFloatField;
     QRelatorioZeosNOME: TStringField;
+    frxReport1: TfrxReport;
+    frxDBDataset1: TfrxDBDataset;
     procedure btnSairClick(Sender: TObject);
     procedure CheckClienteClick(Sender: TObject);
     procedure txtDataInicialKeyDown(Sender: TObject; var Key: Word;
@@ -225,7 +226,7 @@ begin
     frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add('SELECT O.ID, O.DATA_ABERTURA, O.DATA_PREVISTA, ');
     frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add('O.DATA_FECHAMENTO, O.STATUS, O.VALOR_TOTAL, C.NOME ');
     frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add('FROM ORDEM_SERVICO O ');
-    frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add('LEFT JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID) ');
+    frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add('INNER JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID) ');
     frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add('WHERE O.DATA_ABERTURA >= :pDataInicial ');
     frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add('AND O.DATA_ABERTURA <= :pDataFinal ');
     frmRelatorioOrdemServicoQuick.QRelatorioZeos.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(txtDataInicial.Text);
@@ -250,7 +251,7 @@ begin
     frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add('SELECT O.ID, O.DATA_ABERTURA, O.DATA_PREVISTA, ');
     frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add('O.DATA_FECHAMENTO, O.STATUS, O.VALOR_TOTAL, C.NOME ');
     frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add('FROM ORDEM_SERVICO O ');
-    frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add('LEFT JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID) ');
+    frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add('INNER JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID) ');
     frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add('WHERE O.DATA_ABERTURA >= :pDataInicial ');
     frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add('AND O.DATA_ABERTURA <= :pDataFinal ');
     frmRelatorioOrdemServicoQuick.QRelatorio.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(txtDataInicial.Text);
@@ -505,37 +506,74 @@ begin
   Sheet.Range['A3','I3'].Interior.Color := RGB(255,255,255);
 
   i := 4;
-  TBRelatorio.First;
-  while not(TBRelatorio.Eof)do
+  if(FConexao = 'Zeos')then
   begin
-    Sheet.Cells[i,1] := TBRelatorioID.AsString;
-    Sheet.Cells[i,2] := TBRelatorioNOME.AsString;
-    Sheet.Cells[i,3] := TBRelatorioDATA_ABERTURA.AsString;
-    Sheet.Cells[i,4] := TBRelatorioDATA_PREVISTA.AsString;
-    Sheet.Cells[i,5] := TBRelatorioDATA_FECHAMENTO.AsString;
-    Sheet.Cells[i,6] := TBRelatorioSTATUS.AsString;
-    Sheet.Cells[i,7].NumberFormat := 'R$ #.##0,00_);(R$ #.##0,00)';
-    Sheet.Cells[i,7] := TBRelatorioVALOR_TOTAL.AsFloat;
-    if(lCorBranca = true)then
+    QRelatorioZeos.First;
+    while not(QRelatorioZeos.Eof)do
     begin
-       lCorBranca := false;
+      Sheet.Cells[i,1] := QRelatorioZeosID.AsString;
+      Sheet.Cells[i,2] := QRelatorioZeosNOME.AsString;
+      Sheet.Cells[i,3] := QRelatorioZeosDATA_ABERTURA.AsString;
+      Sheet.Cells[i,4] := QRelatorioZeosDATA_PREVISTA.AsString;
+      Sheet.Cells[i,5] := QRelatorioZeosDATA_FECHAMENTO.AsString;
+      Sheet.Cells[i,6] := QRelatorioZeosSTATUS.AsString;
+      Sheet.Cells[i,7].NumberFormat := 'R$ #.##0,00_);(R$ #.##0,00)';
+      Sheet.Cells[i,7] := QRelatorioZeosVALOR_TOTAL.AsFloat;
+      if(lCorBranca = true)then
+      begin
+         lCorBranca := false;
 
-       Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.name := 'Calibri';
-       Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.size := 10;
-       Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.color := RGB(0,0,0);
-       Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].Interior.Color := RGB(255,255,255);
-    end else
-    begin
-       Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.name := 'Calibri';
-       Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.size := 10;
-       Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.color := RGB(0,0,0);
-       Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].Interior.Color := RGB(x_cor_fundo,y_cor_fundo,z_cor_fundo);
+         Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.name := 'Calibri';
+         Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.size := 10;
+         Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.color := RGB(0,0,0);
+         Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].Interior.Color := RGB(255,255,255);
+      end else
+      begin
+         Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.name := 'Calibri';
+         Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.size := 10;
+         Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.color := RGB(0,0,0);
+         Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].Interior.Color := RGB(x_cor_fundo,y_cor_fundo,z_cor_fundo);
 
-       lCorBranca := true;
+         lCorBranca := true;
+      end;
+
+      i := i + 1;
+      QRelatorioZeos.Next;
     end;
+  end else
+  begin
+    TBRelatorio.First;
+    while not(TBRelatorio.Eof)do
+    begin
+      Sheet.Cells[i,1] := TBRelatorioID.AsString;
+      Sheet.Cells[i,2] := TBRelatorioNOME.AsString;
+      Sheet.Cells[i,3] := TBRelatorioDATA_ABERTURA.AsString;
+      Sheet.Cells[i,4] := TBRelatorioDATA_PREVISTA.AsString;
+      Sheet.Cells[i,5] := TBRelatorioDATA_FECHAMENTO.AsString;
+      Sheet.Cells[i,6] := TBRelatorioSTATUS.AsString;
+      Sheet.Cells[i,7].NumberFormat := 'R$ #.##0,00_);(R$ #.##0,00)';
+      Sheet.Cells[i,7] := TBRelatorioVALOR_TOTAL.AsFloat;
+      if(lCorBranca = true)then
+      begin
+         lCorBranca := false;
 
-    i := i + 1;
-    TBRelatorio.Next;
+         Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.name := 'Calibri';
+         Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.size := 10;
+         Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.color := RGB(0,0,0);
+         Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].Interior.Color := RGB(255,255,255);
+      end else
+      begin
+         Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.name := 'Calibri';
+         Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.size := 10;
+         Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].font.color := RGB(0,0,0);
+         Sheet.Range['A'+IntToStr(i),'I'+IntToStr(i)].Interior.Color := RGB(x_cor_fundo,y_cor_fundo,z_cor_fundo);
+
+         lCorBranca := true;
+      end;
+
+      i := i + 1;
+      TBRelatorio.Next;
+    end;
   end;
 
   i := i + 1;
@@ -553,7 +591,7 @@ begin
   Sheet.Range['E'+IntToStr(i)].font.bold := true;
   Sheet.Range['E'+IntToStr(i)].font.color := RGB(0,0,0);
   Sheet.Range['E'+IntToStr(i)].Interior.Color := RGB(255,255,255);
-  Sheet.Cells[i,5] := TBRelatorio.RecordCount;
+  Sheet.Cells[i,5] := i-5;
 
   Sheet.Cells[i,6] := 'Soma Total: ';
   Sheet.Range['F'+IntToStr(i)].RowHeight := 20;
@@ -596,7 +634,7 @@ begin
     QRelatorioZeos.SQL.Clear;
     QRelatorioZeos.SQL.Add('SELECT O.*, C.NOME ');
     QRelatorioZeos.SQL.Add('FROM ORDEM_SERVICO O ');
-    QRelatorioZeos.SQL.Add('LEFT JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID) ');
+    QRelatorioZeos.SQL.Add('INNER JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID) ');
     QRelatorioZeos.SQL.Add('WHERE O.DATA_ABERTURA >= :pDataInicial ');
     QRelatorioZeos.SQL.Add('AND O.DATA_ABERTURA <= :pDataFinal ');
     QRelatorioZeos.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(txtDataInicial.Text);
@@ -619,7 +657,7 @@ begin
     QRelatorio.SQL.Clear;
     QRelatorio.SQL.Add('SELECT O.*, C.NOME ');
     QRelatorio.SQL.Add('FROM ORDEM_SERVICO O ');
-    QRelatorio.SQL.Add('LEFT JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID) ');
+    QRelatorio.SQL.Add('INNER JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID) ');
     QRelatorio.SQL.Add('WHERE O.DATA_ABERTURA >= :pDataInicial ');
     QRelatorio.SQL.Add('AND O.DATA_ABERTURA <= :pDataFinal ');
     QRelatorio.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(txtDataInicial.Text);
