@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, QuickRpt, QRCtrls, ExtCtrls, FMTBcd, DB, SqlExpr, DBClient,
-  Provider;
+  Provider, ZAbstractRODataset, ZAbstractDataset, ZDataset;
 
 type
   TfrmRelatorioOrdemServicoQuick = class(TForm)
@@ -47,6 +47,7 @@ type
     TBRelatorioNOME: TStringField;
     QRLabel10: TQRLabel;
     QRDBText7: TQRDBText;
+    QRelatorioZeos: TZQuery;
     procedure QuickRep1BeforePrint(Sender: TCustomQuickRep;
       var PrintReport: Boolean);
     procedure QRBand2BeforePrint(Sender: TQRCustomBand;

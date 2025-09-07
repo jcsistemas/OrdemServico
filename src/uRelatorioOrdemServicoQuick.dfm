@@ -1,6 +1,6 @@
 object frmRelatorioOrdemServicoQuick: TfrmRelatorioOrdemServicoQuick
-  Left = 221
-  Top = 133
+  Left = 640
+  Top = 148
   Width = 870
   Height = 736
   Caption = 'frmRelatorioOrdemServicoQuick'
@@ -776,6 +776,12 @@ object frmRelatorioOrdemServicoQuick: TfrmRelatorioOrdemServicoQuick
   object DSRelatorio: TDataSource
     DataSet = TBRelatorio
     Left = 256
+    Top = 8
+  end
+  object QRelatorioZeos: TZQuery
+    Connection = DM.ZConnection1
+    Params = <>
+    Left = 344
     Top = 8
   end
 end

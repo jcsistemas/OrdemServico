@@ -300,6 +300,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         FFFFFFFFFFFFFFFFFFFFBD8C28B67E0EB67C09B67B08B57B08B67B08B67B08B5
         7B08B67B08B67C09B67E0EBD8C28FFFFFFFFFFFFFFFFFFFFFFFF}
       Layout = blGlyphRight
+      OnClick = btnRelatorioXLSClick
     end
     object btnRelatorioPDF: TSpeedButton
       Left = 403
@@ -455,8 +456,8 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
       'FROM ORDEM_SERVICO O'
       'LEFT JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID)')
     Params = <>
-    Left = 560
-    Top = 5
+    Left = 464
+    Top = 13
     object QRelatorioZeosID: TIntegerField
       FieldName = 'ID'
       Required = True
