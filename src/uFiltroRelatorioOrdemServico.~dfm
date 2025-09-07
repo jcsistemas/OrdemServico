@@ -2,7 +2,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
   Left = 214
   Top = 116
   Width = 636
-  Height = 234
+  Height = 230
   Caption = 'Filtro de Relat'#243'rio de Ordens de Servi'#231'o'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -113,7 +113,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
   end
   object Panel1: TPanel
     Left = 0
-    Top = 143
+    Top = 139
     Width = 628
     Height = 60
     Align = alBottom
@@ -154,6 +154,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         FFFFFFFFFFFFFFFFFFFFFFFFFFB8B8B6B0B0AEAEAFADAEAFAEAEAFAEAEAFAEAE
         AEADAEAEACAFAFADB6B6B4FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       Layout = blGlyphRight
+      OnClick = btnRelatorioQuickClick
     end
     object btnRelatorioFast: TSpeedButton
       Left = 84
@@ -262,6 +263,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         A8BB8747FFFFFFFFFFFFB8B8B6B0B0ADAEAEACAEAEABAEAEABADAEABAEAEABAF
         AFADB7B8B7FFFFFFBB7F36BB8542BB8747D5B48DFFFFFFFFFFFF}
       Layout = blGlyphRight
+      OnClick = btnRelatorioCSVClick
     end
     object btnRelatorioXLS: TSpeedButton
       Left = 323
@@ -380,6 +382,115 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         Layout = blGlyphRight
         OnClick = btnSairClick
       end
+    end
+  end
+  object QRelatorio: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      'SELECT O.*, C.NOME'
+      'FROM ORDEM_SERVICO O'
+      'LEFT JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID)')
+    SQLConnection = DM.SQLConnection1
+    Left = 560
+    Top = 18
+  end
+  object DSPRelatorio: TDataSetProvider
+    DataSet = QRelatorio
+    Left = 560
+    Top = 39
+  end
+  object TBRelatorio: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'DSPRelatorio'
+    Left = 560
+    Top = 59
+    object TBRelatorioID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object TBRelatorioDATA_ABERTURA: TDateField
+      FieldName = 'DATA_ABERTURA'
+      Required = True
+    end
+    object TBRelatorioDATA_PREVISTA: TDateField
+      FieldName = 'DATA_PREVISTA'
+    end
+    object TBRelatorioDATA_FECHAMENTO: TDateField
+      FieldName = 'DATA_FECHAMENTO'
+    end
+    object TBRelatorioSTATUS: TStringField
+      FieldName = 'STATUS'
+      Required = True
+      Size = 15
+    end
+    object TBRelatorioVALOR_TOTAL: TFMTBCDField
+      FieldName = 'VALOR_TOTAL'
+      currency = True
+      Precision = 15
+      Size = 2
+    end
+    object TBRelatorioNOME: TStringField
+      FieldName = 'NOME'
+      Size = 120
+    end
+    object TBRelatorioCLIENTE_ID: TIntegerField
+      FieldName = 'CLIENTE_ID'
+    end
+    object TBRelatorioDESCRICAO_PROBLEMA: TStringField
+      FieldName = 'DESCRICAO_PROBLEMA'
+      Size = 500
+    end
+  end
+  object DSRelatorio: TDataSource
+    DataSet = TBRelatorio
+    Left = 560
+    Top = 80
+  end
+  object QRelatorioZeos: TZQuery
+    Connection = DM.ZConnection1
+    SQL.Strings = (
+      'SELECT O.*, C.NOME'
+      'FROM ORDEM_SERVICO O'
+      'LEFT JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID)')
+    Params = <>
+    Left = 560
+    Top = 5
+    object QRelatorioZeosID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object QRelatorioZeosCLIENTE_ID: TIntegerField
+      FieldName = 'CLIENTE_ID'
+    end
+    object QRelatorioZeosDATA_ABERTURA: TDateField
+      FieldName = 'DATA_ABERTURA'
+      Required = True
+    end
+    object QRelatorioZeosDATA_PREVISTA: TDateField
+      FieldName = 'DATA_PREVISTA'
+    end
+    object QRelatorioZeosDATA_FECHAMENTO: TDateField
+      FieldName = 'DATA_FECHAMENTO'
+    end
+    object QRelatorioZeosSTATUS: TStringField
+      FieldName = 'STATUS'
+      Required = True
+      Size = 15
+    end
+    object QRelatorioZeosDESCRICAO_PROBLEMA: TStringField
+      FieldName = 'DESCRICAO_PROBLEMA'
+      Size = 500
+    end
+    object QRelatorioZeosVALOR_TOTAL: TFloatField
+      FieldName = 'VALOR_TOTAL'
+      currency = True
+    end
+    object QRelatorioZeosNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 120
     end
   end
 end
