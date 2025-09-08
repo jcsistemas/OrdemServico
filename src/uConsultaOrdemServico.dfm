@@ -1,6 +1,6 @@
 object frmConsultaOrdemServico: TfrmConsultaOrdemServico
-  Left = 691
-  Top = 116
+  Left = 298
+  Top = 132
   Width = 992
   Height = 675
   Caption = 'Consulta de Ordem de Servi'#231'o'
@@ -21,7 +21,7 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
     Left = 0
     Top = 0
     Width = 984
-    Height = 65
+    Height = 115
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
@@ -97,7 +97,28 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       Height = 13
       Caption = 'Quantidade Listada: 0'
     end
-    object txtDataInicial: TMaskEdit
+    object lbl4: TLabel
+      Left = 22
+      Top = 52
+      Width = 36
+      Height = 13
+      Caption = 'Status: '
+    end
+    object lbl5: TLabel
+      Left = 221
+      Top = 51
+      Width = 73
+      Height = 13
+      Caption = 'Faixa de Valor: '
+    end
+    object lbl6: TLabel
+      Left = 373
+      Top = 51
+      Width = 12
+      Height = 13
+      Caption = ' '#224' '
+    end
+    object edtDataInicial: TMaskEdit
       Left = 62
       Top = 18
       Width = 68
@@ -107,12 +128,12 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       MaxLength = 10
       TabOrder = 0
       Text = '01/01/2000'
-      OnEnter = txtDataInicialEnter
-      OnExit = txtDataInicialExit
-      OnKeyDown = txtDataInicialKeyDown
-      OnKeyPress = txtDataInicialKeyPress
+      OnEnter = edtDataInicialEnter
+      OnExit = edtDataInicialExit
+      OnKeyDown = edtDataInicialKeyDown
+      OnKeyPress = edtDataInicialKeyPress
     end
-    object txtDataFinal: TMaskEdit
+    object edtDataFinal: TMaskEdit
       Left = 148
       Top = 18
       Width = 69
@@ -122,16 +143,16 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       MaxLength = 10
       TabOrder = 1
       Text = '31/12/2100'
-      OnEnter = txtDataFinalEnter
-      OnExit = txtDataFinalExit
-      OnKeyDown = txtDataInicialKeyDown
-      OnKeyPress = txtDataInicialKeyPress
+      OnEnter = edtDataFinalEnter
+      OnExit = edtDataFinalExit
+      OnKeyDown = edtDataInicialKeyDown
+      OnKeyPress = edtDataInicialKeyPress
     end
     object Panel7: TPanel
       Left = 848
       Top = 0
       Width = 136
-      Height = 65
+      Height = 115
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 2
@@ -173,38 +194,83 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
         OnClick = btnSairClick
       end
     end
-    object dblkcbbClientes: TDBLookupComboBox
-      Left = 261
+    object edtBusca: TEdit
+      Left = 259
       Top = 18
-      Width = 292
+      Width = 286
       Height = 21
-      DropDownRows = 30
-      KeyField = 'ID'
-      ListField = 'NOME'
-      ListSource = DM.DSCliente
       TabOrder = 3
-      OnEnter = dblkcbbClientesEnter
-      OnExit = dblkcbbClientesExit
-      OnKeyDown = dblkcbbClientesKeyDown
-      OnKeyPress = dblkcbbClientesKeyPress
+      OnEnter = edtBuscaEnter
+      OnExit = edtBuscaExit
+      OnKeyDown = edtBuscaKeyDown
     end
-    object CheckCliente: TCheckBox
-      Left = 392
-      Top = 40
-      Width = 161
-      Height = 17
-      Caption = 'Selecionar Todos os Clientes'
+    object cbbStatus: TComboBox
+      Left = 62
+      Top = 48
+      Width = 155
+      Height = 21
+      ItemHeight = 13
+      ItemIndex = 0
       TabOrder = 4
-      OnClick = CheckClienteClick
+      Text = 'Todos'
+      OnChange = cbbStatusChange
+      OnEnter = cbbStatusEnter
+      OnExit = cbbStatusExit
+      OnKeyDown = cbbStatusKeyDown
+      Items.Strings = (
+        'Todos'
+        'Aberta'
+        'Em Andamento'
+        'Conclu'#237'da'
+        'Cancelada')
+    end
+    object edtValorInicial: TEdit
+      Left = 296
+      Top = 48
+      Width = 73
+      Height = 21
+      TabOrder = 5
+      Text = '0'
+      OnEnter = edtValorInicialEnter
+      OnExit = edtValorInicialExit
+      OnKeyDown = edtValorInicialKeyDown
+    end
+    object edtValorFinal: TEdit
+      Left = 389
+      Top = 48
+      Width = 73
+      Height = 21
+      TabOrder = 6
+      Text = '9999999'
+      OnEnter = edtValorFinalEnter
+      OnExit = edtValorFinalExit
+      OnKeyDown = edtValorFinalKeyDown
+    end
+    object rgOrdenar: TRadioGroup
+      Left = 24
+      Top = 75
+      Width = 657
+      Height = 33
+      Caption = ' Ordenar por '
+      Columns = 5
+      ItemIndex = 0
+      Items.Strings = (
+        'ID'
+        'Cliente'
+        'Status'
+        'Valor(Crescente)'
+        'Valor(Decrescente)')
+      TabOrder = 7
+      OnClick = rgOrdenarClick
     end
   end
   object DBGrid1: TDBGrid
     Left = 0
-    Top = 65
+    Top = 115
     Width = 984
-    Height = 579
+    Height = 529
     Align = alClient
-    DataSource = DM.DSOrdemServico
+    DataSource = DSConsulta
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
@@ -230,7 +296,7 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       end
       item
         Expanded = False
-        FieldName = 'NOME_CLIENTE'
+        FieldName = 'NOME'
         Title.Caption = 'Nome do Cliente'
         Width = 250
         Visible = True
@@ -245,24 +311,28 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
         Expanded = False
         FieldName = 'DATA_PREVISTA'
         Title.Caption = 'Data Prevista'
+        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATA_FECHAMENTO'
         Title.Caption = 'Data Fechamento'
+        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'STATUS'
         Title.Caption = 'Status'
+        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALOR_TOTAL'
         Title.Caption = 'Valor Total'
+        Width = 64
         Visible = True
       end
       item
@@ -275,7 +345,7 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
   end
   object PopUp1: TPopupMenu
     Left = 32
-    Top = 120
+    Top = 128
     object A1: TMenuItem
       Caption = 'Atualizar'
       ShortCut = 119
@@ -287,6 +357,114 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       ShortCut = 115
       Visible = False
       OnClick = S1Click
+    end
+  end
+  object DSConsulta: TDataSource
+    DataSet = TBConsulta
+    Left = 112
+    Top = 224
+  end
+  object QConsultaZeos: TZQuery
+    Connection = DM.ZConnection1
+    SQL.Strings = (
+      'SELECT O.*, C.NOME FROM ORDEM_SERVICO O '
+      'INNER JOIN CLIENTE C ON(C.ID = O.CLIENTE_ID)')
+    Params = <>
+    Left = 32
+    Top = 320
+    object QConsultaZeosID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object QConsultaZeosCLIENTE_ID: TIntegerField
+      FieldName = 'CLIENTE_ID'
+    end
+    object QConsultaZeosDATA_ABERTURA: TDateField
+      FieldName = 'DATA_ABERTURA'
+      Required = True
+    end
+    object QConsultaZeosDATA_PREVISTA: TDateField
+      FieldName = 'DATA_PREVISTA'
+    end
+    object QConsultaZeosDATA_FECHAMENTO: TDateField
+      FieldName = 'DATA_FECHAMENTO'
+    end
+    object QConsultaZeosSTATUS: TStringField
+      FieldName = 'STATUS'
+      Required = True
+      Size = 15
+    end
+    object QConsultaZeosDESCRICAO_PROBLEMA: TStringField
+      FieldName = 'DESCRICAO_PROBLEMA'
+      Size = 500
+    end
+    object QConsultaZeosVALOR_TOTAL: TFloatField
+      FieldName = 'VALOR_TOTAL'
+      currency = True
+    end
+    object QConsultaZeosNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 120
+    end
+  end
+  object QConsulta: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      'SELECT O.*, C.NOME FROM ORDEM_SERVICO O '
+      'INNER JOIN CLIENTE C ON(C.ID = O.CLIENTE_ID)')
+    SQLConnection = DM.SQLConnection1
+    Left = 32
+    Top = 176
+  end
+  object DSPConsulta: TDataSetProvider
+    DataSet = QConsulta
+    Left = 32
+    Top = 224
+  end
+  object TBConsulta: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'DSPConsulta'
+    Left = 32
+    Top = 272
+    object TBConsultaID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object TBConsultaCLIENTE_ID: TIntegerField
+      FieldName = 'CLIENTE_ID'
+    end
+    object TBConsultaDATA_ABERTURA: TDateField
+      FieldName = 'DATA_ABERTURA'
+      Required = True
+    end
+    object TBConsultaDATA_PREVISTA: TDateField
+      FieldName = 'DATA_PREVISTA'
+    end
+    object TBConsultaDATA_FECHAMENTO: TDateField
+      FieldName = 'DATA_FECHAMENTO'
+    end
+    object TBConsultaSTATUS: TStringField
+      FieldName = 'STATUS'
+      Required = True
+      Size = 15
+    end
+    object TBConsultaDESCRICAO_PROBLEMA: TStringField
+      FieldName = 'DESCRICAO_PROBLEMA'
+      Size = 500
+    end
+    object TBConsultaVALOR_TOTAL: TFMTBCDField
+      FieldName = 'VALOR_TOTAL'
+      currency = True
+      Precision = 15
+      Size = 2
+    end
+    object TBConsultaNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 120
     end
   end
 end

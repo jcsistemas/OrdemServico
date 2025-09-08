@@ -827,6 +827,7 @@ begin
 
   CarregarDadosTotalizador();
   CarregarDadosRelatorio();
+  
   if(FConexao = 'Zeos')then
   begin
     frxDBDatasetListagem.DataSet := QRelatorioZeos;

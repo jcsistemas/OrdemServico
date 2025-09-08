@@ -471,7 +471,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
     PrintOptions.Printer = #8226'W'#143#8364
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 45907.528389444400000000
-    ReportOptions.LastChange = 45907.806574224500000000
+    ReportOptions.LastChange = 45907.807501736110000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'begin'
@@ -511,7 +511,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
       object ReportTitle1: TfrxReportTitle
         FillType = ftBrush
         Frame.Typ = []
-        Height = 86.929190000000000000
+        Height = 102.047310000000000000
         Top = 18.897650000000000000
         Width = 718.110700000000000000
         object Memo1: TfrxMemoView
@@ -536,7 +536,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
           Left = 3.779530000000000000
           Top = 26.456710000000000000
           Width = 706.772110000000000000
-          Height = 18.897650000000000000
+          Height = 41.574830000000000000
           DataField = 'DESCRICAO_RELATORIO'
           DataSet = frxDBDatasetCabecalho
           DataSetName = 'frxDBDataset3'
@@ -547,7 +547,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         object Line1: TfrxLineView
           AllowVectorExport = True
           Left = 3.779530000000000000
-          Top = 52.913420000000000000
+          Top = 72.913420000000000000
           Width = 706.772110000000000000
           Color = clBlack
           Frame.Typ = []
@@ -556,7 +556,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         object Memo3: TfrxMemoView
           Align = baLeft
           AllowVectorExport = True
-          Top = 60.472480000000000000
+          Top = 80.472480000000000000
           Width = 34.015770000000000000
           Height = 15.118110240000000000
           Font.Charset = DEFAULT_CHARSET
@@ -572,7 +572,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         object Memo4: TfrxMemoView
           AllowVectorExport = True
           Left = 49.133890000000000000
-          Top = 60.472480000000000000
+          Top = 80.472480000000000000
           Width = 94.488250000000000000
           Height = 15.118110236220500000
           Font.Charset = DEFAULT_CHARSET
@@ -588,7 +588,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         object Memo5: TfrxMemoView
           AllowVectorExport = True
           Left = 253.228510000000000000
-          Top = 60.472480000000000000
+          Top = 80.472480000000000000
           Width = 71.811023622047200000
           Height = 15.118110236220500000
           Font.Charset = DEFAULT_CHARSET
@@ -604,7 +604,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         object Memo6: TfrxMemoView
           AllowVectorExport = True
           Left = 332.598640000000000000
-          Top = 60.472480000000000000
+          Top = 80.472480000000000000
           Width = 71.811023620000000000
           Height = 15.118110240000000000
           Font.Charset = DEFAULT_CHARSET
@@ -620,7 +620,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         object Memo7: TfrxMemoView
           AllowVectorExport = True
           Left = 411.968770000000000000
-          Top = 60.472480000000000000
+          Top = 80.472480000000000000
           Width = 92.598425200000000000
           Height = 15.118110240000000000
           Font.Charset = DEFAULT_CHARSET
@@ -636,7 +636,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         object Memo8: TfrxMemoView
           AllowVectorExport = True
           Left = 514.016080000000000000
-          Top = 60.472480000000000000
+          Top = 80.472480000000000000
           Width = 49.133890000000000000
           Height = 15.118110240000000000
           Font.Charset = DEFAULT_CHARSET
@@ -652,7 +652,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         object Memo9: TfrxMemoView
           AllowVectorExport = True
           Left = 627.401980000000000000
-          Top = 60.472480000000000000
+          Top = 80.472480000000000000
           Width = 83.149660000000000000
           Height = 15.118110240000000000
           Font.Charset = DEFAULT_CHARSET
@@ -667,7 +667,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         end
         object Line2: TfrxLineView
           AllowVectorExport = True
-          Top = 79.370130000000000000
+          Top = 99.370130000000000000
           Width = 710.551640000000000000
           Color = clBlack
           Frame.Typ = []
@@ -678,7 +678,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         FillType = ftBrush
         Frame.Typ = []
         Height = 22.677180000000000000
-        Top = 166.299320000000000000
+        Top = 181.417440000000000000
         Width = 718.110700000000000000
         DataSet = frxDBDatasetListagem
         DataSetName = 'frxDBDataset1'
@@ -821,7 +821,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
         FillType = ftBrush
         Frame.Typ = []
         Height = 56.692950000000000000
-        Top = 249.448980000000000000
+        Top = 264.567100000000000000
         Width = 718.110700000000000000
         object Line3: TfrxLineView
           AllowVectorExport = True

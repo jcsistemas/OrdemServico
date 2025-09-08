@@ -15,34 +15,60 @@ type
     lbl1: TLabel;
     lbl2: TLabel;
     btnAtualizar: TSpeedButton;
-    txtDataInicial: TMaskEdit;
-    txtDataFinal: TMaskEdit;
+    edtDataInicial: TMaskEdit;
+    edtDataFinal: TMaskEdit;
     Panel7: TPanel;
     btnSair: TSpeedButton;
     lbl3: TLabel;
-    dblkcbbClientes: TDBLookupComboBox;
     DBGrid1: TDBGrid;
-    CheckCliente: TCheckBox;
     lblValorTotal: TLabel;
     lblQuantidadeListada: TLabel;
     PopUp1: TPopupMenu;
     A1: TMenuItem;
     S1: TMenuItem;
+    edtBusca: TEdit;
+    lbl4: TLabel;
+    cbbStatus: TComboBox;
+    lbl5: TLabel;
+    edtValorInicial: TEdit;
+    edtValorFinal: TEdit;
+    lbl6: TLabel;
+    DSConsulta: TDataSource;
+    QConsultaZeos: TZQuery;
+    QConsulta: TSQLQuery;
+    DSPConsulta: TDataSetProvider;
+    TBConsulta: TClientDataSet;
+    rgOrdenar: TRadioGroup;
+    TBConsultaID: TIntegerField;
+    TBConsultaCLIENTE_ID: TIntegerField;
+    TBConsultaDATA_ABERTURA: TDateField;
+    TBConsultaDATA_PREVISTA: TDateField;
+    TBConsultaDATA_FECHAMENTO: TDateField;
+    TBConsultaSTATUS: TStringField;
+    TBConsultaDESCRICAO_PROBLEMA: TStringField;
+    TBConsultaVALOR_TOTAL: TFMTBCDField;
+    TBConsultaNOME: TStringField;
+    QConsultaZeosID: TIntegerField;
+    QConsultaZeosCLIENTE_ID: TIntegerField;
+    QConsultaZeosDATA_ABERTURA: TDateField;
+    QConsultaZeosDATA_PREVISTA: TDateField;
+    QConsultaZeosDATA_FECHAMENTO: TDateField;
+    QConsultaZeosSTATUS: TStringField;
+    QConsultaZeosDESCRICAO_PROBLEMA: TStringField;
+    QConsultaZeosVALOR_TOTAL: TFloatField;
+    QConsultaZeosNOME: TStringField;
     procedure btnSairClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure txtDataInicialKeyDown(Sender: TObject; var Key: Word;
+    procedure edtDataInicialKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure dblkcbbClientesKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure txtDataInicialKeyPress(Sender: TObject; var Key: Char);
+    procedure edtDataInicialKeyPress(Sender: TObject; var Key: Char);
     procedure dblkcbbClientesKeyPress(Sender: TObject; var Key: Char);
-    procedure txtDataInicialExit(Sender: TObject);
-    procedure txtDataFinalExit(Sender: TObject);
-    procedure dblkcbbClientesExit(Sender: TObject);
-    procedure dblkcbbClientesEnter(Sender: TObject);
-    procedure txtDataFinalEnter(Sender: TObject);
-    procedure txtDataInicialEnter(Sender: TObject);
-    procedure CheckClienteClick(Sender: TObject);
+    procedure edtDataInicialExit(Sender: TObject);
+    procedure edtDataFinalExit(Sender: TObject);
+    procedure edtDataFinalEnter(Sender: TObject);
+    procedure edtDataInicialEnter(Sender: TObject);
     procedure btnAtualizarClick(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
     procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
@@ -52,9 +78,27 @@ type
     procedure S1Click(Sender: TObject);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure edtBuscaEnter(Sender: TObject);
+    procedure cbbStatusEnter(Sender: TObject);
+    procedure edtValorInicialEnter(Sender: TObject);
+    procedure edtValorFinalEnter(Sender: TObject);
+    procedure edtBuscaExit(Sender: TObject);
+    procedure cbbStatusExit(Sender: TObject);
+    procedure edtValorInicialExit(Sender: TObject);
+    procedure edtValorFinalExit(Sender: TObject);
+    procedure edtBuscaKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure cbbStatusKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtValorInicialKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtValorFinalKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure rgOrdenarClick(Sender: TObject);
+    procedure cbbStatusChange(Sender: TObject);
   private
     { Private declarations }
-    function ObterValorTotal(pDataInicial, pDataFinal: TDateTime; pCliente: Integer): String;
+    function ObterValorTotal(var pSQL: TStringList): String;
   public
     { Public declarations }
   end;
@@ -76,10 +120,10 @@ end;
 procedure TfrmConsultaOrdemServico.FormShow(Sender: TObject);
 begin
   btnAtualizar.Click;
-  txtDataInicial.SetFocus;
+  edtDataInicial.SetFocus;
 end;
 
-procedure TfrmConsultaOrdemServico.txtDataInicialKeyDown(Sender: TObject;
+procedure TfrmConsultaOrdemServico.edtDataInicialKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   if((key = vk_return)or(key = 40))then
@@ -104,7 +148,7 @@ begin
   end;
 end;
 
-procedure TfrmConsultaOrdemServico.txtDataInicialKeyPress(Sender: TObject;
+procedure TfrmConsultaOrdemServico.edtDataInicialKeyPress(Sender: TObject;
   var Key: Char);
 begin
   if(key = #13)then
@@ -118,78 +162,99 @@ begin
     key := #0;
 end;
 
-procedure TfrmConsultaOrdemServico.txtDataInicialExit(Sender: TObject);
+procedure TfrmConsultaOrdemServico.edtDataInicialExit(Sender: TObject);
 begin
-  txtDataInicial.Color := clWhite;
+  edtDataInicial.Color := clWhite;
+  btnAtualizar.Click;
 end;
 
-procedure TfrmConsultaOrdemServico.txtDataFinalExit(Sender: TObject);
+procedure TfrmConsultaOrdemServico.edtDataFinalExit(Sender: TObject);
 begin
-  txtDataFinal.Color := clWhite;
+  edtDataFinal.Color := clWhite;
+  btnAtualizar.Click;
 end;
 
-procedure TfrmConsultaOrdemServico.dblkcbbClientesExit(Sender: TObject);
+procedure TfrmConsultaOrdemServico.edtDataFinalEnter(Sender: TObject);
 begin
-  dblkcbbClientes.Color := clWhite;
+  edtDataFinal.Color := clInfoBk;
 end;
 
-procedure TfrmConsultaOrdemServico.dblkcbbClientesEnter(Sender: TObject);
+procedure TfrmConsultaOrdemServico.edtDataInicialEnter(Sender: TObject);
 begin
-  dblkcbbClientes.Color := clInfoBk;
-end;
-
-procedure TfrmConsultaOrdemServico.txtDataFinalEnter(Sender: TObject);
-begin
-  txtDataFinal.Color := clInfoBk;
-end;
-
-procedure TfrmConsultaOrdemServico.txtDataInicialEnter(Sender: TObject);
-begin
-  txtDataInicial.Color := clInfoBk;
-end;
-
-procedure TfrmConsultaOrdemServico.CheckClienteClick(Sender: TObject);
-begin
-  if(CheckCliente.Checked)then
-    dblkcbbClientes.Enabled := false
-  else
-    dblkcbbClientes.Enabled := true;
-end;
+  edtDataInicial.Color := clInfoBk;
+end;  
 
 procedure TfrmConsultaOrdemServico.btnAtualizarClick(Sender: TObject);
 var
-  lIDClienteSelecionado: Integer;
-  lDataInicial, lDataFinal: TDateTime;
+  lSQL: TStringList;
 begin
-  lIDClienteSelecionado := 0;
-  if(dblkcbbClientes.KeyValue <> null)then
-    lIDClienteSelecionado := dblkcbbClientes.KeyValue;
-    
-  if(FConexao = 'Zeos')then
-  begin
-    DM.TOrdemServico.Filtered := false;
-    DM.TOrdemServico.Filter := 'DATA_ABERTURA >= '+QuotedStr(txtDataInicial.Text)+' AND DATA_ABERTURA <= '+QuotedStr(txtDataFinal.Text);
-    if(CheckCliente.Checked = false)and(lIDClienteSelecionado > 0)then
-    begin
-      DM.TOrdemServico.Filter := DM.TOrdemServico.Filter + ' AND CLIENTE_ID = '+IntToStr(lIDClienteSelecionado);
+  lSQL := TStringList.Create;
+  try
+    lSQL.Add('SELECT O.*, C.NOME FROM ORDEM_SERVICO O');
+    lSQL.Add('INNER JOIN CLIENTE C ON(C.ID = O.CLIENTE_ID) ');
+    lSQL.Add('WHERE O.DATA_ABERTURA >= :pDataInicial AND O.DATA_ABERTURA <= :pDataFinal ');
+
+    if(edtBusca.Text <> '')then
+      lSQL.Add('AND LOWER(C.NOME) LIKE :pCliente ');
+
+    if(cbbStatus.ItemIndex > 0)then
+      lSQL.Add('AND O.STATUS = :pStatus ');
+
+    lSQL.Add('AND O.VALOR_TOTAL >= :pValorInicial AND O.VALOR_TOTAL <= :pValorFinal ');
+
+    case rgOrdenar.ItemIndex of
+      0: lSQL.Add('ORDER BY O.ID');
+      1: lSQL.Add('ORDER BY C.NOME');
+      2: lSQL.Add('ORDER BY O.STATUS');
+      3: lSQL.Add('ORDER BY O.VALOR_TOTAL');
+      4: lSQL.Add('ORDER BY O.VALOR_TOTAL DESC');
     end;
-    DM.TOrdemServico.Filtered := true;
-    lblQuantidadeListada.Caption := 'Quantidade Listada: '+IntToStr(DM.TOrdemServico.RecordCount);
-  end else
-  begin
-    DM.TBOrdemServico.Filtered := false;
-    DM.TBOrdemServico.Filter := 'DATA_ABERTURA >= '+QuotedStr(txtDataInicial.Text)+' AND DATA_ABERTURA <= '+QuotedStr(txtDataFinal.Text);
-    if(Check1.Checked = false)and(lIDClienteSelecionado > 0)then
+
+    if(FConexao = 'Zeos')then
     begin
-      DM.TBOrdemServico.Filter := DM.TBOrdemServico.Filter + ' AND CLIENTE_ID = '+IntToStr(lIDClienteSelecionado);
+      DSConsulta.DataSet := QConsultaZeos;
+      QConsultaZeos.Close;
+      QConsultaZeos.SQL.Clear;
+      QConsultaZeos.SQL := lSQL;
+      QConsultaZeos.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(edtDataInicial.Text);
+      QConsultaZeos.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(edtDataFinal.Text);
+
+      if(edtBusca.Text <> '')then
+        QConsultaZeos.Params.ParamByName('pCliente').AsString := '%'+AnsiLowerCase(edtBusca.Text)+'%';
+
+      if(cbbStatus.ItemIndex > 0)then
+        QConsultaZeos.Params.ParamByName('pStatus').AsString := cbbStatus.Text;
+
+      QConsultaZeos.Params.ParamByName('pValorInicial').AsFloat := StrToFloat('0'+edtValorInicial.Text);
+      QConsultaZeos.Params.ParamByName('pValorFinal').AsFloat := StrToFloat('0'+edtValorFinal.Text);
+      QConsultaZeos.Open;
+      lblQuantidadeListada.Caption := IntToStr(QConsultaZeos.RecordCount);
+    end else
+    begin
+      DSConsulta.DataSet := TBConsulta;
+      TBConsulta.Close;
+      QConsulta.Close;
+      QConsulta.SQL.Clear;
+      QConsulta.SQL := lSQL;
+      QConsulta.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(edtDataInicial.Text);
+      QConsulta.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(edtDataFinal.Text);
+
+      if(edtBusca.Text <> '')then
+        QConsulta.Params.ParamByName('pCliente').AsString := '%'+AnsiLowerCase(edtBusca.Text)+'%';
+
+      if(cbbStatus.ItemIndex > 0)then
+        QConsulta.Params.ParamByName('pStatus').AsString := cbbStatus.Text;
+
+      QConsulta.Params.ParamByName('pValorInicial').AsFloat := StrToFloat('0'+edtValorInicial.Text);
+      QConsulta.Params.ParamByName('pValorFinal').AsFloat := StrToFloat('0'+edtValorFinal.Text);
+      QConsulta.Open;
+      TBConsulta.Open;
+      lblQuantidadeListada.Caption := IntToStr(TBConsulta.RecordCount);
     end;
-    DM.TBOrdemServico.Filtered := true;
-    lblQuantidadeListada.Caption := 'Quantidade Listada: '+IntToStr(DM.TBOrdemServico.RecordCount);
+    lblValorTotal.Caption := 'Valor Total Listado: '+ObterValorTotal(lSQL);
+  finally
+    lSQL.Free;
   end;
-  lDataInicial := StrToDate(txtDataInicial.Text);
-  lDataFinal := StrToDate(txtDataFinal.Text);
-  lblValorTotal.Caption := 'Valor Total Listado: '
-    +ObterValorTotal(lDataInicial,lDataFinal,lIDClienteSelecionado);
 end;
 
 procedure TfrmConsultaOrdemServico.DBGrid1DblClick(Sender: TObject);
@@ -218,28 +283,31 @@ begin
   end;
 end;
 
-function TfrmConsultaOrdemServico.ObterValorTotal(pDataInicial, pDataFinal: TDateTime; pCliente: Integer): String;
+function TfrmConsultaOrdemServico.ObterValorTotal(var pSQL: TStringList): String;
 var
   lQrySomaDBExpress: TSQLQuery;
   lQrySomaZeos: TZQuery;
 begin
   Result := '';
+  pSQL[0] := 'SELECT SUM(O.VALOR_TOTAL) AS VALOR_TOTAL FROM ORDEM_SERVICO O ';
+  pSQL[pSQL.Count - 1] := '';
   if(FConexao = 'Zeos')then
   begin
     lQrySomaZeos := TZQuery.Create(nil);
     try
       lQrySomaZeos.Connection := DM.ZConnection1;
-      lQrySomaZeos.SQL.Add('SELECT SUM(VALOR_TOTAL) AS VALOR_TOTAL FROM ORDEM_SERVICO ');
-      lQrySomaZeos.SQL.Add('WHERE DATA_ABERTURA >= :pDataInicial AND DATA_ABERTURA <= :pDataFinal');
+      lQrySomaZeos.SQL := pSQL;
+      lQrySomaZeos.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(edtDataInicial.Text);
+      lQrySomaZeos.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(edtDataFinal.Text);
 
-      if(pCliente > 0)then
-        lQrySomaZeos.SQL.Add('AND CLIENTE_ID = :pCliente');
+      if(edtBusca.Text <> '')then
+        lQrySomaZeos.Params.ParamByName('pCliente').AsString := '%'+AnsiLowerCase(edtBusca.Text)+'%';
 
-      lQrySomaZeos.Params.ParamByName('pDataInicial').AsDate := pDataInicial;
-      lQrySomaZeos.Params.ParamByName('pDataFinal').AsDate := pDataFinal;
+      if(cbbStatus.ItemIndex > 0)then
+        lQrySomaZeos.Params.ParamByName('pStatus').AsString := cbbStatus.Text;
 
-      if(pCliente > 0)then
-        lQrySomaZeos.Params.ParamByName('pCliente').AsInteger := pCliente;
+      lQrySomaZeos.Params.ParamByName('pValorInicial').AsFloat := StrToFloat('0'+edtValorInicial.Text);
+      lQrySomaZeos.Params.ParamByName('pValorFinal').AsFloat := StrToFloat('0'+edtValorFinal.Text);
 
       lQrySomaZeos.Open;
       Result := FormatFloat('R$###,###,##0.00',lQrySomaZeos.Fields.FieldByName('VALOR_TOTAL').AsFloat);
@@ -251,17 +319,19 @@ begin
     lQrySomaDBExpress := TSQLQuery.Create(nil);
     try
       lQrySomaDBExpress.SQLConnection := DM.SQLConnection1;
-      lQrySomaDBExpress.SQL.Add('SELECT SUM(VALOR_TOTAL) AS VALOR_TOTAL FROM ORDEM_SERVICO ');
-      lQrySomaDBExpress.SQL.Add('WHERE DATA_ABERTURA >= :pDataInicial AND DATA_ABERTURA <= :pDataFinal');
 
-      if(pCliente > 0)then
-        lQrySomaDBExpress.SQL.Add('AND CLIENTE_ID = :pCliente');
+      lQrySomaDBExpress.SQL := pSQL;
+      lQrySomaDBExpress.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(edtDataInicial.Text);
+      lQrySomaDBExpress.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(edtDataFinal.Text);
 
-      lQrySomaDBExpress.Params.ParamByName('pDataInicial').AsDate := pDataInicial;
-      lQrySomaDBExpress.Params.ParamByName('pDataFinal').AsDate := pDataFinal;
+      if(edtBusca.Text <> '')then
+        lQrySomaDBExpress.Params.ParamByName('pCliente').AsString := '%'+AnsiLowerCase(edtBusca.Text)+'%';
 
-      if(pCliente > 0)then
-        lQrySomaDBExpress.Params.ParamByName('pCliente').AsInteger := pCliente;
+      if(cbbStatus.ItemIndex > 0)then
+        lQrySomaDBExpress.Params.ParamByName('pStatus').AsString := cbbStatus.Text;
+
+      lQrySomaDBExpress.Params.ParamByName('pValorInicial').AsFloat := StrToFloat('0'+edtValorInicial.Text);
+      lQrySomaDBExpress.Params.ParamByName('pValorFinal').AsFloat := StrToFloat('0'+edtValorFinal.Text);
 
       lQrySomaDBExpress.Open;
       Result := FormatFloat('R$###,###,##0.00',lQrySomaDBExpress.Fields.FieldByName('VALOR_TOTAL').AsFloat);
@@ -289,7 +359,7 @@ procedure TfrmConsultaOrdemServico.DBGrid1DrawColumnCell(Sender: TObject;
 begin
   if(FConexao = 'Zeos')then
   begin
-    if not odd(DM.TOrdemServico.RecNo) then
+    if not odd(QConsultaZeos.RecNo) then
     begin
       if not (gdSelected in State) then
       begin
@@ -300,7 +370,7 @@ begin
     end;
   end else
   begin
-    if not odd(DM.TBOrdemServico.RecNo) then
+    if not odd(TBConsulta.RecNo) then
     begin
       if not (gdSelected in State) then
       begin
@@ -310,6 +380,109 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TfrmConsultaOrdemServico.edtBuscaEnter(Sender: TObject);
+begin
+  edtBusca.Color := clInfoBk;
+end;
+
+procedure TfrmConsultaOrdemServico.cbbStatusEnter(Sender: TObject);
+begin
+  cbbStatus.Color := clInfoBk;
+end;
+
+procedure TfrmConsultaOrdemServico.edtValorInicialEnter(Sender: TObject);
+begin
+  edtValorInicial.Color := clInfoBk;
+end;
+
+procedure TfrmConsultaOrdemServico.edtValorFinalEnter(Sender: TObject);
+begin
+  edtValorFinal.Color := clInfoBk;
+end;
+
+procedure TfrmConsultaOrdemServico.edtBuscaExit(Sender: TObject);
+begin
+  edtBusca.Color := clWhite;
+  btnAtualizar.Click;
+end;
+
+procedure TfrmConsultaOrdemServico.cbbStatusExit(Sender: TObject);
+begin
+  cbbStatus.Color := clWhite;
+end;
+
+procedure TfrmConsultaOrdemServico.edtValorInicialExit(Sender: TObject);
+begin
+  edtValorInicial.Color := clWhite;
+  btnAtualizar.Click;
+end;
+
+procedure TfrmConsultaOrdemServico.edtValorFinalExit(Sender: TObject);
+begin
+  edtValorFinal.Color := clWhite;
+end;
+
+procedure TfrmConsultaOrdemServico.edtBuscaKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if((key = vk_return)or(key = 40))then
+  begin
+    Perform(WM_NEXTDLGCTL,0,0);
+  end else
+  if(key = 38)then
+  begin
+    Perform(WM_NEXTDLGCTL,1,0);
+  end;
+end;
+
+procedure TfrmConsultaOrdemServico.cbbStatusKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if(key = vk_return)then
+  begin
+    Perform(WM_NEXTDLGCTL,0,0);
+  end;
+end;
+
+procedure TfrmConsultaOrdemServico.edtValorInicialKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if((key = vk_return)or(key = 40))then
+  begin
+    Perform(WM_NEXTDLGCTL,0,0);
+  end else
+  if(key = 38)then
+  begin
+    Perform(WM_NEXTDLGCTL,1,0);
+  end;
+end;
+
+procedure TfrmConsultaOrdemServico.edtValorFinalKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if((key = vk_return)or(key = 40))then
+  begin
+    if(btnAtualizar.Enabled)then
+      btnAtualizar.Click;
+
+    DBGrid1.SetFocus;  
+  end else
+  if(key = 38)then
+  begin
+    Perform(WM_NEXTDLGCTL,1,0);
+  end;
+end;
+
+procedure TfrmConsultaOrdemServico.rgOrdenarClick(Sender: TObject);
+begin
+  btnAtualizar.Click;
+end;
+
+procedure TfrmConsultaOrdemServico.cbbStatusChange(Sender: TObject);
+begin
+  btnAtualizar.Click;
 end;
 
 end.
