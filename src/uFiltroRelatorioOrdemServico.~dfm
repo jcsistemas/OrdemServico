@@ -2,7 +2,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
   Left = 216
   Top = 131
   Width = 492
-  Height = 294
+  Height = 297
   Caption = 'Filtro de Relat'#243'rio de Ordens de Servi'#231'o'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -43,7 +43,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
       Height = 13
       Caption = 'Cliente: '
     end
-    object txtDataInicial: TMaskEdit
+    object edtDataInicial: TMaskEdit
       Left = 78
       Top = 18
       Width = 68
@@ -53,12 +53,12 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
       MaxLength = 10
       TabOrder = 0
       Text = '01/01/2000'
-      OnEnter = txtDataInicialEnter
-      OnExit = txtDataInicialExit
-      OnKeyDown = txtDataInicialKeyDown
-      OnKeyPress = txtDataInicialKeyPress
+      OnEnter = edtDataInicialEnter
+      OnExit = edtDataInicialExit
+      OnKeyDown = edtDataInicialKeyDown
+      OnKeyPress = edtClienteKeyPress
     end
-    object txtDataFinal: TMaskEdit
+    object edtDataFinal: TMaskEdit
       Left = 164
       Top = 18
       Width = 69
@@ -68,39 +68,58 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
       MaxLength = 10
       TabOrder = 1
       Text = '31/12/2100'
-      OnEnter = txtDataFinalEnter
-      OnExit = txtDataFinalExit
-      OnKeyDown = txtDataFinalKeyDown
-      OnKeyPress = txtDataFinalKeyPress
+      OnEnter = edtDataFinalEnter
+      OnExit = edtDataFinalExit
+      OnKeyDown = edtDataFinalKeyDown
+      OnKeyPress = edtClienteKeyPress
     end
-    object dblkcbbClientes: TDBLookupComboBox
-      Left = 77
-      Top = 50
-      Width = 356
+    object edtCliente: TEdit
+      Left = 79
+      Top = 49
+      Width = 346
       Height = 21
-      DropDownRows = 30
-      KeyField = 'ID'
-      ListField = 'NOME'
-      ListSource = DM.DSCliente
       TabOrder = 2
-      OnEnter = dblkcbbClientesEnter
-      OnExit = dblkcbbClientesExit
-      OnKeyDown = dblkcbbClientesKeyDown
-      OnKeyPress = dblkcbbClientesKeyPress
+      OnEnter = edtClienteEnter
+      OnExit = edtClienteExit
+      OnKeyDown = edtClienteKeyDown
+      OnKeyPress = edtClienteKeyPress
     end
-    object CheckCliente: TCheckBox
-      Left = 272
-      Top = 72
-      Width = 161
+    object CheckAberta: TCheckBox
+      Left = 24
+      Top = 80
+      Width = 65
       Height = 17
-      Caption = 'Selecionar Todos os Clientes'
+      Caption = 'Aberta'
       TabOrder = 3
-      OnClick = CheckClienteClick
+    end
+    object CheckEmAndamento: TCheckBox
+      Left = 112
+      Top = 80
+      Width = 97
+      Height = 17
+      Caption = 'Em Andamento'
+      TabOrder = 4
+    end
+    object CheckConcluida: TCheckBox
+      Left = 224
+      Top = 80
+      Width = 81
+      Height = 17
+      Caption = 'Conclu'#237'da'
+      TabOrder = 5
+    end
+    object CheckCancelada: TCheckBox
+      Left = 320
+      Top = 80
+      Width = 81
+      Height = 17
+      Caption = 'Cancelada'
+      TabOrder = 6
     end
   end
   object rgOrdenamento: TRadioGroup
     Left = 16
-    Top = 128
+    Top = 136
     Width = 449
     Height = 57
     Caption = ' Ordenamento '
@@ -114,7 +133,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
   end
   object Panel1: TPanel
     Left = 0
-    Top = 203
+    Top = 206
     Width = 484
     Height = 60
     Align = alBottom
@@ -471,7 +490,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
     PrintOptions.Printer = #8226'W'#143#8364
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 45907.528389444400000000
-    ReportOptions.LastChange = 45907.807501736110000000
+    ReportOptions.LastChange = 45908.020386701390000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'begin'
@@ -706,7 +725,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
           AllowVectorExport = True
           Left = 49.133890000000000000
           Top = 1.000000000000000000
-          Width = 199.559055118110000000
+          Width = 199.559055120000000000
           Height = 15.118110240000000000
           DataField = 'NOME'
           DataSet = frxDBDatasetListagem
@@ -782,7 +801,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
           AllowVectorExport = True
           Left = 514.016080000000000000
           Top = 1.000000000000000000
-          Width = 49.133890000000000000
+          Width = 105.826840000000000000
           Height = 15.118110240000000000
           DataField = 'STATUS'
           DataSet = frxDBDatasetListagem
@@ -801,7 +820,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
           AllowVectorExport = True
           Left = 627.401980000000000000
           Top = 1.000000000000000000
-          Width = 83.149660000000000000
+          Width = 86.929133858267720000
           Height = 15.118110240000000000
           DataField = 'VALOR_TOTAL'
           DataSet = frxDBDatasetListagem

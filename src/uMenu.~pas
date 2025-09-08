@@ -31,6 +31,7 @@ type
     TimerRelogio: TTimer;
     O1: TMenuItem;
     O2: TMenuItem;
+    E1: TMenuItem;
     procedure btnSairClick(Sender: TObject);
     procedure S1Click(Sender: TObject);
     procedure S2Click(Sender: TObject);
@@ -42,6 +43,7 @@ type
     procedure O2Click(Sender: TObject);
     procedure btnOrdemDeServicoClick(Sender: TObject);
     procedure R2Click(Sender: TObject);
+    procedure btnRelatoriosClick(Sender: TObject);
   private
     { Private declarations }
     procedure LerImagemFundo();
@@ -59,7 +61,7 @@ var
 implementation
 
 uses uSobre, Math, uDM, uClientes, uUtilidades, uOrdemServico,
-  uEscolhaConexao;
+  uEscolhaConexao, uFiltroRelatorioOrdemServico;
 
 {$R *.dfm}
 
@@ -209,6 +211,12 @@ procedure TfrmMenu.R2Click(Sender: TObject);
 begin
   if(btnRelatorios.Enabled)then
     btnRelatorios.Click;
+end;
+
+procedure TfrmMenu.btnRelatoriosClick(Sender: TObject);
+begin
+  frmFiltroRelatorioOrdemServico := TfrmFiltroRelatorioOrdemServico.Create(Self);
+  frmFiltroRelatorioOrdemServico.ShowModal;
 end;
 
 end.

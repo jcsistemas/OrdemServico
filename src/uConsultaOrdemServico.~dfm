@@ -155,7 +155,7 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       Height = 115
       Align = alRight
       BevelOuter = bvNone
-      TabOrder = 2
+      TabOrder = 6
       object btnSair: TSpeedButton
         Left = 3
         Top = 9
@@ -199,7 +199,7 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       Top = 18
       Width = 286
       Height = 21
-      TabOrder = 3
+      TabOrder = 2
       OnEnter = edtBuscaEnter
       OnExit = edtBuscaExit
       OnKeyDown = edtBuscaKeyDown
@@ -211,7 +211,7 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       Height = 21
       ItemHeight = 13
       ItemIndex = 0
-      TabOrder = 4
+      TabOrder = 3
       Text = 'Todos'
       OnChange = cbbStatusChange
       OnEnter = cbbStatusEnter
@@ -229,7 +229,7 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       Top = 48
       Width = 73
       Height = 21
-      TabOrder = 5
+      TabOrder = 4
       Text = '0'
       OnEnter = edtValorInicialEnter
       OnExit = edtValorInicialExit
@@ -240,7 +240,7 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       Top = 48
       Width = 73
       Height = 21
-      TabOrder = 6
+      TabOrder = 5
       Text = '9999999'
       OnEnter = edtValorFinalEnter
       OnExit = edtValorFinalExit

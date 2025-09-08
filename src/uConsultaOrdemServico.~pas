@@ -274,12 +274,10 @@ procedure TfrmConsultaOrdemServico.FormClose(Sender: TObject;
 begin
   if(FConexao = 'Zeos')then
   begin
-    FOrdemServicoConsultada := DM.TOrdemServicoID.AsInteger;
-    DM.TOrdemServico.Filtered := false;
+    FOrdemServicoConsultada := QConsultaZeosID.AsInteger
   end else
   begin
-    FOrdemServicoConsultada := DM.TBOrdemServicoID.AsInteger;
-    DM.TBOrdemServico.Filtered := false;
+    FOrdemServicoConsultada := TBConsultaID.AsInteger;
   end;
 end;
 

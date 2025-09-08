@@ -14,10 +14,8 @@ type
     lbl1: TLabel;
     lbl2: TLabel;
     lbl3: TLabel;
-    txtDataInicial: TMaskEdit;
-    txtDataFinal: TMaskEdit;
-    dblkcbbClientes: TDBLookupComboBox;
-    CheckCliente: TCheckBox;
+    edtDataInicial: TMaskEdit;
+    edtDataFinal: TMaskEdit;
     rgOrdenamento: TRadioGroup;
     Panel1: TPanel;
     btnRelatorioQuick: TSpeedButton;
@@ -62,29 +60,34 @@ type
     TBDescricao: TClientDataSet;
     TBDescricaoDESCRICAO_RELATORIO: TStringField;
     frxDBDatasetCabecalho: TfrxDBDataset;
+    edtCliente: TEdit;
+    CheckAberta: TCheckBox;
+    CheckEmAndamento: TCheckBox;
+    CheckConcluida: TCheckBox;
+    CheckCancelada: TCheckBox;
     procedure btnSairClick(Sender: TObject);
-    procedure CheckClienteClick(Sender: TObject);
-    procedure txtDataInicialKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure txtDataFinalKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
     procedure dblkcbbClientesKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormShow(Sender: TObject);
-    procedure txtDataInicialKeyPress(Sender: TObject; var Key: Char);
-    procedure txtDataFinalKeyPress(Sender: TObject; var Key: Char);
     procedure dblkcbbClientesKeyPress(Sender: TObject; var Key: Char);
-    procedure txtDataInicialEnter(Sender: TObject);
-    procedure txtDataFinalEnter(Sender: TObject);
-    procedure dblkcbbClientesEnter(Sender: TObject);
-    procedure txtDataInicialExit(Sender: TObject);
-    procedure txtDataFinalExit(Sender: TObject);
-    procedure dblkcbbClientesExit(Sender: TObject);
     procedure btnRelatorioQuickClick(Sender: TObject);
     procedure btnRelatorioCSVClick(Sender: TObject);
     procedure btnRelatorioXLSClick(Sender: TObject);
     procedure btnRelatorioFastClick(Sender: TObject);
     procedure btnRelatorioPDFClick(Sender: TObject);
+    procedure edtClienteKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtClienteEnter(Sender: TObject);
+    procedure edtClienteExit(Sender: TObject);
+    procedure edtClienteKeyPress(Sender: TObject; var Key: Char);
+    procedure edtDataInicialEnter(Sender: TObject);
+    procedure edtDataFinalEnter(Sender: TObject);
+    procedure edtDataFinalExit(Sender: TObject);
+    procedure edtDataInicialExit(Sender: TObject);
+    procedure edtDataInicialKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtDataFinalKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
     procedure CarregarDadosRelatorio();
@@ -108,15 +111,7 @@ begin
   Close;
 end;
 
-procedure TfrmFiltroRelatorioOrdemServico.CheckClienteClick(Sender: TObject);
-begin
-  if(CheckCliente.Checked)then
-    dblkcbbClientes.Enabled := false
-  else
-    dblkcbbClientes.Enabled := true;
-end;
-
-procedure TfrmFiltroRelatorioOrdemServico.txtDataInicialKeyDown(
+procedure TfrmFiltroRelatorioOrdemServico.edtDataInicialKeyDown(
   Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if((key = vk_return)or(key = 40))then
@@ -129,7 +124,7 @@ begin
   end;
 end;
 
-procedure TfrmFiltroRelatorioOrdemServico.txtDataFinalKeyDown(
+procedure TfrmFiltroRelatorioOrdemServico.edtDataFinalKeyDown(
   Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if((key = vk_return)or(key = 40))then
@@ -153,21 +148,7 @@ end;
 
 procedure TfrmFiltroRelatorioOrdemServico.FormShow(Sender: TObject);
 begin
-  txtDataInicial.SetFocus;
-end;
-
-procedure TfrmFiltroRelatorioOrdemServico.txtDataInicialKeyPress(
-  Sender: TObject; var Key: Char);
-begin
-  if(key = #13)then
-    key := #0;
-end;
-
-procedure TfrmFiltroRelatorioOrdemServico.txtDataFinalKeyPress(
-  Sender: TObject; var Key: Char);
-begin
-  if(key = #13)then
-    key := #0;
+  edtDataInicial.SetFocus;
 end;
 
 procedure TfrmFiltroRelatorioOrdemServico.dblkcbbClientesKeyPress(
@@ -177,53 +158,13 @@ begin
     key := #0;
 end;
 
-procedure TfrmFiltroRelatorioOrdemServico.txtDataInicialEnter(
-  Sender: TObject);
-begin
-  txtDataInicial.Color := clInfoBk;
-end;
-
-procedure TfrmFiltroRelatorioOrdemServico.txtDataFinalEnter(
-  Sender: TObject);
-begin
-  txtDataFinal.Color := clInfoBk;
-end;
-
-procedure TfrmFiltroRelatorioOrdemServico.dblkcbbClientesEnter(
-  Sender: TObject);
-begin
-  dblkcbbClientes.Color := clInfoBk;
-end;
-
-procedure TfrmFiltroRelatorioOrdemServico.txtDataInicialExit(
-  Sender: TObject);
-begin
-  txtDataInicial.Color := clWhite;
-end;
-
-procedure TfrmFiltroRelatorioOrdemServico.txtDataFinalExit(
-  Sender: TObject);
-begin
-  txtDataFinal.Color := clWhite;
-end;
-
-procedure TfrmFiltroRelatorioOrdemServico.dblkcbbClientesExit(
-  Sender: TObject);
-begin
-  dblkcbbClientes.Color := clWhite;
-end;
-
 procedure TfrmFiltroRelatorioOrdemServico.btnRelatorioQuickClick(
   Sender: TObject);
 var
-  lIDClienteSelecionado: Integer;
-begin
-  lIDClienteSelecionado := 0;
-  if(dblkcbbClientes.KeyValue <> null)then
-    lIDClienteSelecionado := dblkcbbClientes.KeyValue;
-
+  lPrimeiroStatus: Boolean;
+begin   
   frmRelatorioOrdemServicoQuick := TfrmRelatorioOrdemServicoQuick.Create(Self);
-  frmRelatorioOrdemServicoQuick.txtFiltro.Caption := 'Relatório de ordens de serviço com data de abertura de '+txtDataInicial.Text+' à '+txtDataFinal.Text;
+  frmRelatorioOrdemServicoQuick.txtFiltro.Caption := 'Relatório de ordens de serviço com data de abertura de '+edtDataInicial.Text+' à '+edtDataFinal.Text;
   if(FConexao = 'Zeos')then
   begin
     frmRelatorioOrdemServicoQuick.DSRelatorio.DataSet := frmRelatorioOrdemServicoQuick.QRelatorioZeos;
@@ -243,14 +184,58 @@ begin
     frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add('INNER JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID) ');
     frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add('WHERE O.DATA_ABERTURA >= :pDataInicial ');
     frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add('AND O.DATA_ABERTURA <= :pDataFinal ');
-    frmRelatorioOrdemServicoQuick.QRelatorioZeos.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(txtDataInicial.Text);
-    frmRelatorioOrdemServicoQuick.QRelatorioZeos.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(txtDataFinal.Text);
-    if(CheckCliente.Checked = false)and(lIDClienteSelecionado > 0)then
+    frmRelatorioOrdemServicoQuick.QRelatorioZeos.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(edtDataInicial.Text);
+    frmRelatorioOrdemServicoQuick.QRelatorioZeos.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(edtDataFinal.Text);
+    if(edtCliente.Text <> '')then
     begin
-      frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add('AND O.CLIENTE_ID = :pCliente ');
-      frmRelatorioOrdemServicoQuick.QRelatorioZeos.Params.ParamByName('pCliente').AsInteger := lIDClienteSelecionado;
-      frmRelatorioOrdemServicoQuick.txtFiltro.Caption := frmRelatorioOrdemServicoQuick.txtFiltro.Caption + ', do cliente: '+dblkcbbClientes.Text;
+      frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add('AND LOWER(C.NOME) LIKE :pCliente ');
+      frmRelatorioOrdemServicoQuick.QRelatorioZeos.Params.ParamByName('pCliente').AsString := '%'+AnsiLowerCase(edtCliente.Text)+'%';
+      frmRelatorioOrdemServicoQuick.txtFiltro.Caption := frmRelatorioOrdemServicoQuick.txtFiltro.Caption + ', cujo nome do cliente contenha: '+edtCliente.Text;
     end;
+    if(CheckAberta.Checked)or(CheckEmAndamento.Checked)or(CheckConcluida.Checked)or(CheckCancelada.Checked)then
+    begin
+      frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add('AND( ');
+      lPrimeiroStatus := true;
+
+      if(CheckAberta.Checked)then
+      begin
+        frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add(' O.STATUS=''Aberta'' ');
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckEmAndamento.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add(' O.STATUS=''Em Andamento'' ')
+        else
+          frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add(' OR O.STATUS=''Em Andamento'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckConcluida.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add(' O.STATUS=''Concluída'' ')
+        else
+          frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add(' OR O.STATUS=''Concluída'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckCancelada.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add(' O.STATUS=''Cancelada'' ')
+        else
+          frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add(' OR O.STATUS=''Cancelada'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add(') ');
+    end;
+
     case rgOrdenamento.ItemIndex of
       0: frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add('ORDER BY O.ID ');
       1: frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add('ORDER BY O.DATA_ABERTURA ');
@@ -268,14 +253,60 @@ begin
     frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add('INNER JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID) ');
     frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add('WHERE O.DATA_ABERTURA >= :pDataInicial ');
     frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add('AND O.DATA_ABERTURA <= :pDataFinal ');
-    frmRelatorioOrdemServicoQuick.QRelatorio.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(txtDataInicial.Text);
-    frmRelatorioOrdemServicoQuick.QRelatorio.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(txtDataFinal.Text);
-    if(CheckCliente.Checked = false)and(lIDClienteSelecionado > 0)then
+    frmRelatorioOrdemServicoQuick.QRelatorio.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(edtDataInicial.Text);
+    frmRelatorioOrdemServicoQuick.QRelatorio.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(edtDataFinal.Text);
+    if(edtCliente.Text <> '')then
     begin
-      frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add('AND O.CLIENTE_ID = :pCliente ');
-      frmRelatorioOrdemServicoQuick.QRelatorio.Params.ParamByName('pCliente').AsInteger := lIDClienteSelecionado;
-      frmRelatorioOrdemServicoQuick.txtFiltro.Caption := frmRelatorioOrdemServicoQuick.txtFiltro.Caption + ', do cliente: '+dblkcbbClientes.Text;
+      frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add('AND LOWER(C.NOME) LIKE :pCliente ');
+      frmRelatorioOrdemServicoQuick.QRelatorio.Params.ParamByName('pCliente').AsString := '%'+AnsiLowerCase(edtCliente.Text)+'%';
+      frmRelatorioOrdemServicoQuick.txtFiltro.Caption := frmRelatorioOrdemServicoQuick.txtFiltro.Caption +
+        ', cujo nome do cliente contenha: ' + edtCliente.Text;
     end;
+
+    if(CheckAberta.Checked)or(CheckEmAndamento.Checked)or(CheckConcluida.Checked)or(CheckCancelada.Checked)then
+    begin
+      frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add('AND( ');
+      lPrimeiroStatus := true;
+
+      if(CheckAberta.Checked)then
+      begin
+        frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add(' O.STATUS=''Aberta'' ');
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckEmAndamento.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add(' O.STATUS=''Em Andamento'' ')
+        else
+          frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add(' OR O.STATUS=''Em Andamento'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckConcluida.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add(' O.STATUS=''Concluída'' ')
+        else
+          frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add(' OR O.STATUS=''Concluída'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckCancelada.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add(' O.STATUS=''Cancelada'' ')
+        else
+          frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add(' OR O.STATUS=''Cancelada'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add(') ');
+    end;
+
     case rgOrdenamento.ItemIndex of
       0: frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add('ORDER BY O.ID ');
       1: frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add('ORDER BY O.DATA_ABERTURA ');
@@ -368,15 +399,11 @@ procedure TfrmFiltroRelatorioOrdemServico.btnRelatorioXLSClick(
 const lTitulo = 'Relatório Ordens de Serviço';
 var
   objExcel, Sheet: Variant;
-  lIDClienteSelecionado, i: Integer;
   x_cor_fundo, y_cor_fundo, z_cor_fundo: Integer;
   x_cor_fonte, y_cor_fonte, z_cor_fonte: Integer;
+  i: Integer;
   lCorBranca: Boolean;
 begin
-  lIDClienteSelecionado := 0;
-  if(dblkcbbClientes.KeyValue <> null)then
-    lIDClienteSelecionado := dblkcbbClientes.KeyValue;
-    
   CarregarDadosRelatorio;
 
   x_cor_fundo := 255;
@@ -397,12 +424,12 @@ begin
 
   Sheet.Range['B1'] := 'Ordens de Serviço';
   Sheet.Range['D1'] := 'Período de ';
-  Sheet.Range['E1'] := txtDataInicial.Text;
+  Sheet.Range['E1'] := edtDataInicial.Text;
   Sheet.Range['F1'] := ' à ';
-  Sheet.Range['G1'] := txtDataFinal.Text;
-  if(CheckCliente.Checked = false)and(lIDClienteSelecionado > 0)then
+  Sheet.Range['G1'] := edtDataFinal.Text;
+  if(edtCliente.Text <> '')then
   begin
-    Sheet.Range['H1'] := 'Cliente: '+dblkcbbClientes.Text;
+    Sheet.Range['H1'] := 'Cujo nome do cliente contenha: '+edtCliente.Text;
   end else
   begin
     Sheet.Range['H1'] := 'Referente à Todos os clientes';
@@ -632,16 +659,13 @@ end;
 
 procedure TfrmFiltroRelatorioOrdemServico.CarregarDadosRelatorio();
 var
-  lIDClienteSelecionado: Integer;
   lCabecalhoRelatorio: String;
+  lPrimeiroStatus: Boolean;
 begin
   lCabecalhoRelatorio := '';
-  lIDClienteSelecionado := 0;
-  if(dblkcbbClientes.KeyValue <> null)then
-    lIDClienteSelecionado := dblkcbbClientes.KeyValue;
 
   lCabecalhoRelatorio := 'Relatório de ordens de serviço com data de abertura no período de '+
-    txtDataInicial.Text + ' à ' + txtDataFinal.Text;
+    edtDataInicial.Text + ' à ' + edtDataFinal.Text;
     
   if(FConexao = 'Zeos')then
   begin
@@ -652,13 +676,58 @@ begin
     QRelatorioZeos.SQL.Add('INNER JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID) ');
     QRelatorioZeos.SQL.Add('WHERE O.DATA_ABERTURA >= :pDataInicial ');
     QRelatorioZeos.SQL.Add('AND O.DATA_ABERTURA <= :pDataFinal ');
-    QRelatorioZeos.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(txtDataInicial.Text);
-    QRelatorioZeos.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(txtDataFinal.Text);
-    if(CheckCliente.Checked = false)and(lIDClienteSelecionado > 0)then
+
+    if(CheckAberta.Checked)or(CheckEmAndamento.Checked)or(CheckConcluida.Checked)or(CheckCancelada.Checked)then
     begin
-      QRelatorioZeos.SQL.Add('AND O.CLIENTE_ID = :pCliente ');
-      QRelatorioZeos.Params.ParamByName('pCliente').AsInteger := lIDClienteSelecionado;
-      lCabecalhoRelatorio := lCabecalhoRelatorio + ', referentes ao cliente: '+dblkcbbClientes.Text+'.';
+      QRelatorioZeos.SQL.Add('AND( ');
+      lPrimeiroStatus := true;
+
+      if(CheckAberta.Checked)then
+      begin
+        QRelatorioZeos.SQL.Add(' O.STATUS=''Aberta'' ');
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckEmAndamento.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          QRelatorioZeos.SQL.Add(' O.STATUS=''Em Andamento'' ')
+        else
+          QRelatorioZeos.SQL.Add(' OR O.STATUS=''Em Andamento'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckConcluida.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          QRelatorioZeos.SQL.Add(' O.STATUS=''Concluída'' ')
+        else
+          QRelatorioZeos.SQL.Add(' OR O.STATUS=''Concluída'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckCancelada.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          QRelatorioZeos.SQL.Add(' O.STATUS=''Cancelada'' ')
+        else
+          QRelatorioZeos.SQL.Add(' OR O.STATUS=''Cancelada'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      QRelatorioZeos.SQL.Add(') ');
+    end;
+
+    QRelatorioZeos.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(edtDataInicial.Text);
+    QRelatorioZeos.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(edtDataFinal.Text);
+    if(edtCliente.Text <> '')then
+    begin
+      QRelatorioZeos.SQL.Add('AND LOWER(C.NOME) LIKE :pCliente ');
+      QRelatorioZeos.Params.ParamByName('pCliente').AsString := AnsiLowerCase('%'+edtCliente.Text+'%');
+      lCabecalhoRelatorio := lCabecalhoRelatorio + ', cujo nome do cliente contenha '+edtCliente.Text+'.';
     end else
     begin
       lCabecalhoRelatorio := lCabecalhoRelatorio + ', de todos os clientes.';
@@ -679,13 +748,59 @@ begin
     QRelatorio.SQL.Add('INNER JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID) ');
     QRelatorio.SQL.Add('WHERE O.DATA_ABERTURA >= :pDataInicial ');
     QRelatorio.SQL.Add('AND O.DATA_ABERTURA <= :pDataFinal ');
-    QRelatorio.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(txtDataInicial.Text);
-    QRelatorio.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(txtDataFinal.Text);
-    if(CheckCliente.Checked = false)and(lIDClienteSelecionado > 0)then
+
+    if(CheckAberta.Checked)or(CheckEmAndamento.Checked)or(CheckConcluida.Checked)or(CheckCancelada.Checked)then
     begin
-      QRelatorio.SQL.Add('AND O.CLIENTE_ID = :pCliente ');
-      QRelatorio.Params.ParamByName('pCliente').AsInteger := lIDClienteSelecionado;
-      lCabecalhoRelatorio := lCabecalhoRelatorio + ', referentes ao cliente: '+dblkcbbClientes.Text+'.';
+      QRelatorio.SQL.Add('AND( ');
+      lPrimeiroStatus := true;
+
+      if(CheckAberta.Checked)then
+      begin
+        QRelatorio.SQL.Add(' O.STATUS=''Aberta'' ');
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckEmAndamento.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          QRelatorio.SQL.Add(' O.STATUS=''Em Andamento'' ')
+        else
+          QRelatorio.SQL.Add(' OR O.STATUS=''Em Andamento'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckConcluida.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          QRelatorio.SQL.Add(' O.STATUS=''Concluída'' ')
+        else
+          QRelatorio.SQL.Add(' OR O.STATUS=''Concluída'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckCancelada.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          QRelatorio.SQL.Add(' O.STATUS=''Cancelada'' ')
+        else
+          QRelatorio.SQL.Add(' OR O.STATUS=''Cancelada'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      QRelatorio.SQL.Add(') ');
+    end;
+
+
+    QRelatorio.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(edtDataInicial.Text);
+    QRelatorio.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(edtDataFinal.Text);
+    if(edtCliente.Text <> '')then
+    begin
+      QRelatorio.SQL.Add('AND LOWER(C.NOME) LIKE :pCliente ');
+      QRelatorio.Params.ParamByName('pCliente').AsString := '%'+AnsiLowerCase(edtCliente.Text)+'%';
+      lCabecalhoRelatorio := lCabecalhoRelatorio + ', cujo nome do cliente contenha '+edtCliente.Text+'.';
     end else
     begin
       lCabecalhoRelatorio := lCabecalhoRelatorio + ', de todos os clientes.';
@@ -737,46 +852,134 @@ end;
 
 procedure TfrmFiltroRelatorioOrdemServico.CarregarDadosTotalizador();
 var
-  lIDClienteSelecionado: Integer;
+  lPrimeiroStatus: Boolean;
 begin
-  lIDClienteSelecionado := 0;
-  if(dblkcbbClientes.KeyValue <> null)then
-    lIDClienteSelecionado := dblkcbbClientes.KeyValue;
-
   if(FConexao = 'Zeos')then
   begin
     QTotalizadorZeos.Close;
     QTotalizadorZeos.SQL.Clear;
-    QTotalizadorZeos.SQL.Add('SELECT SUM(VALOR_TOTAL) AS SOMA, COUNT(*) AS QUANTIDADE FROM ORDEM_SERVICO ');
-    QTotalizadorZeos.SQL.Add('WHERE ORDEM_SERVICO.DATA_ABERTURA >= :pDataInicial ');
-    QTotalizadorZeos.SQL.Add('AND ORDEM_SERVICO.DATA_ABERTURA <= :pDataFinal ');
+    QTotalizadorZeos.SQL.Add('SELECT SUM(O.VALOR_TOTAL) AS SOMA, COUNT(*) AS QUANTIDADE ');
+    QTotalizadorZeos.SQL.Add('FROM ORDEM_SERVICO O ');
+    QTotalizadorZeos.SQL.Add('INNER JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID) '); 
+    QTotalizadorZeos.SQL.Add('WHERE O.DATA_ABERTURA >= :pDataInicial ');
+    QTotalizadorZeos.SQL.Add('AND O.DATA_ABERTURA <= :pDataFinal ');
 
-    if(CheckCliente.Checked = false)and(lIDClienteSelecionado > 0)then
-      QTotalizadorZeos.SQL.Add('AND ORDEM_SERVICO.CLIENTE_ID = :pCliente ');
+    if(edtCliente.Text <> '')then
+      QTotalizadorZeos.SQL.Add('AND LOWER(C.NOME) LIKE :pCliente ');
 
-    QTotalizadorZeos.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(txtDataInicial.Text);
-    QTotalizadorZeos.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(txtDataFinal.Text);
+    if(CheckAberta.Checked)or(CheckEmAndamento.Checked)or(CheckConcluida.Checked)or(CheckCancelada.Checked)then
+    begin
+      QTotalizadorZeos.SQL.Add('AND( ');
+      lPrimeiroStatus := true;
 
-    if(CheckCliente.Checked = false)and(lIDClienteSelecionado > 0)then
-      QTotalizadorZeos.Params.ParamByName('pCliente').AsInteger := lIDClienteSelecionado;
+      if(CheckAberta.Checked)then
+      begin
+        QTotalizadorZeos.SQL.Add(' O.STATUS=''Aberta'' ');
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckEmAndamento.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          QTotalizadorZeos.SQL.Add(' O.STATUS=''Em Andamento'' ')
+        else
+          QTotalizadorZeos.SQL.Add(' OR O.STATUS=''Em Andamento'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckConcluida.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          QTotalizadorZeos.SQL.Add(' O.STATUS=''Concluída'' ')
+        else
+          QTotalizadorZeos.SQL.Add(' OR O.STATUS=''Concluída'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckCancelada.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          QTotalizadorZeos.SQL.Add(' O.STATUS=''Cancelada'' ')
+        else
+          QTotalizadorZeos.SQL.Add(' OR O.STATUS=''Cancelada'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      QTotalizadorZeos.SQL.Add(') ');
+    end;
+
+    QTotalizadorZeos.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(edtDataInicial.Text);
+    QTotalizadorZeos.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(edtDataFinal.Text);
+
+    if(edtCliente.Text <> '')then
+      QTotalizadorZeos.Params.ParamByName('pCliente').AsString := '%'+AnsiLowerCase(edtCliente.Text)+'%';
 
     QTotalizadorZeos.Open;
   end else
   begin
     QTotalizador.Close;
     QTotalizador.SQL.Clear;
-    QTotalizador.SQL.Add('SELECT SUM(VALOR_TOTAL) AS SOMA, COUNT(*) AS QUANTIDADE FROM ORDEM_SERVICO ');
-    QTotalizador.SQL.Add('WHERE ORDEM_SERVICO.DATA_ABERTURA >= :pDataInicial ');
-    QTotalizador.SQL.Add('AND ORDEM_SERVICO.DATA_ABERTURA <= :pDataFinal ');
+    QTotalizador.SQL.Add('SELECT SUM(O.VALOR_TOTAL) AS SOMA, COUNT(*) AS QUANTIDADE ');
+    QTotalizador.SQL.Add('FROM ORDEM_SERVICO O ');
+    QTotalizador.SQL.Add('INNER JOIN CLIENTE C ON(O.CLIENTE_ID = C.ID) ');
+    QTotalizador.SQL.Add('WHERE O.DATA_ABERTURA >= :pDataInicial ');
+    QTotalizador.SQL.Add('AND O.DATA_ABERTURA <= :pDataFinal ');
 
-    if(CheckCliente.Checked = false)and(lIDClienteSelecionado > 0)then
-      QTotalizador.SQL.Add('AND ORDEM_SERVICO.CLIENTE_ID = :pCliente ');
+    if(edtCliente.Text <> '')then
+      QTotalizador.SQL.Add('AND LOWER(C.NOME) LIKE :pCliente ');
 
-    QTotalizador.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(txtDataInicial.Text);
-    QTotalizador.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(txtDataFinal.Text);
+    if(CheckAberta.Checked)or(CheckEmAndamento.Checked)or(CheckConcluida.Checked)or(CheckCancelada.Checked)then
+    begin
+      QTotalizador.SQL.Add('AND( ');
+      lPrimeiroStatus := true;
 
-    if(CheckCliente.Checked = false)and(lIDClienteSelecionado > 0)then
-      QTotalizador.Params.ParamByName('pCliente').AsInteger := lIDClienteSelecionado;
+      if(CheckAberta.Checked)then
+      begin
+        QTotalizador.SQL.Add(' O.STATUS=''Aberta'' ');
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckEmAndamento.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          QTotalizador.SQL.Add(' O.STATUS=''Em Andamento'' ')
+        else
+          QTotalizador.SQL.Add(' OR O.STATUS=''Em Andamento'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckConcluida.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          QTotalizador.SQL.Add(' O.STATUS=''Concluída'' ')
+        else
+          QTotalizador.SQL.Add(' OR O.STATUS=''Concluída'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      if(CheckCancelada.Checked)then
+      begin
+        if(lPrimeiroStatus)then
+          QTotalizador.SQL.Add(' O.STATUS=''Cancelada'' ')
+        else
+          QTotalizador.SQL.Add(' OR O.STATUS=''Cancelada'' ');
+
+        lPrimeiroStatus := false;
+      end;
+
+      QTotalizador.SQL.Add(') ');
+    end;
+
+    QTotalizador.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(edtDataInicial.Text);
+    QTotalizador.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(edtDataFinal.Text);
+
+    if(edtCliente.Text <> '')then
+      QTotalizador.Params.ParamByName('pCliente').AsString := '%'+AnsiLowerCase(edtCliente.Text)+'%';
 
     QTotalizador.Open;
   end;
@@ -824,7 +1027,7 @@ begin
     ShowMessage('Arquivo do relatório(frRelatorioOrdemServico.fr3) não encontrado!');
     Abort;
   end;
-
+          
   CarregarDadosTotalizador();
   CarregarDadosRelatorio();
   
@@ -841,5 +1044,59 @@ begin
   frxReport1.LoadFromFile(FLocalAplicacao+'frRelatorioOrdemServico.fr3');
   ExportarParaPDF();
 end;
+
+procedure TfrmFiltroRelatorioOrdemServico.edtClienteKeyDown(
+  Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if((key = vk_return)or(key = 40))then
+  begin
+    Perform(WM_NEXTDLGCTL,0,0);
+  end else
+  if(key = 38)then
+  begin
+    Perform(WM_NEXTDLGCTL,1,0);
+  end;
+end;
+
+procedure TfrmFiltroRelatorioOrdemServico.edtClienteEnter(Sender: TObject);
+begin
+  edtCliente.Color := clInfoBk;
+end;
+
+procedure TfrmFiltroRelatorioOrdemServico.edtClienteExit(Sender: TObject);
+begin
+  edtCliente.Color := clWhite;
+end;
+
+procedure TfrmFiltroRelatorioOrdemServico.edtClienteKeyPress(
+  Sender: TObject; var Key: Char);
+begin
+  if(key = #13)then
+    key := #0;
+end;
+
+procedure TfrmFiltroRelatorioOrdemServico.edtDataInicialEnter(
+  Sender: TObject);
+begin
+  edtDataInicial.Color := clInfoBk;
+end;
+
+procedure TfrmFiltroRelatorioOrdemServico.edtDataFinalEnter(
+  Sender: TObject);
+begin
+  edtDataFinal.Color := clInfoBk;
+end;
+
+procedure TfrmFiltroRelatorioOrdemServico.edtDataFinalExit(
+  Sender: TObject);
+begin
+  edtDataFinal.Color := clWhite;
+end;
+
+procedure TfrmFiltroRelatorioOrdemServico.edtDataInicialExit(
+  Sender: TObject);
+begin
+  edtDataInicial.Color := clWhite;
+end;   
 
 end.

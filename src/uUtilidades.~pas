@@ -382,7 +382,7 @@ begin
   begin
     lQryGerarChavePrimariaZeos := TZQuery.Create(nil);
     try
-      lQryGerarChavePrimariaZeos.SQLConnection := DM.ZConnection1;
+      lQryGerarChavePrimariaZeos.Connection := DM.ZConnection1;
       lQryGerarChavePrimariaZeos.SQL.Add('SELECT MAX(ID) AS ID FROM '+pTabela);
       lQryGerarChavePrimariaZeos.Open;
       Result := lQryGerarChavePrimariaZeos.Fields.FieldByName('ID').AsInteger + 1;

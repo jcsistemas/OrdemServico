@@ -357,6 +357,7 @@ object frmMenu: TfrmMenu
         ABAEAEABAEAEABAEAEABAEAEABAEAEABAEAEABADAEABAEAEABAFAFADC5C5C4FB
         FBFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       Layout = blGlyphTop
+      OnClick = btnRelatoriosClick
     end
     object Panel2: TPanel
       Left = 889
@@ -549,6 +550,9 @@ object frmMenu: TfrmMenu
         Caption = 'Alterar Imagem de Fundo'
         ImageIndex = 14
         OnClick = A1Click
+      end
+      object E1: TMenuItem
+        Caption = 'Executar Atualiza'#231#227'o de Atraso'
       end
     end
     object S1: TMenuItem
