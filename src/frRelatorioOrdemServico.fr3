@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TfrxReport Version="6.3.1" DotMatrixReport="False" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="167935" PreviewOptions.Zoom="1" PrintOptions.Printer="•W€" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="45907,5283894444" ReportOptions.Description.Text="" ReportOptions.LastChange="45908,0203867014" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;&#13;&#10;end.">
+<TfrxReport Version="6.3.1" DotMatrixReport="False" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="167935" PreviewOptions.Zoom="1" PrintOptions.Printer="•W€" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="45907,5283894444" ReportOptions.Description.Text="" ReportOptions.LastChange="45908,4747456944" ScriptLanguage="PascalScript" ScriptText.Text="procedure ReportSummary1OnBeforePrint(Sender: TfrxComponent);&#13;&#10;begin&#13;&#10;  txtDataHorario.Text := 'Relatorio gerado em '+FormatDateTime('dd/mm/yyyy',Date)+' as '+FormatDateTime('hh:nn:ss',Time);&#13;&#10;end;&#13;&#10;&#13;&#10;begin&#13;&#10;&#13;&#10;end.">
   <Datasets>
     <item DataSet="frxDBDatasetListagem" DataSetName="frxDBDataset1"/>
     <item DataSet="frxDBDatasetTotalizador" DataSetName="frxDBDataset2"/>
@@ -29,12 +29,13 @@
       <TfrxMemoView Name="Memo15" AllowVectorExport="True" Left="514,01608" Top="1" Width="105,82684" Height="15,11811024" DataField="STATUS" DataSet="frxDBDatasetListagem" DataSetName="frxDBDataset1" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Arial" Font.Style="0" Frame.Typ="0" ParentFont="False" Text="[frxDBDataset1.&#34;STATUS&#34;]"/>
       <TfrxMemoView Name="Memo16" AllowVectorExport="True" Left="627,40198" Top="1" Width="86,9291338582677" Height="15,11811024" DataField="VALOR_TOTAL" DataSet="frxDBDatasetListagem" DataSetName="frxDBDataset1" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Arial" Font.Style="0" Frame.Typ="0" ParentFont="False" Text="[frxDBDataset1.&#34;VALOR_TOTAL&#34;]"/>
     </TfrxMasterData>
-    <TfrxReportSummary Name="ReportSummary1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Frame.Typ="0" Height="56,69295" Left="0" Top="264,5671" Width="718,1107">
+    <TfrxReportSummary Name="ReportSummary1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Frame.Typ="0" Height="86,92919" Left="0" Top="264,5671" Width="718,1107" OnBeforePrint="ReportSummary1OnBeforePrint">
       <TfrxLineView Name="Line3" AllowVectorExport="True" Left="0" Top="0,33841913" Width="710,55164" Height="0" Color="0" Frame.Typ="0" Diagonal="True"/>
       <TfrxMemoView Name="Memo17" AllowVectorExport="True" Left="627,40198" Top="7,55906" Width="75,59055118" Height="18,89765" Font.Charset="1" Font.Color="0" Font.Height="-12" Font.Name="Arial" Font.Style="1" Frame.Typ="0" ParentFont="False" Text="Soma Total"/>
       <TfrxMemoView Name="Memo18" AllowVectorExport="True" Left="627,40198" Top="31,01577" Width="94,48825" Height="18,89765" DataField="SOMA" DataSet="frxDBDatasetTotalizador" DataSetName="frxDBDataset2" Font.Charset="1" Font.Color="0" Font.Height="-12" Font.Name="Arial" Font.Style="1" Frame.Typ="0" ParentFont="False" Text="[frxDBDataset2.&#34;SOMA&#34;]"/>
       <TfrxMemoView Name="Memo19" AllowVectorExport="True" Left="457,32313" Top="7,55906" Width="109,60632118" Height="18,89765" Font.Charset="1" Font.Color="0" Font.Height="-12" Font.Name="Arial" Font.Style="1" Frame.Typ="0" ParentFont="False" Text="Quantidade Total"/>
       <TfrxMemoView Name="Memo20" AllowVectorExport="True" Left="457,32313" Top="30,23624" Width="151,1812" Height="18,89765" DataField="QUANTIDADE" DataSet="frxDBDatasetTotalizador" DataSetName="frxDBDataset2" Font.Charset="1" Font.Color="0" Font.Height="-12" Font.Name="Arial" Font.Style="1" Frame.Typ="0" ParentFont="False" Text="[frxDBDataset2.&#34;QUANTIDADE&#34;]"/>
+      <TfrxMemoView Name="txtDataHorario" AllowVectorExport="True" Left="453,5436" Top="64,25201" Width="257,00799118" Height="18,89765" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Arial" Font.Style="0" Frame.Typ="0" ParentFont="False" Text="                                                       "/>
     </TfrxReportSummary>
   </TfrxReportPage>
 </TfrxReport>

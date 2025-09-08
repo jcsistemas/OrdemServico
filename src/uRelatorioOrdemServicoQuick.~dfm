@@ -579,7 +579,7 @@ object frmRelatorioOrdemServicoQuick: TfrmRelatorioOrdemServicoQuick
       Left = 38
       Top = 168
       Width = 718
-      Height = 49
+      Height = 81
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -591,9 +591,18 @@ object frmRelatorioOrdemServicoQuick: TfrmRelatorioOrdemServicoQuick
       ForceNewColumn = False
       ForceNewPage = False
       Size.Values = (
-        129.645833333333300000
+        214.312500000000000000
         1899.708333333333000000)
       BandType = rbSummary
+      object lblDataHorario: TLabel
+        Left = 512
+        Top = 56
+        Width = 201
+        Height = 14
+        Caption = 
+          '                                                                ' +
+          '   '
+      end
       object QRLabel8: TQRLabel
         Left = 613
         Top = 8

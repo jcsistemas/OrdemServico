@@ -1564,9 +1564,20 @@ object frmOrdemServico: TfrmOrdemServico
     PrintOptions.Printer = 'Microsoft XPS Document Writer'
     PrintOptions.PrintOnSheet = 9
     ReportOptions.CreateDate = 45906.707182187500000000
-    ReportOptions.LastChange = 45906.931337881940000000
+    ReportOptions.LastChange = 45908.476706446760000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
+      'procedure ReportSummary1OnBeforePrint(Sender: TfrxComponent);'
+      'begin'
+      
+        '  txtDataHorario.Caption := '#39'Impresso em '#39'+FormatDateTime('#39'DD/MM' +
+        '/YYYY'#39',Date)+'#39' as '#39'+FormatDateTime('#39'hh:mm:ss'#39',Time);            ' +
+        '                                                                ' +
+        '                                                                ' +
+        '                                                                ' +
+        '                              '
+      'end;'
+      ''
       'begin'
       ''
       'end.')
@@ -2000,9 +2011,10 @@ object frmOrdemServico: TfrmOrdemServico
       object ReportSummary1: TfrxReportSummary
         FillType = ftBrush
         Frame.Typ = []
-        Height = 56.692950000000000000
+        Height = 94.488250000000000000
         Top = 491.338900000000000000
         Width = 718.110700000000000000
+        OnBeforePrint = 'ReportSummary1OnBeforePrint'
         object Memo17: TfrxMemoView
           AllowVectorExport = True
           Left = 589.606680000000000000
@@ -2037,6 +2049,15 @@ object frmOrdemServico: TfrmOrdemServico
           Memo.UTF8 = (
             'Valor Total')
           ParentFont = False
+        end
+        object txtDataHorario: TfrxMemoView
+          Align = baRight
+          AllowVectorExport = True
+          Left = 366.614410000000000000
+          Top = 68.031540000000000000
+          Width = 351.496290000000000000
+          Height = 18.897650000000000000
+          Frame.Typ = []
         end
       end
     end

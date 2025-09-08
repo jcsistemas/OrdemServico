@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TfrxReport Version="6.3.1" DotMatrixReport="False" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="167935" PreviewOptions.Zoom="1" PrintOptions.Printer="Microsoft XPS Document Writer" PrintOptions.PrintOnSheet="9" ReportOptions.CreateDate="45906,7071821875" ReportOptions.Description.Text="" ReportOptions.LastChange="45906,9313378819" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;&#13;&#10;end.">
+<TfrxReport Version="6.3.1" DotMatrixReport="False" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="167935" PreviewOptions.Zoom="1" PrintOptions.Printer="Microsoft XPS Document Writer" PrintOptions.PrintOnSheet="9" ReportOptions.CreateDate="45906,7071821875" ReportOptions.Description.Text="" ReportOptions.LastChange="45908,4770106134" ScriptLanguage="PascalScript" ScriptText.Text="procedure ReportSummary1OnBeforePrint(Sender: TfrxComponent);&#13;&#10;begin&#13;&#10;  txtDataHorario.Text := 'Impresso em '+FormatDateTime('DD/MM/YYYY',Date)+' as '+FormatDateTime('hh:mm:ss',Time);&#13;&#10;end;&#13;&#10;&#13;&#10;begin&#13;&#10;&#13;&#10;end.">
   <Datasets>
     <item DataSet="frxDBDatasetOrdem" DataSetName="frxDBDataset1"/>
     <item DataSet="frxDBDatasetItem" DataSetName="frxDBDataset2"/>
@@ -41,9 +41,10 @@
       <TfrxMemoView Name="Memo16" AllowVectorExport="True" Left="589,60630165" Top="1,88976377952756" Width="122,83464567" Height="17,00787402" DataField="SUBTOTAL" DataSet="frxDBDatasetItem" DataSetName="frxDBDataset2" Frame.Typ="0" Text="[frxDBDataset2.&#34;SUBTOTAL&#34;]"/>
       <TfrxShapeView Name="Shape6" AllowVectorExport="True" Left="0" Top="20,7874015748032" Width="718,1107" Height="0" Frame.Typ="0"/>
     </TfrxMasterData>
-    <TfrxReportSummary Name="ReportSummary1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Frame.Typ="0" Height="56,69295" Left="0" Top="491,3389" Width="718,1107">
+    <TfrxReportSummary Name="ReportSummary1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Frame.Typ="0" Height="94,48825" Left="0" Top="491,3389" Width="718,1107" OnBeforePrint="ReportSummary1OnBeforePrint">
       <TfrxMemoView Name="Memo17" AllowVectorExport="True" Left="589,60668" Top="26,89765" Width="158,74026" Height="18,89765" DataField="VALOR_TOTAL" DataSet="frxDBDatasetOrdem" DataSetName="frxDBDataset1" Font.Charset="1" Font.Color="0" Font.Height="-13" Font.Name="Arial" Font.Style="1" Frame.Typ="0" ParentFont="False" Text="[frxDBDataset1.&#34;VALOR_TOTAL&#34;]"/>
       <TfrxMemoView Name="Memo18" AllowVectorExport="True" Left="589,60668" Top="8" Width="94,48825" Height="18,89765" Font.Charset="1" Font.Color="0" Font.Height="-13" Font.Name="Arial" Font.Style="1" Frame.Typ="0" ParentFont="False" Text="Valor Total"/>
+      <TfrxMemoView Name="txtDataHorario" Align="baRight" AllowVectorExport="True" Left="366,61441" Top="68,03154" Width="351,49629" Height="18,89765" Frame.Typ="0" Text=""/>
     </TfrxReportSummary>
   </TfrxReportPage>
 </TfrxReport>

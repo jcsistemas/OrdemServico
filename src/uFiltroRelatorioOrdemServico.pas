@@ -230,7 +230,6 @@ begin
         else
           frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add(' OR O.STATUS=''Cancelada'' ');
 
-        lPrimeiroStatus := false;
       end;
 
       frmRelatorioOrdemServicoQuick.QRelatorioZeos.SQL.Add(') ');
@@ -301,7 +300,6 @@ begin
         else
           frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add(' OR O.STATUS=''Cancelada'' ');
 
-        lPrimeiroStatus := false;
       end;
 
       frmRelatorioOrdemServicoQuick.QRelatorio.SQL.Add(') ');
@@ -715,7 +713,6 @@ begin
         else
           QRelatorioZeos.SQL.Add(' OR O.STATUS=''Cancelada'' ');
 
-        lPrimeiroStatus := false;
       end;
 
       QRelatorioZeos.SQL.Add(') ');
@@ -787,7 +784,6 @@ begin
         else
           QRelatorio.SQL.Add(' OR O.STATUS=''Cancelada'' ');
 
-        lPrimeiroStatus := false;
       end;
 
       QRelatorio.SQL.Add(') ');
@@ -905,7 +901,6 @@ begin
         else
           QTotalizadorZeos.SQL.Add(' OR O.STATUS=''Cancelada'' ');
 
-        lPrimeiroStatus := false;
       end;
 
       QTotalizadorZeos.SQL.Add(') ');
@@ -969,7 +964,6 @@ begin
         else
           QTotalizador.SQL.Add(' OR O.STATUS=''Cancelada'' ');
 
-        lPrimeiroStatus := false;
       end;
 
       QTotalizador.SQL.Add(') ');

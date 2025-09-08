@@ -579,7 +579,7 @@ object frmRelatorioOrdemServicoQuick: TfrmRelatorioOrdemServicoQuick
       Left = 38
       Top = 168
       Width = 718
-      Height = 49
+      Height = 81
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -591,7 +591,7 @@ object frmRelatorioOrdemServicoQuick: TfrmRelatorioOrdemServicoQuick
       ForceNewColumn = False
       ForceNewPage = False
       Size.Values = (
-        129.645833333333300000
+        214.312500000000000000
         1899.708333333333000000)
       BandType = rbSummary
       object QRLabel8: TQRLabel
@@ -717,6 +717,31 @@ object frmRelatorioOrdemServicoQuick: TfrmRelatorioOrdemServicoQuick
         Transparent = False
         WordWrap = True
         FontSize = 10
+      end
+      object txtDataHorario: TQRLabel
+        Left = 696
+        Top = 56
+        Width = 22
+        Height = 15
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          39.687500000000000000
+          1841.500000000000000000
+          148.166666666666700000
+          58.208333333333330000)
+        Alignment = taRightJustify
+        AlignToBand = True
+        AutoSize = True
+        AutoStretch = False
+        Caption = '       '
+        Color = clWhite
+        Transparent = False
+        WordWrap = True
+        FontSize = 8
       end
     end
   end

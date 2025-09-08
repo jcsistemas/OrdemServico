@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, QuickRpt, QRCtrls, ExtCtrls, FMTBcd, DB, SqlExpr, DBClient,
-  Provider, ZAbstractRODataset, ZAbstractDataset, ZDataset;
+  Provider, ZAbstractRODataset, ZAbstractDataset, ZDataset, StdCtrls;
 
 type
   TfrmRelatorioOrdemServicoQuick = class(TForm)
@@ -55,6 +55,7 @@ type
     QRelatorioZeosSTATUS: TStringField;
     QRelatorioZeosVALOR_TOTAL: TFloatField;
     QRelatorioZeosNOME: TStringField;
+    txtDataHorario: TQRLabel;
     procedure QuickRep1BeforePrint(Sender: TCustomQuickRep;
       var PrintReport: Boolean);
     procedure QRBand2BeforePrint(Sender: TQRCustomBand;
@@ -114,6 +115,7 @@ procedure TfrmRelatorioOrdemServicoQuick.QRBand3BeforePrint(
 begin
   txtSomaTotal.Caption := FormatFloat('R$###,###,##0.00',FSomaTotal);
   txtQuantidadeListada.Caption := IntToStr(FQuantidade);
+  txtDataHorario.Caption := 'Relatório gerado em '+FormatDateTime('DD/MM/YYYY',Date)+' às '+FormatDateTime('hh:mm:ss',Time);
 end;
 
 end.

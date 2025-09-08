@@ -187,7 +187,6 @@ end;
 
 procedure TfrmOrdemServico.modo_navegacao;
 begin
-  DBedtID1.Enabled := false;
   DBedtCLIENTE_ID1.Enabled := false;
   DBedtDATA_ABERTURA1.Enabled := false;
   DBedtDATA_PREVISTA1.Enabled := false;
@@ -212,7 +211,6 @@ end;
 
 procedure TfrmOrdemServico.modo_edicao;
 begin
-  DBedtID1.Enabled := true;
   DBedtCLIENTE_ID1.Enabled := true;
   DBedtDATA_ABERTURA1.Enabled := true;
   DBedtDATA_PREVISTA1.Enabled := true;
