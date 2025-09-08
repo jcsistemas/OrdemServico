@@ -12,6 +12,7 @@ object frmEscolhaConexao: TfrmEscolhaConexao
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object btnZeos: TSpeedButton

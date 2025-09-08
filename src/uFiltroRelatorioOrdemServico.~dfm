@@ -490,9 +490,18 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
     PrintOptions.Printer = #8226'W'#143#8364
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 45907.528389444400000000
-    ReportOptions.LastChange = 45908.020386701390000000
+    ReportOptions.LastChange = 45908.474745694400000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
+      'procedure ReportSummary1OnBeforePrint(Sender: TfrxComponent);'
+      'begin'
+      
+        '  txtDataHorario.Text := '#39'Relatorio gerado em '#39'+FormatDateTime('#39 +
+        'dd/mm/yyyy'#39',Date)+'#39' as '#39'+FormatDateTime('#39'hh:nn:ss'#39',Time);       ' +
+        '                                                                ' +
+        '     '
+      'end;'
+      ''
       'begin'
       ''
       'end.')
@@ -820,7 +829,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
           AllowVectorExport = True
           Left = 627.401980000000000000
           Top = 1.000000000000000000
-          Width = 86.929133858267720000
+          Width = 86.929133858267700000
           Height = 15.118110240000000000
           DataField = 'VALOR_TOTAL'
           DataSet = frxDBDatasetListagem
@@ -839,9 +848,10 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
       object ReportSummary1: TfrxReportSummary
         FillType = ftBrush
         Frame.Typ = []
-        Height = 56.692950000000000000
+        Height = 86.929190000000000000
         Top = 264.567100000000000000
         Width = 718.110700000000000000
+        OnBeforePrint = 'ReportSummary1OnBeforePrint'
         object Line3: TfrxLineView
           AllowVectorExport = True
           Top = 0.338419130000000000
@@ -920,6 +930,22 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
             '[frxDBDataset2."QUANTIDADE"]')
           ParentFont = False
         end
+        object txtDataHorario: TfrxMemoView
+          AllowVectorExport = True
+          Left = 453.543600000000000000
+          Top = 64.252010000000000000
+          Width = 257.007991180000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8 = (
+            '                                                       ')
+          ParentFont = False
+        end
       end
     end
   end
@@ -969,6 +995,7 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
     end
   end
   object QTotalizador: TSQLQuery
+    Active = True
     MaxBlobSize = -1
     Params = <>
     SQL.Strings = (

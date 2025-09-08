@@ -12,6 +12,7 @@ type
     btnDBExpress: TSpeedButton;
     procedure btnZeosClick(Sender: TObject);
     procedure btnDBExpressClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -37,6 +38,11 @@ procedure TfrmEscolhaConexao.btnDBExpressClick(Sender: TObject);
 begin
   FConexao := 'DBExpress';
   Close;
+end;
+
+procedure TfrmEscolhaConexao.FormShow(Sender: TObject);
+begin
+  FConexao := 'Zeos';
 end;
 
 end.

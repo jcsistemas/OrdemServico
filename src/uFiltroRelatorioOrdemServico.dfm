@@ -388,7 +388,6 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
     Top = 71
   end
   object TBRelatorio: TClientDataSet
-    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'DSPRelatorio'
@@ -995,7 +994,6 @@ object frmFiltroRelatorioOrdemServico: TfrmFiltroRelatorioOrdemServico
     end
   end
   object QTotalizador: TSQLQuery
-    Active = True
     MaxBlobSize = -1
     Params = <>
     SQL.Strings = (

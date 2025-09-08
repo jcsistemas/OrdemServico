@@ -20,7 +20,7 @@ object frmEscolhaConexao: TfrmEscolhaConexao
     Width = 150
     Height = 50
     Cursor = crHandPoint
-    Caption = 'Conex'#227'o ADO'
+    Caption = 'Conex'#227'o Zeos'
     OnClick = btnZeosClick
   end
   object btnDBExpress: TSpeedButton
