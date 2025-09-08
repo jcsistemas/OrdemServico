@@ -19,6 +19,7 @@ type
     class function ExtrairValorNoDoJSON(pJSON, pNo: String): String;
     class function ExtrairApenasNumeros(leitura: String): String;
     class function GerarChavePrimaria(pTabela: String): Integer;
+    class function ValidarValorReal(pCampo: String): Boolean;
   end;
 
 implementation
@@ -401,6 +402,44 @@ begin
       lQryGerarChavePrimaria.Free;
     end;
   end;
+end;
+
+class function TUtilidades.ValidarValorReal(pCampo: String): Boolean;
+var
+   i: Integer;
+   c: String;
+   lQtdVirgulas: Integer;
+begin
+   Result := true;
+   lQtdVirgulas := 0;
+   i := 1;
+   while(i <= length(pCampo))do
+   begin
+      c := Copy(pCampo,i,1);
+
+      if not((c='1')or(c='2')or(c='3')or(c='4')or(c='5')
+      or(c='6')or(c='7')or(c='8')or(c='9')or(c='0')or(c=','))then
+      begin
+         Result := false;
+      end;
+
+      if(c=',')then
+        lQtdVirgulas := lQtdVirgulas + 1;
+
+      i := i + 1;
+   end;
+
+   if(Copy(pCampo,1,1)=',')then
+     Result := false;
+
+   if(Copy(pCampo,length(pCampo),1)=',')then
+     Result := false;
+
+   if(lQtdVirgulas >= 2)then
+     Result := false;
+
+   if(Length(pCampo) <= 0)then
+     Result := false;
 end;
 
 end.

@@ -96,6 +96,10 @@ type
       Shift: TShiftState);
     procedure rgOrdenarClick(Sender: TObject);
     procedure cbbStatusChange(Sender: TObject);
+    procedure cbbStatusKeyPress(Sender: TObject; var Key: Char);
+    procedure edtValorInicialKeyPress(Sender: TObject; var Key: Char);
+    procedure edtValorFinalKeyPress(Sender: TObject; var Key: Char);
+    procedure edtBuscaKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     function ObterValorTotal(var pSQL: TStringList): String;
@@ -108,7 +112,7 @@ var
 
 implementation
 
-uses uMenu, uDM, uOrdemServico;
+uses uMenu, uDM, uOrdemServico, uUtilidades;
 
 {$R *.dfm}
 
@@ -427,13 +431,28 @@ end;
 
 procedure TfrmConsultaOrdemServico.edtValorInicialExit(Sender: TObject);
 begin
-  edtValorInicial.Color := clWhite;
-  btnAtualizar.Click;
+  if(TUtilidades.ValidarValorReal(edtValorInicial.Text))then
+  begin
+    edtValorInicial.Color := clWhite;
+    btnAtualizar.Click;
+  end else
+  begin
+    ShowMessage('Valor informado no campo não é um valor válido! Corrija por favor.');
+    edtValorInicial.SetFocus;
+  end;
 end;
 
 procedure TfrmConsultaOrdemServico.edtValorFinalExit(Sender: TObject);
 begin
-  edtValorFinal.Color := clWhite;
+  if(TUtilidades.ValidarValorReal(edtValorFinal.Text))then
+  begin
+    edtValorFinal.Color := clWhite;
+    btnAtualizar.Click;
+  end else
+  begin
+    ShowMessage('Valor informado no campo não é um valor válido! Corrija por favor.');
+    edtValorFinal.SetFocus;
+  end;
 end;
 
 procedure TfrmConsultaOrdemServico.edtBuscaKeyDown(Sender: TObject;
@@ -476,9 +495,6 @@ procedure TfrmConsultaOrdemServico.edtValorFinalKeyDown(Sender: TObject;
 begin
   if((key = vk_return)or(key = 40))then
   begin
-    if(btnAtualizar.Enabled)then
-      btnAtualizar.Click;
-
     DBGrid1.SetFocus;  
   end else
   if(key = 38)then
@@ -495,6 +511,34 @@ end;
 procedure TfrmConsultaOrdemServico.cbbStatusChange(Sender: TObject);
 begin
   btnAtualizar.Click;
+end;
+
+procedure TfrmConsultaOrdemServico.cbbStatusKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if(key = #13)then
+    key := #0;
+end;
+
+procedure TfrmConsultaOrdemServico.edtValorInicialKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if(key = #13)then
+    key := #0;
+end;
+
+procedure TfrmConsultaOrdemServico.edtValorFinalKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if(key = #13)then
+    key := #0;
+end;
+
+procedure TfrmConsultaOrdemServico.edtBuscaKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if(key = #13)then
+    key := #0;
 end;
 
 end.

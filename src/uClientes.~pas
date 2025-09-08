@@ -116,10 +116,56 @@ begin
 end;
 
 procedure TfrmClientes.edtBuscarChange(Sender: TObject);
+var
+  lFiltro: String;
 begin
-  DM.TBCliente.Filtered := false;
-  DM.TBCliente.Filter := 'LOWER(NOME) LIKE '+QuotedStr('%'+AnsiLowerCase(edtBuscar.Text)+'%');
-  DM.TBCliente.Filtered := true; 
+  if(FConexao = 'Zeos')then
+  begin
+    DM.TCliente.Filtered := false;
+    DM.TCliente.Filter :=  'NOME LIKE '+QuotedStr('*'+LowerCase(edtBuscar.Text)+'*');
+    DM.TCliente.Filtered := true;
+    if(DM.TCliente.RecordCount = 0)then
+    begin
+      DM.TCliente.Filtered := false;
+      DM.TCliente.Filter := 'LOWER(DOCUMENTO) LIKE '+QuotedStr('%'+LowerCase(edtBuscar.Text)+'%');
+      DM.TCliente.Filtered := true;
+    end;
+    if(DM.TCliente.RecordCount = 0)then
+    begin
+      DM.TCliente.Filtered := false;
+      DM.TCliente.Filter := 'LOWER(EMAIL) LIKE '+QuotedStr('%'+LowerCase(edtBuscar.Text)+'%');
+      DM.TCliente.Filtered := true;
+    end;
+    if(DM.TCliente.RecordCount = 0)then
+    begin
+      DM.TCliente.Filtered := false;
+      DM.TCliente.Filter := 'LOWER(TELEFONE) LIKE '+QuotedStr('%'+LowerCase(edtBuscar.Text)+'%');
+      DM.TCliente.Filtered := true;
+    end;
+  end else
+  begin
+    DM.TBCliente.Filtered := false;
+    DM.TBCliente.Filter := 'LOWER(NOME) LIKE '+QuotedStr('%'+LowerCase(edtBuscar.Text)+'%');
+    DM.TBCliente.Filtered := true;
+    if(DM.TBCliente.RecordCount = 0)then
+    begin
+      DM.TBCliente.Filtered := false;
+      DM.TBCliente.Filter := 'LOWER(DOCUMENTO) LIKE '+QuotedStr('%'+LowerCase(edtBuscar.Text)+'%');
+      DM.TBCliente.Filtered := true;
+    end;
+    if(DM.TBCliente.RecordCount = 0)then
+    begin
+      DM.TBCliente.Filtered := false;
+      DM.TBCliente.Filter := 'LOWER(EMAIL) LIKE '+QuotedStr('%'+LowerCase(edtBuscar.Text)+'%');
+      DM.TBCliente.Filtered := true;
+    end;
+    if(DM.TBCliente.RecordCount = 0)then
+    begin
+      DM.TBCliente.Filtered := false;
+      DM.TBCliente.Filter := 'LOWER(TELEFONE) LIKE '+QuotedStr('%'+LowerCase(edtBuscar.Text)+'%');
+      DM.TBCliente.Filtered := true;
+    end;
+  end;
 end;
 
 procedure TfrmClientes.FormClose(Sender: TObject;

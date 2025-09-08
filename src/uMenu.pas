@@ -173,6 +173,10 @@ begin
   TUtilidades.VerificarTabelas;
   if(FConexao = 'Zeos')then
   begin
+    DM.DSCliente.DataSet := DM.TCliente;
+    DM.DSOrdemServico.DataSet := DM.TOrdemServico;
+    DM.DSItemOrdem.DataSet := DM.TItemOrdem;
+
     DM.TCliente.Open;
     DM.TOrdemServico.Open;
     DM.TItemOrdem.Open;

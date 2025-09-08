@@ -65,7 +65,7 @@ object frmClientes: TfrmClientes
       item
         Expanded = False
         FieldName = 'ID'
-        Width = 55
+        Width = 50
         Visible = True
       end
       item
@@ -79,14 +79,14 @@ object frmClientes: TfrmClientes
         Expanded = False
         FieldName = 'DOCUMENTO'
         Title.Caption = 'Documento'
-        Width = 150
+        Width = 100
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'EMAIL'
         Title.Caption = 'Email'
-        Width = 150
+        Width = 225
         Visible = True
       end
       item

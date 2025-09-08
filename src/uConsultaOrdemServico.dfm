@@ -203,6 +203,7 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       OnEnter = edtBuscaEnter
       OnExit = edtBuscaExit
       OnKeyDown = edtBuscaKeyDown
+      OnKeyPress = edtBuscaKeyPress
     end
     object cbbStatus: TComboBox
       Left = 62
@@ -218,6 +219,7 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       OnEnter = cbbStatusEnter
       OnExit = cbbStatusExit
       OnKeyDown = cbbStatusKeyDown
+      OnKeyPress = cbbStatusKeyPress
       Items.Strings = (
         'Todos'
         'Aberta'
@@ -235,6 +237,7 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       OnEnter = edtValorInicialEnter
       OnExit = edtValorInicialExit
       OnKeyDown = edtValorInicialKeyDown
+      OnKeyPress = edtValorInicialKeyPress
     end
     object edtValorFinal: TEdit
       Left = 389
@@ -246,6 +249,7 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       OnEnter = edtValorFinalEnter
       OnExit = edtValorFinalExit
       OnKeyDown = edtValorFinalKeyDown
+      OnKeyPress = edtValorFinalKeyPress
     end
     object rgOrdenar: TRadioGroup
       Left = 24
@@ -312,28 +316,24 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
         Expanded = False
         FieldName = 'DATA_PREVISTA'
         Title.Caption = 'Data Prevista'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATA_FECHAMENTO'
         Title.Caption = 'Data Fechamento'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'STATUS'
         Title.Caption = 'Status'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALOR_TOTAL'
         Title.Caption = 'Valor Total'
-        Width = 64
         Visible = True
       end
       item
