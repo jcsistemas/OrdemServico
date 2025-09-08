@@ -147,7 +147,7 @@ procedure TDM.TBOrdemServicoCalcFields(DataSet: TDataSet);
 begin
   if(FConexao <> 'Zeos')and(DM.TBCliente.Active)then
   begin
-    if(DM.TBCliente.Locate('ID',DM.TBOrdemServicoCLIENTE_ID.AsString,[]))then
+    if(DM.TBCliente.Locate('ID',DM.TBOrdemServicoCLIENTE_ID.AsInteger,[]))then
       DM.TBOrdemServicoNOME_CLIENTE.AsString := DM.TBClienteNOME.AsString
     else
       DM.TBOrdemServicoNOME_CLIENTE.AsString := '';
