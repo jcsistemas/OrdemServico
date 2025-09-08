@@ -1,7 +1,7 @@
 object frmOrdemServico: TfrmOrdemServico
   Left = 305
   Top = 184
-  Width = 830
+  Width = 815
   Height = 581
   Caption = 'Lan'#231'amento de Ordem de Servi'#231'o'
   Color = clBtnFace
@@ -18,7 +18,7 @@ object frmOrdemServico: TfrmOrdemServico
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
-    Left = 684
+    Left = 669
     Top = 0
     Width = 138
     Height = 550
@@ -31,7 +31,7 @@ object frmOrdemServico: TfrmOrdemServico
       Width = 125
       Height = 50
       Cursor = crHandPoint
-      Caption = 'Novo'
+      Caption = 'Novo (F1)'
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
         180000000000000C0000232E0000232E00000000000000000001FFFFFFFFFFFF
@@ -139,7 +139,7 @@ object frmOrdemServico: TfrmOrdemServico
       Width = 125
       Height = 50
       Cursor = crHandPoint
-      Caption = 'Editar'
+      Caption = 'Editar (F2)'
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
         180000000000000C0000232E0000232E00000000000000000001FFFFFFFFFFFF
@@ -247,7 +247,7 @@ object frmOrdemServico: TfrmOrdemServico
       Width = 125
       Height = 50
       Cursor = crHandPoint
-      Caption = 'Salvar'
+      Caption = 'Salvar (F5)'
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
         180000000000000C0000232E0000232E00000000000000000001FFFFFFFFFFFF
@@ -355,7 +355,7 @@ object frmOrdemServico: TfrmOrdemServico
       Width = 125
       Height = 50
       Cursor = crHandPoint
-      Caption = 'Cancelar'
+      Caption = 'Cancelar (Esc)'
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
         180000000000000C0000232E0000232E00000000000000000001FFFFFFFFFFFF
@@ -463,7 +463,7 @@ object frmOrdemServico: TfrmOrdemServico
       Width = 125
       Height = 50
       Cursor = crHandPoint
-      Caption = 'Excluir'
+      Caption = 'Excluir'#13#10'(Shift+Del)'
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
         180000000000000C0000232E0000232E00000000000000000001FFFFFFFFFFFF
@@ -571,7 +571,7 @@ object frmOrdemServico: TfrmOrdemServico
       Width = 125
       Height = 50
       Cursor = crHandPoint
-      Caption = 'Imprimir'
+      Caption = 'Imprimir'#13#10'(Ctrl+P)'
       Glyph.Data = {
         36100000424D3610000000000000360000002800000020000000200000000100
         2000000000000010000000000000000000000000000000000000000000000000
@@ -851,7 +851,7 @@ object frmOrdemServico: TfrmOrdemServico
       Width = 125
       Height = 50
       Cursor = crHandPoint
-      Caption = 'Consultar'
+      Caption = 'Consultar (F8)'
       Glyph.Data = {
         36100000424D3610000000000000360000002800000020000000200000000100
         2000000000000010000000000000000000000000000000000000000000000000
@@ -999,7 +999,7 @@ object frmOrdemServico: TfrmOrdemServico
         Width = 125
         Height = 50
         Cursor = crHandPoint
-        Caption = 'Sair'
+        Caption = 'Sair (F4)'
         Glyph.Data = {
           360C0000424D360C000000000000360000002800000020000000200000000100
           180000000000000C0000232E0000232E00000000000000000001FFFFFFFFFFFF
@@ -1116,30 +1116,18 @@ object frmOrdemServico: TfrmOrdemServico
   object Panel3: TPanel
     Left = 0
     Top = 0
-    Width = 684
+    Width = 669
     Height = 550
     Align = alClient
     BevelOuter = bvNone
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
     TabOrder = 1
     object Panel4: TPanel
       Left = 0
       Top = 0
-      Width = 684
+      Width = 669
       Height = 273
       Align = alTop
       BevelOuter = bvNone
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
       TabOrder = 0
       object lbl9: TLabel
         Left = 8
@@ -1319,23 +1307,15 @@ object frmOrdemServico: TfrmOrdemServico
       object Panel5: TPanel
         Left = 0
         Top = 223
-        Width = 684
+        Width = 669
         Height = 50
         Align = alBottom
         BevelOuter = bvNone
-        Ctl3D = True
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentCtl3D = False
-        ParentFont = False
         TabOrder = 9
         object lbl1: TLabel
           Left = 0
           Top = 0
-          Width = 684
+          Width = 669
           Height = 13
           Align = alTop
           Alignment = taCenter
@@ -1344,15 +1324,10 @@ object frmOrdemServico: TfrmOrdemServico
         object btnInserirItem: TSpeedButton
           Left = 8
           Top = 17
-          Width = 125
+          Width = 150
           Height = 30
           Cursor = crHandPoint
-          Caption = 'Inserir Item'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
+          Caption = 'Inserir Item (F1)'
           Glyph.Data = {
             36030000424D3603000000000000360000002800000010000000100000000100
             18000000000000030000232E0000232E00000000000000000001E4E4E4CCCCCC
@@ -1380,21 +1355,15 @@ object frmOrdemServico: TfrmOrdemServico
             92F6DE93F6DD93F6DD93F6DC91F6DC90F5DC91F6DC93F6DC93F6DD93F6DD92F6
             DE8AF2D9008946FFFFFF77C29F00894600874300864300864300864300864300
             864300864300864300864300864300874300894677C29FFFFFFF}
-          ParentFont = False
           OnClick = btnInserirItemClick
         end
         object btnEditarItem: TSpeedButton
-          Left = 273
+          Left = 259
           Top = 17
-          Width = 125
+          Width = 150
           Height = 30
           Cursor = crHandPoint
-          Caption = 'Editar Item'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
+          Caption = 'Editar Item (F2)'
           Glyph.Data = {
             36040000424D3604000000000000360000002800000010000000100000000100
             2000000000000004000000000000000000000000000000000000000000230000
@@ -1430,21 +1399,15 @@ object frmOrdemServico: TfrmOrdemServico
             C3FFB57F20A60000000000000000000000000000000000000000B9872DEFB681
             24FFB57F1FFFB47E1EFFB47E1EFFB47E1EFFB47E1EFFB47F1FFFB58022FFB783
             27EA000000000000000000000000000000000000000000000000}
-          ParentFont = False
           OnClick = btnEditarItemClick
         end
         object btnExcluirItem: TSpeedButton
-          Left = 530
+          Left = 499
           Top = 17
-          Width = 125
+          Width = 150
           Height = 30
           Cursor = crHandPoint
           Caption = 'Excluir Item'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Glyph.Data = {
             36030000424D3603000000000000360000002800000010000000100000000100
             18000000000000030000232E0000232E00000000000000000001FFFFFFFFFFFF
@@ -1472,7 +1435,6 @@ object frmOrdemServico: TfrmOrdemServico
             C5C9EE2737BF6A77DC9EA9F2AFBAF8AFBBF8AFBAF89EA9F26A77DC2737BFC5C9
             EEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF838CDA2F3EC22737BF27
             37BF2737BF2F3EC2838CDAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
-          ParentFont = False
           OnClick = btnExcluirItemClick
         end
       end
@@ -1491,7 +1453,7 @@ object frmOrdemServico: TfrmOrdemServico
     object DBGrid1: TDBGrid
       Left = 0
       Top = 273
-      Width = 684
+      Width = 669
       Height = 277
       Align = alClient
       DataSource = DM.DSItemOrdem

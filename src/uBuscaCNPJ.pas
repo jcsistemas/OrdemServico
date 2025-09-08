@@ -48,11 +48,15 @@ type
     PopUp1: TPopupMenu;
     B1: TMenuItem;
     btnCadastrar: TSpeedButton;
+    S1: TMenuItem;
+    C1: TMenuItem;
     procedure btnSairClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnBuscarClick(Sender: TObject);
     procedure B1Click(Sender: TObject);
     procedure btnCadastrarClick(Sender: TObject);
+    procedure S1Click(Sender: TObject);
+    procedure C1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -125,8 +129,16 @@ begin
     ShowMessage('Esta empresa já foi cadastrada como cliente!');
     Abort;
   end;
+
+  if(edtRazaoSocial.Text = '')then
+  begin
+    ShowMessage('Campo Nome é Requirido!');
+    Abort;
+  end;
+  
   if(FConexao = 'Zeos')then
   begin
+    DM.TCliente.Filtered := false;
     DM.TCliente.Insert;
     DM.TClienteNOME.Value := edtRazaoSocial.Text;
     DM.TClienteDOCUMENTO.Value := edtBuscaCNPJ.Text;
@@ -137,6 +149,7 @@ begin
     ShowMessage('Cliente cadastrado com sucesso!');
   end else
   begin
+    DM.TBCliente.Filtered := false;
     DM.TBCliente.Insert;
     DM.TBClienteNOME.Value := edtRazaoSocial.Text;
     DM.TBClienteDOCUMENTO.Value := edtBuscaCNPJ.Text;
@@ -147,6 +160,18 @@ begin
     ShowMessage('Cliente cadastrado com sucesso!');
   end;
   Close;
+end;
+
+procedure TfrmBuscaCNPJ.S1Click(Sender: TObject);
+begin
+  if(btnSair.Enabled)then
+    btnSair.Click;
+end;
+
+procedure TfrmBuscaCNPJ.C1Click(Sender: TObject);
+begin
+  if(btnCadastrar.Enabled)then
+    btnCadastrar.Click;
 end;
 
 end.

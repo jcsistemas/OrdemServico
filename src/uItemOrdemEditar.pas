@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Mask, DBCtrls, Buttons, ExtCtrls, DB;
+  Dialogs, StdCtrls, Mask, DBCtrls, Buttons, ExtCtrls, DB, Menus;
 
 type
   TfrmItemOrdemEditar = class(TForm)
@@ -21,6 +21,9 @@ type
     Panel2: TPanel;
     btnSalvar: TSpeedButton;
     btnCancelar: TSpeedButton;
+    PopUp1: TPopupMenu;
+    S1: TMenuItem;
+    C1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
@@ -38,6 +41,8 @@ type
     procedure DBedtSUBTOTALKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure DBedtDESCRICAOKeyPress(Sender: TObject; var Key: Char);
+    procedure S1Click(Sender: TObject);
+    procedure C1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -178,6 +183,18 @@ procedure TfrmItemOrdemEditar.DBedtDESCRICAOKeyPress(Sender: TObject;
 begin
   if(key = #13)then
     key := #0;
+end;
+
+procedure TfrmItemOrdemEditar.S1Click(Sender: TObject);
+begin
+  if(btnSalvar.Enabled)then
+    btnSalvar.Click;
+end;
+
+procedure TfrmItemOrdemEditar.C1Click(Sender: TObject);
+begin
+  if(btnCancelar.Enabled)then
+    btnCancelar.Click;
 end;
 
 end.

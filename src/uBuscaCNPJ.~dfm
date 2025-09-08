@@ -481,7 +481,7 @@ object frmBuscaCNPJ: TfrmBuscaCNPJ
       Width = 150
       Height = 75
       Cursor = crHandPoint
-      Caption = 'Sair'
+      Caption = 'Sair (F4)'
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
         180000000000000C0000232E0000232E00000000000000000001FFFFFFFFFFFF
@@ -589,7 +589,7 @@ object frmBuscaCNPJ: TfrmBuscaCNPJ
       Width = 150
       Height = 75
       Cursor = crHandPoint
-      Caption = 'Cadastrar Cliente'
+      Caption = 'Cadastrar Cliente (F1)'
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
         180000000000000C0000232E0000232E00000000000000000001FFFFFFFFFFFF
@@ -700,6 +700,18 @@ object frmBuscaCNPJ: TfrmBuscaCNPJ
       ShortCut = 116
       Visible = False
       OnClick = B1Click
+    end
+    object S1: TMenuItem
+      Caption = 'Sair'
+      ShortCut = 115
+      Visible = False
+      OnClick = S1Click
+    end
+    object C1: TMenuItem
+      Caption = 'Cadastrar Cliente'
+      ShortCut = 112
+      Visible = False
+      OnClick = C1Click
     end
   end
 end

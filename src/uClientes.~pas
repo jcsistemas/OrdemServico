@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Grids, DBGrids, ExtCtrls, Buttons, StdCtrls, Menus;
+  Dialogs, Grids, DBGrids, ExtCtrls, Buttons, StdCtrls, Menus, ShellApi;
 
 type
   TfrmClientes = class(TForm)
@@ -116,8 +116,6 @@ begin
 end;
 
 procedure TfrmClientes.edtBuscarChange(Sender: TObject);
-var
-  lFiltro: String;
 begin
   if(FConexao = 'Zeos')then
   begin
@@ -127,19 +125,19 @@ begin
     if(DM.TCliente.RecordCount = 0)then
     begin
       DM.TCliente.Filtered := false;
-      DM.TCliente.Filter := 'LOWER(DOCUMENTO) LIKE '+QuotedStr('%'+LowerCase(edtBuscar.Text)+'%');
+      DM.TCliente.Filter := 'LOWER(DOCUMENTO) LIKE '+QuotedStr('*'+LowerCase(edtBuscar.Text)+'*');
       DM.TCliente.Filtered := true;
     end;
     if(DM.TCliente.RecordCount = 0)then
     begin
       DM.TCliente.Filtered := false;
-      DM.TCliente.Filter := 'LOWER(EMAIL) LIKE '+QuotedStr('%'+LowerCase(edtBuscar.Text)+'%');
+      DM.TCliente.Filter := 'LOWER(EMAIL) LIKE '+QuotedStr('*'+LowerCase(edtBuscar.Text)+'*');
       DM.TCliente.Filtered := true;
     end;
     if(DM.TCliente.RecordCount = 0)then
     begin
       DM.TCliente.Filtered := false;
-      DM.TCliente.Filter := 'LOWER(TELEFONE) LIKE '+QuotedStr('%'+LowerCase(edtBuscar.Text)+'%');
+      DM.TCliente.Filter := 'LOWER(TELEFONE) LIKE '+QuotedStr('*'+LowerCase(edtBuscar.Text)+'*');
       DM.TCliente.Filtered := true;
     end;
   end else
@@ -171,7 +169,13 @@ end;
 procedure TfrmClientes.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
-  DM.TBCliente.Filtered := false;
+  if(FConexao = 'Zeos')then
+  begin
+    DM.TCliente.Filtered := false;
+  end else
+  begin
+    DM.TBCliente.Filtered := false;
+  end;
 end;
 
 procedure TfrmClientes.edtBuscarKeyDown(Sender: TObject; var Key: Word;
@@ -324,6 +328,7 @@ procedure TfrmClientes.btn1Click(Sender: TObject);
 var
   SaveDialogCSV: TSaveDialog;
   lArquivoCSV: TStringList;
+  lNomeArquivo: String;
 begin
   SaveDialogCSV := TSaveDialog.Create(Self);
   lArquivoCSV := TStringList.Create;
@@ -356,7 +361,15 @@ begin
           DM.TBCliente.Next;
         end;
       end;
-      lArquivoCSV.SaveToFile(SaveDialogCSV.FileName);
+      
+      lNomeArquivo := SaveDialogCSV.FileName;
+      if(LowerCase(Copy(lNomeArquivo,length(lNomeArquivo)-4,4)) <> '.csv')then
+      begin
+        lNomeArquivo := lNomeArquivo + '.csv';
+      end;
+
+      lArquivoCSV.SaveToFile(lNomeArquivo);
+      ShellExecute(handle, 'open', PChar(lNomeArquivo), NiL, NiL, SW_SHOWNORMAL);
     end;
   finally
     SaveDialogCSV.Free;

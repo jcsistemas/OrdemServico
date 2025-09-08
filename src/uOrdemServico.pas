@@ -134,13 +134,25 @@ uses uDM, uUtilidades, uMenu, uItemOrdemEditar, DB, uConsultaOrdemServico;
 procedure TfrmOrdemServico.N1Click(Sender: TObject);
 begin
   if(btnNovo.Enabled)then
+  begin
     btnNovo.Click;
+  end else
+  if(btnInserirItem.Enabled)then
+  begin
+    btnInserirItem.Click;
+  end;
 end;
 
 procedure TfrmOrdemServico.E1Click(Sender: TObject);
 begin
   if(btnEditar.Enabled)then
+  begin
     btnEditar.Click;
+  end else
+  if(btnEditarItem.Enabled)then
+  begin
+    btnEditarItem.Click;
+  end;
 end;
 
 procedure TfrmOrdemServico.S1Click(Sender: TObject);
@@ -175,7 +187,6 @@ end;
 
 procedure TfrmOrdemServico.modo_navegacao;
 begin
-  DBedtID1.Enabled := false;
   DBedtCLIENTE_ID1.Enabled := false;
   DBedtDATA_ABERTURA1.Enabled := false;
   DBedtDATA_PREVISTA1.Enabled := false;
@@ -193,14 +204,13 @@ begin
   btnImprimir.Enabled := true;
   btnPDF.Enabled := true;
   btnSair.Enabled := true;
-  btnInserirItem.Enabled := true;
-  btnEditarItem.Enabled := true;
-  btnExcluirItem.Enabled := true;
+  btnInserirItem.Enabled := false;
+  btnEditarItem.Enabled := false;
+  btnExcluirItem.Enabled := false;
 end;
 
 procedure TfrmOrdemServico.modo_edicao;
 begin
-  DBedtID1.Enabled := true;
   DBedtCLIENTE_ID1.Enabled := true;
   DBedtDATA_ABERTURA1.Enabled := true;
   DBedtDATA_PREVISTA1.Enabled := true;

@@ -134,13 +134,25 @@ uses uDM, uUtilidades, uMenu, uItemOrdemEditar, DB, uConsultaOrdemServico;
 procedure TfrmOrdemServico.N1Click(Sender: TObject);
 begin
   if(btnNovo.Enabled)then
+  begin
     btnNovo.Click;
+  end else
+  if(btnInserirItem.Enabled)then
+  begin
+    btnInserirItem.Click;
+  end;
 end;
 
 procedure TfrmOrdemServico.E1Click(Sender: TObject);
 begin
   if(btnEditar.Enabled)then
+  begin
     btnEditar.Click;
+  end else
+  if(btnEditarItem.Enabled)then
+  begin
+    btnEditarItem.Click;
+  end;
 end;
 
 procedure TfrmOrdemServico.S1Click(Sender: TObject);
@@ -193,9 +205,9 @@ begin
   btnImprimir.Enabled := true;
   btnPDF.Enabled := true;
   btnSair.Enabled := true;
-  btnInserirItem.Enabled := true;
-  btnEditarItem.Enabled := true;
-  btnExcluirItem.Enabled := true;
+  btnInserirItem.Enabled := false;
+  btnEditarItem.Enabled := false;
+  btnExcluirItem.Enabled := false;
 end;
 
 procedure TfrmOrdemServico.modo_edicao;
@@ -466,10 +478,16 @@ begin
   begin
     if(FConexao = 'Zeos')then
     begin
+      if(DM.TItemOrdem.RecordCount = 0)then
+        Abort;
+
       DM.TItemOrdem.Delete;
       DM.TItemOrdem.ApplyUpdates;
     end else
     begin
+      if(DM.TBItemOrdem.RecordCount = 0)then
+        Abort;
+
       DM.TBItemOrdem.Delete;
       DM.TBItemOrdem.ApplyUpdates(0);
     end;

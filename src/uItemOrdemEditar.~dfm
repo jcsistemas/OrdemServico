@@ -11,6 +11,7 @@ object frmItemOrdemEditar: TfrmItemOrdemEditar
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  PopupMenu = PopUp1
   Position = poDesktopCenter
   OnClose = FormClose
   OnShow = FormShow
@@ -133,7 +134,7 @@ object frmItemOrdemEditar: TfrmItemOrdemEditar
       Height = 50
       Cursor = crHandPoint
       Hint = 'Tecla de Atalho: F5'
-      Caption = 'Salvar'
+      Caption = 'Salvar (F5)'
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
         180000000000000C0000232E0000232E00000000000000000001FFFFFFFFFFFF
@@ -244,7 +245,7 @@ object frmItemOrdemEditar: TfrmItemOrdemEditar
       Height = 50
       Cursor = crHandPoint
       Hint = 'Tecla de Atalho: Esc'
-      Caption = 'Cancelar'
+      Caption = 'Cancelar (Esc)'
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
         180000000000000C0000232E0000232E00000000000000000001FFFFFFFFFFFF
@@ -347,6 +348,21 @@ object frmItemOrdemEditar: TfrmItemOrdemEditar
       ParentShowHint = False
       ShowHint = True
       OnClick = btnCancelarClick
+    end
+  end
+  object PopUp1: TPopupMenu
+    Left = 352
+    Top = 16
+    object S1: TMenuItem
+      Caption = 'Salvar'
+      ShortCut = 116
+      Visible = False
+      OnClick = S1Click
+    end
+    object C1: TMenuItem
+      Caption = 'Cancelar'
+      ShortCut = 27
+      Visible = False
     end
   end
 end
