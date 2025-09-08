@@ -31,6 +31,7 @@ type
     TimerRelogio: TTimer;
     O1: TMenuItem;
     O2: TMenuItem;
+    btnBuscaCNPJ: TSpeedButton;
     procedure btnSairClick(Sender: TObject);
     procedure S1Click(Sender: TObject);
     procedure S2Click(Sender: TObject);
@@ -43,6 +44,7 @@ type
     procedure btnOrdemDeServicoClick(Sender: TObject);
     procedure R2Click(Sender: TObject);
     procedure btnRelatoriosClick(Sender: TObject);
+    procedure btnBuscaCNPJClick(Sender: TObject);
   private
     { Private declarations }
     procedure LerImagemFundo();
@@ -60,7 +62,7 @@ var
 implementation
 
 uses uSobre, Math, uDM, uClientes, uUtilidades, uOrdemServico,
-  uEscolhaConexao, uFiltroRelatorioOrdemServico;
+  uEscolhaConexao, uFiltroRelatorioOrdemServico, uBuscaCNPJ;
 
 {$R *.dfm}
 
@@ -216,6 +218,12 @@ procedure TfrmMenu.btnRelatoriosClick(Sender: TObject);
 begin
   frmFiltroRelatorioOrdemServico := TfrmFiltroRelatorioOrdemServico.Create(Self);
   frmFiltroRelatorioOrdemServico.ShowModal;
+end;
+
+procedure TfrmMenu.btnBuscaCNPJClick(Sender: TObject);
+begin
+  frmBuscaCNPJ := TfrmBuscaCNPJ.Create(Self);
+  frmBuscaCNPJ.ShowModal;
 end;
 
 end.

@@ -421,10 +421,16 @@ begin
   FNovoItemOrdem := true;
   if(FConexao = 'Zeos')then
   begin
+    if(DM.TOrdemServicoID.Value <= 0)then
+      Abort;
+
     DM.TItemOrdem.Insert;
     DM.TItemOrdemORDEM_ID.AsInteger := DM.TOrdemServicoID.AsInteger;
   end else
   begin
+    if(DM.TBOrdemServicoID.Value <= 0)then
+      Abort;
+
     DM.TBItemOrdem.Insert;
     DM.TBItemOrdemORDEM_ID.AsInteger := DM.TBOrdemServicoID.AsInteger;
   end;
@@ -438,9 +444,15 @@ begin
   FNovoItemOrdem := false;
   if(FConexao = 'Zeos')then
   begin
+    if(DM.TItemOrdem.RecordCount = 0)then
+      Abort;
+
     DM.TItemOrdem.Edit;
   end else
   begin
+    if(DM.TBItemOrdem.RecordCount = 0)then
+      Abort;
+
     DM.TBItemOrdem.Edit;
   end;
   frmItemOrdemEditar := TfrmItemOrdemEditar.Create(Self);
@@ -454,10 +466,16 @@ begin
   begin
     if(FConexao = 'Zeos')then
     begin
+      if(DM.TItemOrdem.RecordCount = 0)then
+        Abort;
+
       DM.TItemOrdem.Delete;
       DM.TItemOrdem.ApplyUpdates;
     end else
     begin
+      if(DM.TBItemOrdem.RecordCount = 0)then
+        Abort;
+
       DM.TBItemOrdem.Delete;
       DM.TBItemOrdem.ApplyUpdates(0);
     end;

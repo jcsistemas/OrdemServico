@@ -133,7 +133,7 @@ begin
     DM.TClienteEMAIL.Value := edtEmail.Text;
     DM.TClienteTELEFONE.Text := edtTelefone.Text;
     DM.TCliente.Post;
-    DM.TCliente.ApplyUpdates(0);
+    DM.TCliente.ApplyUpdates;
   end else
   begin
     DM.TBCliente.Insert;

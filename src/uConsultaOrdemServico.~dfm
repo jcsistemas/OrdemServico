@@ -209,6 +209,7 @@ object frmConsultaOrdemServico: TfrmConsultaOrdemServico
       Top = 48
       Width = 155
       Height = 21
+      Style = csDropDownList
       ItemHeight = 13
       ItemIndex = 0
       TabOrder = 3

@@ -134,6 +134,7 @@ begin
     DM.TClienteTELEFONE.Text := edtTelefone.Text;
     DM.TCliente.Post;
     DM.TCliente.ApplyUpdates;
+    ShowMessage('Cliente cadastrado com sucesso!');
   end else
   begin
     DM.TBCliente.Insert;
@@ -143,6 +144,7 @@ begin
     DM.TBClienteTELEFONE.Text := edtTelefone.Text;
     DM.TBCliente.Post;
     DM.TBCliente.ApplyUpdates(0);
+    ShowMessage('Cliente cadastrado com sucesso!');
   end;
   Close;
 end;

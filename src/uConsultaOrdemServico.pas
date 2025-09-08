@@ -212,43 +212,57 @@ begin
 
     if(FConexao = 'Zeos')then
     begin
-      DSConsulta.DataSet := QConsultaZeos;
-      QConsultaZeos.Close;
-      QConsultaZeos.SQL.Clear;
-      QConsultaZeos.SQL := lSQL;
-      QConsultaZeos.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(edtDataInicial.Text);
-      QConsultaZeos.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(edtDataFinal.Text);
+      try
+        DSConsulta.DataSet := QConsultaZeos;
+        QConsultaZeos.Close;
+        QConsultaZeos.SQL.Clear;
+        QConsultaZeos.SQL := lSQL;
+        QConsultaZeos.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(edtDataInicial.Text);
+        QConsultaZeos.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(edtDataFinal.Text);
 
-      if(edtBusca.Text <> '')then
-        QConsultaZeos.Params.ParamByName('pCliente').AsString := '%'+AnsiLowerCase(edtBusca.Text)+'%';
+        if(edtBusca.Text <> '')then
+          QConsultaZeos.Params.ParamByName('pCliente').AsString := '%'+AnsiLowerCase(edtBusca.Text)+'%';
 
-      if(cbbStatus.ItemIndex > 0)then
-        QConsultaZeos.Params.ParamByName('pStatus').AsString := cbbStatus.Text;
+        if(cbbStatus.ItemIndex > 0)then
+          QConsultaZeos.Params.ParamByName('pStatus').AsString := cbbStatus.Text;
 
-      QConsultaZeos.Params.ParamByName('pValorInicial').AsFloat := StrToFloat('0'+edtValorInicial.Text);
-      QConsultaZeos.Params.ParamByName('pValorFinal').AsFloat := StrToFloat('0'+edtValorFinal.Text);
-      QConsultaZeos.Open;
+        QConsultaZeos.Params.ParamByName('pValorInicial').AsFloat := StrToFloat('0'+edtValorInicial.Text);
+        QConsultaZeos.Params.ParamByName('pValorFinal').AsFloat := StrToFloat('0'+edtValorFinal.Text);  
+        QConsultaZeos.Open;
+      except
+        on E: Exception do
+        begin
+          ShowMessage('Erro: '+E.Message);
+        end;
+      end;
       lblQuantidadeListada.Caption := IntToStr(QConsultaZeos.RecordCount);
     end else
     begin
-      DSConsulta.DataSet := TBConsulta;
-      TBConsulta.Close;
-      QConsulta.Close;
-      QConsulta.SQL.Clear;
-      QConsulta.SQL := lSQL;
-      QConsulta.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(edtDataInicial.Text);
-      QConsulta.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(edtDataFinal.Text);
+      try
+        DSConsulta.DataSet := TBConsulta;
+        TBConsulta.Close;
+        QConsulta.Close;
+        QConsulta.SQL.Clear;
+        QConsulta.SQL := lSQL;
+        QConsulta.Params.ParamByName('pDataInicial').AsDate := StrToDateTime(edtDataInicial.Text);
+        QConsulta.Params.ParamByName('pDataFinal').AsDate := StrToDateTime(edtDataFinal.Text);
 
-      if(edtBusca.Text <> '')then
-        QConsulta.Params.ParamByName('pCliente').AsString := '%'+AnsiLowerCase(edtBusca.Text)+'%';
+        if(edtBusca.Text <> '')then
+          QConsulta.Params.ParamByName('pCliente').AsString := '%'+AnsiLowerCase(edtBusca.Text)+'%';
 
-      if(cbbStatus.ItemIndex > 0)then
-        QConsulta.Params.ParamByName('pStatus').AsString := cbbStatus.Text;
+        if(cbbStatus.ItemIndex > 0)then
+          QConsulta.Params.ParamByName('pStatus').AsString := cbbStatus.Text;
 
-      QConsulta.Params.ParamByName('pValorInicial').AsFloat := StrToFloat('0'+edtValorInicial.Text);
-      QConsulta.Params.ParamByName('pValorFinal').AsFloat := StrToFloat('0'+edtValorFinal.Text);
-      QConsulta.Open;
-      TBConsulta.Open;
+        QConsulta.Params.ParamByName('pValorInicial').AsFloat := StrToFloat('0'+edtValorInicial.Text);
+        QConsulta.Params.ParamByName('pValorFinal').AsFloat := StrToFloat('0'+edtValorFinal.Text);  
+        QConsulta.Open;
+        TBConsulta.Open;
+      except
+        on E: Exception do
+        begin
+          ShowMessage('Erro: '+E.Message);
+        end;
+      end;
       lblQuantidadeListada.Caption := IntToStr(TBConsulta.RecordCount);
     end;
     lblValorTotal.Caption := 'Valor Total Listado: '+ObterValorTotal(lSQL);
